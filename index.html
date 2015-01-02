@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Aquaeronix by barracks510</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Aquaeronix</h1>
+        <h2>Linux tools for the Aquero 5 and later PC watercooling components. A fork of aerotools-ng.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/barracks510/aquaeronix/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/barracks510/aquaeronix/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/barracks510/aquaeronix" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <pre><code>     Aquaeronix: Tools for Accessing the Aquaero5(R) USB Device
+    --------------------------------------------------------------
+
+   (C) 2012 lynix &lt;lynix47@gmail.com&gt;
+   (C) 2013 JinTu &lt;JinTu@praecogito.com&gt;, lynix &lt;lynix47@gmail.com&gt;
+   (C) 2014 barracks510 &lt;barracks510@gmail.com&gt;
+   (C) 2015 barracks510 &lt;barracks510@gmail.com&gt;
+</code></pre>
+
+<h2>
+<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>SUMMARY</h2>
+
+<p>Aquaeronix aims at providing a C interface for accessing the Aquaero5(R) USB
+device by 'Aqua Computer' (<a href="http://www.aqua-computer.de">http://www.aqua-computer.de</a>).</p>
+
+<p>It consists of a set of functions for data access and conversion, and a
+command-line tool using these functions as an example implementation.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>REQUIREMENTS</h2>
+
+<p>Unlike its predecessor, aerotools (which targets the Aquaero(R) 4.00),
+Aquaeronix currently uses the USB HIDDEV interface provided by the Linux
+kernel via the /dev/usb/hiddev? device nodes, so no dependencies for this.</p>
+
+<p>To be able to build and run the JSON RPC server, 'aq5rpcd', you need the JSON
+RPC server 'jsonrpc-c' by Henrique Gomes (hmng). It is available under MIT
+license on GitHub: <a href="https://github.com/hmng/jsonrpc-c">https://github.com/hmng/jsonrpc-c</a>.</p>
+
+<h2>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span class="octicon octicon-link"></span></a>BUILDING</h2>
+
+<p>To build the main components of the project simply issue <code>make</code> in the project
+root. Compiled binaries will reside in the 'bin' subdirectory. If building for 
+firmware version 1027, you must uncomment the appropriate line in the Makefile.</p>
+
+<p>To build optional components such as the JSON RPC server 'aq5rpcd', issue
+<code>make all</code> in the project root. Be sure to install 'jsonrpc-c' first, and point
+to its prefix using the JRPC_PREFIX environment variable if not installing to
+/usr.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>SETUP</h2>
+
+<p>To be able to query the Aquaero5(R) device you have to set appropriate access
+rights for the device node.</p>
+
+<p>You can either do this manually by identifying the device node using <code>lsusb</code>
+(looking for the Vendor- and Product-ID), or just install a udev rule like this
+one:</p>
+
+<p>ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f001", GROUP="aquaero", MODE="0640"</p>
+
+<p>This will give all members of the 'aquaero' group read access to the device.</p>
+
+<p>As the Aquaero5(R) identifies itself as multiple devices (USB keyboard, mouse
+and the actual device we want to query) you have to examine which device node
+represents the data source.</p>
+
+<p>In my case, there is /dev/usb/hiddev[0-2] which all match the udev rule provided
+above. The correct one for me is /dev/usb/hiddev0, but I don't know whether it is
+always the first one. Just try as stated under USAGE - if you choose the wrong
+one there will simply be no output at all.</p>
+
+<h2>
+<a id="usage-aerocli" class="anchor" href="#usage-aerocli" aria-hidden="true"><span class="octicon octicon-link"></span></a>USAGE: aerocli</h2>
+
+<p>aerocli, as stated above, is the example implementation of a command-line tool
+that uses the provided query- and format conversion functions provided by 
+Aquaeronix.</p>
+
+<p>To query the first device found (via autodiscovery), simply issue <code>aerocli</code>.</p>
+
+<p>To query a specific device (if you have more than one attached to your system) 
+simply issue <code>aerocli -d /dev/usb/hiddevX</code> (see SETUP for the meaning of X).</p>
+
+<p>To get a more script-friendly output in the form of 'KEY=VALUE' pairs just add
+<code>-o export</code>.</p>
+
+<p>For more comprehensive output in both default and export modes, use <code>-a</code>,
+e.g. <code>-a -o default</code> or <code>-a -o export</code>.</p>
+
+<p>To set software sensor values use <code>-s SENSOR:VALUE</code> i.e. <code>-s 1:30.00</code> or
+<code>-s 1:11.11 -s 2:22.22 -s 3:33.33</code>.</p>
+
+<p>Note: Multiple software sensor values must be sent at once. If aerocli is run
+again and any sensor value is set, all other unspecified sensors are set to
+default (disconnected).</p>
+
+<p>To synchronize the Aquaero5(R) time with your system time use <code>-T</code>.</p>
+
+<p>To set a device/sensor name use <code>-n REFERENCE:INDEX:VALUE</code> i.e. <code>-n "sensors:1:Sensor 1"</code>.
+To get a list of the device/sensor name references and all default names, 
+simply omit the argument to <code>-n</code>.</p>
+
+<h2>
+<a id="usage-aq5rpcd" class="anchor" href="#usage-aq5rpcd" aria-hidden="true"><span class="octicon octicon-link"></span></a>USAGE: aq5rpcd</h2>
+
+<p>aq5rpcd, as stated above, is a JSON RPC server that allows for easy data polling
+in third party applications, possibly over a network connection.</p>
+
+<p>To start it, simply call the binary (<code>./bin/aq5rpcd</code> from project root).</p>
+
+<p>To change the TCP port 'aq5rpcd' listens on (default: 9090), use the '-p'
+parameter.</p>
+
+<h2>
+<a id="bugs--contact" class="anchor" href="#bugs--contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>BUGS / CONTACT</h2>
+
+<p>Feel free to report any bugs you find using the 'issues' function on GitHub. If
+you wish to contact the authors, you can drop them an email.
+For lynix, you might wish to use his GPG key, #4804CCA9 on keys.gnupg.net</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h2>
+
+<p>This program is published under the terms of the GNU General Public License,
+version 3. See the file 'LICENSE' for more information.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>

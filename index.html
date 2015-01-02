@@ -49,25 +49,25 @@ command-line tool using these functions as an example implementation.</p>
 <h2>
 <a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>REQUIREMENTS</h2>
 
-<p>Unlike its predecessor, aerotools (which targets the Aquaero(R) 4.00),
+<p>Unlike its predecessor, <code>aerotools</code>, which targets the Aquaero(R) 4.00),
 Aquaeronix currently uses the USB HIDDEV interface provided by the Linux
-kernel via the /dev/usb/hiddev? device nodes, so no dependencies for this.</p>
+kernel via the <code>/dev/usb/hiddev?</code> device nodes, so no dependencies for this.</p>
 
-<p>To be able to build and run the JSON RPC server, 'aq5rpcd', you need the JSON
-RPC server 'jsonrpc-c' by Henrique Gomes (hmng). It is available under MIT
+<p>To be able to build and run the JSON RPC server, <code>aq5rpcd</code>, you need the JSON
+RPC server <code>jsonrpc-c</code> by Henrique Gomes (hmng). It is available under MIT
 license on GitHub: <a href="https://github.com/hmng/jsonrpc-c">https://github.com/hmng/jsonrpc-c</a>.</p>
 
 <h2>
 <a id="building" class="anchor" href="#building" aria-hidden="true"><span class="octicon octicon-link"></span></a>BUILDING</h2>
 
 <p>To build the main components of the project simply issue <code>make</code> in the project
-root. Compiled binaries will reside in the 'bin' subdirectory. If building for 
+root. Compiled binaries will reside in the <code>bin</code> subdirectory. If building for 
 firmware version 1027, you must uncomment the appropriate line in the Makefile.</p>
 
-<p>To build optional components such as the JSON RPC server 'aq5rpcd', issue
-<code>make all</code> in the project root. Be sure to install 'jsonrpc-c' first, and point
-to its prefix using the JRPC_PREFIX environment variable if not installing to
-/usr.</p>
+<p>To build optional components such as the JSON RPC server <code>aq5rpcd</code>, issue
+<code>make all</code> in the project root. Be sure to install <code>jsonrpc-c</code> first, and point
+to its prefix using the <code>JRPC_PREFIX</code> environment variable if not installing to
+<code>/usr</code>.</p>
 
 <h2>
 <a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>SETUP</h2>
@@ -79,16 +79,16 @@ rights for the device node.</p>
 (looking for the Vendor- and Product-ID), or just install a udev rule like this
 one:</p>
 
-<p>ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f001", GROUP="aquaero", MODE="0640"</p>
+<p><code>ATTRS{idVendor}=="0c70", ATTRS{idProduct}=="f001", GROUP="aquaero", MODE="0640"</code></p>
 
-<p>This will give all members of the 'aquaero' group read access to the device.</p>
+<p>This will give all members of the <code>aquaero</code> group read access to the device.</p>
 
 <p>As the Aquaero5(R) identifies itself as multiple devices (USB keyboard, mouse
 and the actual device we want to query) you have to examine which device node
 represents the data source.</p>
 
-<p>In my case, there is /dev/usb/hiddev[0-2] which all match the udev rule provided
-above. The correct one for me is /dev/usb/hiddev0, but I don't know whether it is
+<p>In my case, there is <code>/dev/usb/hiddev[0-2]</code> which all match the udev rule provided
+above. The correct one for me is <code>/dev/usb/hiddev0</code>, but I don't know whether it is
 always the first one. Just try as stated under USAGE - if you choose the wrong
 one there will simply be no output at all.</p>
 
@@ -104,7 +104,7 @@ Aquaeronix.</p>
 <p>To query a specific device (if you have more than one attached to your system) 
 simply issue <code>aerocli -d /dev/usb/hiddevX</code> (see SETUP for the meaning of X).</p>
 
-<p>To get a more script-friendly output in the form of 'KEY=VALUE' pairs just add
+<p>To get a more script-friendly output in the form of <code>KEY=VALUE</code> pairs just add
 <code>-o export</code>.</p>
 
 <p>For more comprehensive output in both default and export modes, use <code>-a</code>,
@@ -131,7 +131,7 @@ in third party applications, possibly over a network connection.</p>
 
 <p>To start it, simply call the binary (<code>./bin/aq5rpcd</code> from project root).</p>
 
-<p>To change the TCP port 'aq5rpcd' listens on (default: 9090), use the '-p'
+<p>To change the TCP port <code>aq5rpcd</code> listens on (default: 9090), use the <code>-p</code>
 parameter.</p>
 
 <h2>
@@ -139,6 +139,7 @@ parameter.</p>
 
 <p>Feel free to report any bugs you find using the 'issues' function on GitHub. If
 you wish to contact the authors, you can drop them an email.
+You may contact barracks510 at <a href="mailto:barracks510@gmail.com">barracks510@gmail.com</a>.
 For lynix, you might wish to use his GPG key, #4804CCA9 on keys.gnupg.net</p>
 
 <h2>

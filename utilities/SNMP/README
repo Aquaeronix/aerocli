@@ -1,0 +1,9 @@
+Installation instructions
+
+Copy snmp_persist_aquaero5.pl to /usr/local/sbin
+Copy aerocli to /usr/local/sbin
+Ensure both are executable
+
+Add the following line to snmpd.conf
+ pass_persist .1.3.6.1.4.1.2021.255.65.67 /usr/local/sbin/snmp_persist_aquaero5.pl
+

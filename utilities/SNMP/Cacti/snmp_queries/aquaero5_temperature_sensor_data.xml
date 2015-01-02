@@ -1,0 +1,40 @@
+<interface>
+	<name>Aqua Computer Aquaero 5 Temperature Sensor Data</name>
+	<description>Gets the Temperature sensor stats from an Aquaero 5</description>
+	<oid_index>.1.3.6.1.4.1.2021.255.65.67.1.1.2.0</oid_index>
+	<oid_index_parse>OID/REGEXP:.*\.([0-9]{1,3}\.[0-9]{1,3})$</oid_index_parse>
+	<index_order>tempIndex:deviceID:tempName</index_order>
+	<index_order_type>numeric</index_order_type>
+	<index_title_format>|chosen_order_field|</index_title_format>
+
+	<fields>
+		<tempIndex>
+			<name>Index</name>
+			<method>walk</method>
+			<source>OID/REGEXP:.*\.([0-9]{1,3}\.[0-9]{1,3})$</source>
+			<direction>input</direction>
+			<oid>.1.3.6.1.4.1.2021.255.65.67.1.1.2.0</oid>
+		</tempIndex>
+		<deviceID>
+			<name>Device ID</name>
+			<method>walk</method>
+			<source>value</source>
+			<direction>input</direction>
+			<oid>.1.3.6.1.4.1.2021.255.65.67.1.1.2.0</oid>
+		</deviceID>
+		<tempName>
+			<name>Temperature Sensor Name</name>
+			<method>walk</method>
+			<source>value</source>
+			<direction>input</direction>
+			<oid>.1.3.6.1.4.1.2021.255.65.67.1.1.2.1</oid>
+		</tempName>
+		<tempValue>
+			<name>Temperature Sensor Value</name>
+			<method>walk</method>
+			<source>value</source>
+			<direction>output</direction>
+			<oid>.1.3.6.1.4.1.2021.255.65.67.1.1.2.2</oid>
+		</tempValue>
+	</fields>
+</interface>

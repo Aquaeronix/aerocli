@@ -1,25 +1,27 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 #
-# Munin Plugin to read values from aerocli (aerotools-ng version)
+# Munin Plugin to read values from aerocli (Aquaeronix version)
 #
 # Copyright 2012 lynix <lynix47@gmail.com>
 # Copyright 2013 JinTu <JinTu@praecogito.com>, lynix <lynix47@gmail.com>
+# Copyright 2014 barracks510 <barracks510@gmail.com>
+# Copyright 2015 barracks510 <barracks510@gmail.com>
 #
-# This file is part of aerotools-ng.
+# This file is part of Aquaeronix.
 #
-# aerotools-ng is free software: you can redistribute it and/or modify
+# Aquaeronix is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# aerotools-ng is distributed in the hope that it will be useful,
+# Aquaeronix is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with aerotools-ng. If not, see <http://www.gnu.org/licenses/>.
+# along with Aquaeronix. If not, see <http://www.gnu.org/licenses/>.
 
 
 # Configuration:
@@ -70,7 +72,7 @@ if os.getenv("AEROCLI") is not None:
   aerocli = os.getenv("AEROCLI");
 else:
   aerocli = "/usr/local/bin/aerocli";
-  
+
 device = os.getenv("DEVICE");
 
 
@@ -84,7 +86,7 @@ def AeroCli(listAll):
     parameters.append("-a");
   parameters.append("-o");
   parameters.append("export");
-    
+
   p = subprocess.Popen(parameters, stdout=subprocess.PIPE);
   (output, err) = p.communicate();
   return output.decode('iso-8859-1');
@@ -100,7 +102,7 @@ class SensorConfig:
         self.name = match.group(1);
       else:
         self.name = sensorId;
-      
+
     self.warnLevel = None;
     self.critLevel = None;
     if(internalName is not None):
@@ -128,17 +130,17 @@ class FanConfig:
 
 def DecodeTempConfig():
   output=AeroCli(True);
-  
+
   print "graph_title Aquaero Temperatures";
   print "graph_args --base 1000";
-  
+
   match = regex_detect_temp_unit.search(output);
   if (match is not None):
     print "graph_vlabel Temp in %s"%match.group(1)
   print "graph_scale yes";
   print "graph_category %s"%(category);
 
-  
+
 
   for line in output.splitlines():
     match = regex_sensorLine.search(line);
@@ -176,9 +178,9 @@ def DecodeFanRpmConfig():
   print "graph_vlabel RPM";
   print "graph_scale no";
   print "graph_category %s"%(category);
-  
+
   output = AeroCli(True);
-  
+
   for line in output.splitlines():
     match = regex_detectActiveFan.search(line);
     if(match is not None):
@@ -205,9 +207,9 @@ def DecodeFanLoadConfig():
   print "graph_vlabel Load in %";
   print "graph_scale no";
   print "graph_category %s"%(category);
-  
+
   output = AeroCli(True)
-  
+
   for line in output.splitlines():
     match = regex_detectActiveFan.search(line);
     if(match is not None):

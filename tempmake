@@ -28,7 +28,7 @@ all : bin/aerocli
  
 
 bin/aerocli: obj/aerocli.o obj/libaquaero5.o
-    $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+    $(CC) $(CFLAGS) -o $@ $^
 
 obj/aerocli.o: src/aerocli.c src/libaquaero5.h
     $(CC) $(CFLAGS) -o $@ -c $<

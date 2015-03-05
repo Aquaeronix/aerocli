@@ -1,0 +1,146 @@
+#!/bin/bash
+#
+# Munin Plugin to read values from aerocli (Aquaeronix version)
+#
+# Copyright 2012 lynix <lynix47@gmail.com>
+# Copyright 2013 JinTu <JinTu@praecogito.com>, lynix <lynix47@gmail.com>
+# Copyright 2014 barracks510 <barracks510@gmail.com>
+# Copyright 2015 barracks510 <barracks510@gmail.com>
+#
+# This file is part of Aquaeronix.
+#
+# Aquaeronix is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Aquaeronix is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Aquaeronix. If not, see <http://www.gnu.org/licenses/>.
+
+
+# Configuration:
+#
+#  [aerocli-ng_*]
+#  user YOURUSER
+#  group AQUAEROGROUP
+#  env.DEVICE /dev/usb/hiddevX
+#  env.AEROCLI /path/to/aerocli
+#  env.TEMP1_NAME Your-Caption-Here
+#  ...
+#  env.FAN1_NAME Your-Caption-Here
+#  ...
+
+
+# Magic markers - optional - used by installation scripts and
+# munin-config:
+#
+#%# family=manual
+#%# capabilities=autoconf
+
+if [ "$1" == "autoconf" ]; then
+	if ! [ -x "$AEROCLI" ]; then
+		echo "no"
+		exit 1
+	fi
+	echo "yes"
+	exit 0
+fi
+
+TEMP1_NAME=${TEMP1_NAME:-"temp1"}
+TEMP2_NAME=${TEMP2_NAME:-"temp2"}
+TEMP3_NAME=${TEMP3_NAME:-"temp3"}
+TEMP4_NAME=${TEMP4_NAME:-"temp4"}
+TEMP5_NAME=${TEMP5_NAME:-"temp5"}
+TEMP6_NAME=${TEMP6_NAME:-"temp6"}
+TEMP7_NAME=${TEMP7_NAME:-"temp7"}
+TEMP8_NAME=${TEMP8_NAME:-"temp8"}
+
+FAN1_NAME=${FAN1_NAME:-"fan1"}
+FAN2_NAME=${FAN2_NAME:-"fan2"}
+FAN3_NAME=${FAN3_NAME:-"fan3"}
+FAN4_NAME=${FAN4_NAME:-"fan4"}
+
+AERO_DATA="$($AEROCLI $DEVICE -o export)"
+if [ -z "$AERO_DATA" ]; then
+	echo "empty response from $AEROCLI"
+	exit 1
+fi
+eval "$AERO_DATA"
+
+MODE="$(echo "$0" | cut -d '_' -f 2)"
+
+case "$MODE" in
+	temp)
+		case "$1" in
+			config)
+				echo "graph_title Aquaero Temperatures"
+				echo "graph_args --base 1000 -l 0"
+				echo "graph_vlabel �C"
+				echo "graph_scale no"
+				echo "graph_category Aquaero5"
+
+				GRAPH_ORDER=""
+
+				# TODO
+				GRAPH_ORDER="temp1 temp2 temp3 temp4 temp5"
+				echo "temp1.label $TEMP1_NAME"
+				echo "temp2.label $TEMP2_NAME"
+				echo "temp3.label $TEMP3_NAME"
+				echo "temp4.label $TEMP4_NAME"
+				echo "temp5.label $TEMP5_NAME"
+
+				if [ "$GRAPH_ORDER" != "" ]; then
+					echo "graph_order $GRAPH_ORDER"
+				fi
+				;;
+			*)
+				[ -z "$TEMP1" ] || echo "temp1.value $TEMP1"
+				[ -z "$TEMP2" ] || echo "temp2.value $TEMP2"
+				[ -z "$TEMP3" ] || echo "temp3.value $TEMP3"
+				[ -z "$TEMP4" ] || echo "temp4.value $TEMP4"
+				[ -z "$TEMP5" ] || echo "temp5.value $TEMP5"
+				[ -z "$TEMP6" ] || echo "temp6.value $TEMP6"
+				[ -z "$TEMP7" ] || echo "temp7.value $TEMP7"
+				[ -z "$TEMP8" ] || echo "temp8.value $TEMP8"
+				;;
+		esac
+		;;
+	fan)
+		case "$1" in
+			config)
+				
+				echo "graph_title Aquaero Fan RPM"
+		        echo "graph_args --base 1000 -l 0"
+        		echo "graph_vlabel rpm"
+				echo "graph_scale no"
+		        echo "graph_category Aquaero5"
+
+				GRAPH_ORDER=""
+
+				# TODO
+				GRAPH_ORDER="fan1 fan2 fan3"
+				echo "fan1.label $FAN1_NAME"
+				echo "fan2.label $FAN2_NAME"
+				echo "fan3.label $FAN3_NAME"
+
+				if [ "$GRAPH_ORDER" != "" ]; then
+					echo "graph_order $GRAPH_ORDER"
+				fi
+				;;
+			*)
+				[ -z "$FAN1_RPM" ] || echo "fan1.value $FAN1_RPM"
+				[ -z "$FAN2_RPM" ] || echo "fan2.value $FAN2_RPM"
+				[ -z "$FAN3_RPM" ] || echo "fan3.value $FAN3_RPM"
+				# TODO
+				#[ -z "$FAN4_RPM" ] || echo "fan4.value $FAN4_RPM"
+				;;
+		esac
+		;;
+esac
+
+exit 0

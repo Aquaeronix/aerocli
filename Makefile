@@ -20,6 +20,7 @@
 
 CC = gcc
 CFLAGS = -Wall -ansi -std=gnu99 -pedantic -I /usr/include -O2
+MKDIR_P = mkdir -p
 
 # location of external library: jsonrpc-c
 ifndef JRPCC_PREFIX
@@ -40,7 +41,7 @@ endif
 LIB_OBJS=obj/libaquaero5.o
 
 
-.PHONY: all default clean
+.PHONY: all default clean 
 
 default : bin/aerocli
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mkdir bin/ obj/
+
+echo "After make, files will be installed to bin/ and obj/"
+echo "Run make install to put into system directories"
+

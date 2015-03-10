@@ -16,28 +16,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_1200196a0c25b1fe391b7b4f690aa6c751ded2>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_flowName|</text>
-					</hash_1200196a0c25b1fe391b7b4f690aa6c751ded2>
 					<hash_120019a70f59c3c5b7dab2d525c27228f7d422>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_flowName|</text>
 					</hash_120019a70f59c3c5b7dab2d525c27228f7d422>
 				</sv_graph>
 				<sv_data_source>
-					<hash_130019837610fbf0e57db5b9e2725de408eba8>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019d38a4bd75ce13864d290901e8f7a52ea</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_flowName|</text>
-					</hash_130019837610fbf0e57db5b9e2725de408eba8>
 					<hash_130019a3c291b34d69bd1b512c06e00c197226>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019d38a4bd75ce13864d290901e8f7a52ea</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_flowName|</text>
 					</hash_130019a3c291b34d69bd1b512c06e00c197226>
 				</sv_data_source>

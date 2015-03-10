@@ -16,28 +16,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_12001938ffe0f664abc94741d88cc7535a7638>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| Duty Cycle</text>
-					</hash_12001938ffe0f664abc94741d88cc7535a7638>
 					<hash_120019f3f09e324d1e53bbf8552ea28a052900>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Duty Cycle</text>
 					</hash_120019f3f09e324d1e53bbf8552ea28a052900>
 				</sv_graph>
 				<sv_data_source>
-					<hash_13001919b25ff34f3341f021fd7d1621fc8280>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019ac458be6d11ff68d710cc430bae5eec8</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| Duty Cycle</text>
-					</hash_13001919b25ff34f3341f021fd7d1621fc8280>
 					<hash_130019a8890fe7fd17ff973b3917b8018d0cb3>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019ac458be6d11ff68d710cc430bae5eec8</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Duty Cycle</text>
 					</hash_130019a8890fe7fd17ff973b3917b8018d0cb3>
 				</sv_data_source>
@@ -53,28 +42,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_120019e10cb97429e82294078e2494e8f99c70>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| RPM</text>
-					</hash_120019e10cb97429e82294078e2494e8f99c70>
 					<hash_1200197f94cba8372ccc6a5379334f58969cab>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| RPM</text>
 					</hash_1200197f94cba8372ccc6a5379334f58969cab>
 				</sv_graph>
 				<sv_data_source>
-					<hash_13001965db2b54c078404c89d9e5e8ab821661>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019f1aead04ecab8e48f19a6768f87ad628</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| RPM</text>
-					</hash_13001965db2b54c078404c89d9e5e8ab821661>
 					<hash_13001976358a9635aefd5645c9ba257df78243>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019f1aead04ecab8e48f19a6768f87ad628</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| RPM</text>
 					</hash_13001976358a9635aefd5645c9ba257df78243>
 				</sv_data_source>
@@ -90,28 +68,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_1200190aeab20970fb97cde56c5c19065f78ce>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| Voltage</text>
-					</hash_1200190aeab20970fb97cde56c5c19065f78ce>
 					<hash_120019c8c0997648fd91313ee6b715b2866312>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Voltage</text>
 					</hash_120019c8c0997648fd91313ee6b715b2866312>
 				</sv_graph>
 				<sv_data_source>
-					<hash_130019d5777612103ec2919d15da4d26b6e384>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019283e790ee5f36042c6de5b9bef0a3218</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| Voltage</text>
-					</hash_130019d5777612103ec2919d15da4d26b6e384>
 					<hash_130019f038deca1a050dce143cd56ede4ee65b>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019283e790ee5f36042c6de5b9bef0a3218</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Voltage</text>
 					</hash_130019f038deca1a050dce143cd56ede4ee65b>
 				</sv_data_source>
@@ -127,28 +94,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_120019ffea55b83361e4aaab820d908573d690>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| Current</text>
-					</hash_120019ffea55b83361e4aaab820d908573d690>
 					<hash_12001939de19b1a0b9c4d27aed9d1a4dae1952>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Current</text>
 					</hash_12001939de19b1a0b9c4d27aed9d1a4dae1952>
 				</sv_graph>
 				<sv_data_source>
-					<hash_130019854ff650ef78cccec2a3d7f405d1fcfe>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019c013c393c6b916bf142e459d92a519fd</data_template_id>
-						<sequence>1</sequence>
-						<text>host_description| - Aquaero 5 - |query_fanName| Current</text>
-					</hash_130019854ff650ef78cccec2a3d7f405d1fcfe>
 					<hash_130019849d222cdc2a3b558ebe6f77412d59d4>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019c013c393c6b916bf142e459d92a519fd</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| Current</text>
 					</hash_130019849d222cdc2a3b558ebe6f77412d59d4>
 				</sv_data_source>
@@ -164,28 +120,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_120019aead486126b5a2c9d1c1a70646b60e8c>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| VRM Temp</text>
-					</hash_120019aead486126b5a2c9d1c1a70646b60e8c>
 					<hash_120019b35b48ffb7fc8c82de1d24a19f0dc292>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| VRM Temp</text>
 					</hash_120019b35b48ffb7fc8c82de1d24a19f0dc292>
 				</sv_graph>
 				<sv_data_source>
-					<hash_130019ed9ac90f248855a0b8bfabd48e631e84>
-						<field_name>name</field_name>
-						<data_template_id>hash_01001934b9e0970d1ba52820132fd8d7f07d85</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_fanName| VRM Temp</text>
-					</hash_130019ed9ac90f248855a0b8bfabd48e631e84>
 					<hash_1300199f14a4268ddc19064f51f5abe7aa4f17>
 						<field_name>name</field_name>
 						<data_template_id>hash_01001934b9e0970d1ba52820132fd8d7f07d85</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_fanName| VRM Temp</text>
 					</hash_1300199f14a4268ddc19064f51f5abe7aa4f17>
 				</sv_data_source>

@@ -16,28 +16,17 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_120019ee4042cea6c87ef111433a789008d46b>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>  |host_description| - Aquaero 5 - |query_levelName|</text>
-					</hash_120019ee4042cea6c87ef111433a789008d46b>
 					<hash_12001996d2b1692561c2d8e0541bc1ba9bcdb2>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_levelName|</text>
 					</hash_12001996d2b1692561c2d8e0541bc1ba9bcdb2>
 				</sv_graph>
 				<sv_data_source>
-					<hash_1300199c9ef6087ed6aad7962b3e478881fd31>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019eb7c9bd03cedfa8e96a0e5105da55f10</data_template_id>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_levelName|</text>
-					</hash_1300199c9ef6087ed6aad7962b3e478881fd31>
 					<hash_1300192d43de5bab8a93289a157c1c098f0c92>
 						<field_name>name</field_name>
 						<data_template_id>hash_010019eb7c9bd03cedfa8e96a0e5105da55f10</data_template_id>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_levelName|</text>
 					</hash_1300192d43de5bab8a93289a157c1c098f0c92>
 				</sv_data_source>

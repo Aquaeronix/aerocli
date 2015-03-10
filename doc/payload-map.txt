@@ -1,0 +1,1616 @@
+HID input report 1
+
+payload length: 659 Bytes
+
+
+offset		type	value		description
+-------------------------------------------------------
+0x000		int8			HID report ID (0x01)
+0x001		int32	current_time	Time in seconds since 1/1/2009 00:00:00 UTC
+
+0x007		int16	serial_major	S/N prefix
+0x009		int16	serial_minor	S/N suffix
+0x00b		int16	firmware_version	Firmware version
+0x00d		int16	bootloader_version	Bootloader version
+0x00f		int16	hardware_version	Hardware version
+
+0x011		int32	uptime		Time in seconds since last restart
+0x015		int32	total_time	Time in seconds since firmware update?
+
+0x067		int16	temp1	Internal temp sensor 1
+0x069		int16	temp2	Internal temp sensor 2
+0x06b		int16	temp3	Internal temp sensor 3
+0x06d		int16	temp4	Internal temp sensor 4
+0x06f		int16	temp5	Internal temp sensor 5
+0x071		int16	temp6	Internal temp sensor 6
+0x073		int16	temp7	Internal temp sensor 7
+0x075		int16	temp8	Internal temp sensor 8
+
+0x077		int16	temp9	External (aquabus) temp sensor 9
+0x079		int16	temp10	External (aquabus) temp sensor 10
+0x07b		int16	temp11	External (aquabus) temp sensor 11 
+0x07d		int16	temp12	External (aquabus) temp sensor 12
+0x07f		int16	temp13	External (aquabus) temp sensor 13
+0x081		int16	temp14	External (aquabus) temp sensor 14
+0x083		int16	temp15	External (aquabus) temp sensor 15
+0x085		int16	temp16	External (aquabus) temp sensor 16
+
+0x087		int16	temp17	Software temp sensor 1 (17)
+0x089		int16	temp18	Software temp sensor 2 (18)
+0x08b		int16	temp19	Software temp sensor 3 (19)
+0x08d		int16	temp20	Software temp sensor 4 (20)	
+0x08f		int16	temp21	Software temp sensor 5 (21)
+0x091		int16	temp22	Software temp sensor 6 (22)
+0x093		int16	temp23	Software temp sensor 7 (23)
+0x095		int16	temp24	Software temp sensor 8 (24)
+
+0x097		int16	temp25	Virtual temp sensor 1 (25)
+0x099		int16	temp26	Virtual temp sensor 2 (26)
+0x09b		int16	temp27	Virtual temp sensor 3 (27)
+0x09d		int16	temp28	Virtual temp sensor 4 (28)
+0x09f		int16	temp29	External (aquabus?) temp sensor 29
+0x0a1		int16	temp30	External (aquabus?) temp sensor 30
+0x0a3		int16	temp31	External (aquabus?) temp sensor 31
+0x0a5		int16	temp32	External (aquabus?) temp sensor 32
+
+0x0a7		int16	temp33	External (aquabus?) temp sensor 33
+0x0a9		int16	temp34	External (aquabus?) temp sensor 34
+0x0ab		int16	temp35	External (aquabus?) temp sensor 35
+0x0ad		int16	temp36	External (aquabus?) temp sensor 36
+0x0af		int16	temp37	External (aquabus?) temp sensor 37
+0x0b1		int16	temp38	External (aquabus?) temp sensor 38
+0x0b3		int16	temp39	External (aquabus?) temp sensor 39
+0x0b5		int16	temp40	External (aquabus?) temp sensor 40
+
+0x0b7		int16	temp41	External (aquabus?) temp sensor 41
+0x0b9		int16	temp42	External (aquabus?) temp sensor 42
+0x0bb		int16	temp43	External (aquabus?) temp sensor 43
+0x0bd		int16	temp44	External (aquabus?) temp sensor 44
+
+0x0bf		int16	fan1 vrm_temp	Internal fan VRM temp 1
+0x0c1		int16	fan2 vrm_temp	Internal fan VRM temp 2
+0x0c3		int16	fan3 vrm_temp	Internal fan VRM temp 3
+0x0c5		int16	fan4 vrm_temp	Internal fan VRM temp 4
+
+0x0c7		int16	fan5 vrm_temp	External (aquabus) fan VRM temp 5
+0x0c9		int16	fan6 vrm_temp	External (aquabus) fan VRM temp 6
+0x0cb		int16	fan7 vrm_temp	External (aquabus) fan VRM temp 7
+0x0cd		int16	fan8 vrm_temp	External (aquabus) fan VRM temp 8
+0x0cf		int16	fan9 vrm_temp	External (aquabus) fan VRM temp 9
+0x0d1		int16	fan10 vrm_temp	External (aquabus) fan VRM temp 10
+0x0d3		int16	fan11 vrm_temp	External (aquabus) fan VRM temp 11
+0x0d5		int16	fan12 vrm_temp	External (aquabus) fan VRM temp 12
+
+0x0d7		int16	cpu1_temp	Internal CPU temp1 
+0x0d9		int16	cpu2_temp	External CPU temp2?
+0x0db		int16	cpu3_temp	External CPU temp3?
+0x0dd		int16	cpu4_temp	External CPU temp4? 
+0x0df		int16	cpu5_temp	External CPU temp5? 
+0x0e1		int16	cpu6_temp	External CPU temp6? 
+0x0e3		int16	cpu7_temp	External CPU temp7? 
+0x0e5		int16	cpu8_temp	External CPU temp8? 
+
+0x0fb		int16	flow1		Internal flow sensor 1
+0x0fd		int16	flow2		Internal flow sensor 2
+0x0ff		int16	flow3		External flow sensor 3
+0x101		int16	flow4		External flow sensor 4
+0x103		int16	flow5		External flow sensor 5
+0x105		int16	flow6		External flow sensor 6
+0x107		int16	flow7		External flow sensor 7
+0x109		int16	flow8		External flow sensor 8
+0x10b		int16	flow9		External flow sensor 9
+0x10d		int16	flow10		External flow sensor 10
+0x10f		int16	flow11		External flow sensor 11
+0x111		int16	flow12		External flow sensor 12
+0x113		int16	flow13		External flow sensor 13
+0x115		int16	flow14		External flow sensor 14
+
+0x119		int16			unknown, but this value changes from 0x7fff when a tubemeter is connected 
+
+0x147		int16	level1		Liquid level sensor 1 (tubemeter)
+0x149		int16	level2		Liquid level sensor 2
+0x14b		int16	level3		Liquid level sensor 3
+0x14d		int16	level4		Liquid level sensor 4
+
+0x167		int16			Min display current reading?
+
+0x169		int16	fan1 rpm	Internal fan 1 RPM
+0x16b		int16	fan1 duty_cycle	Internal fan 1 Duty cycle
+0x16d		int16	fan1 voltage	Internal fan 1 Voltage
+0x16f		int16	fan1 current	Internal fan 1 VRM current
+
+0x171		int16	fan2 rpm	Internal fan 2 RPM
+0x173		int16	fan2 duty_cycle	Internal fan 2 Duty cycle
+0x175		int16	fan2 voltage	Internal fan 2 Voltage
+0x177		int16	fan2 current	Internal fan 2 VRM current
+
+0x179		int16	fan3 rpm	Internal fan 3 RPM
+0x17b		int16	fan3 duty_cycle	Internal fan 3 Duty cycle
+0x17d		int16	fan3 voltage	Internal fan 3 Voltage
+0x17f		int16	fan3 current	Internal fan 3 VRM current
+
+0x181		int16	fan4 rpm	Internal fan 4 RPM
+0x183		int16	fan4 duty_cycle	Internal fan 4 Duty cycle
+0x185		int16	fan4 voltage	Internal fan 4 Voltage
+0x187		int16	fan4 current	Internal fan 4 VRM current
+
+0x189		int16	fan5 rpm	External (aquabus) fan 5 RPM
+0x18b		int16	fan5 duty_cycle	External (aquabus) fan 5 Duty cycle
+0x18d		int16	fan5 voltage	External (aquabus) fan 5 Voltage
+0x18f		int16	fan5 current	External (aquabus) fan 5 VRM current
+
+0x191		int16	fan6 rpm	External (aquabus) fan 6 RPM
+0x193		int16	fan6 duty_cycle	External (aquabus) fan 6 Duty cycle
+0x195		int16	fan6 voltage	External (aquabus) fan 6 Voltage
+0x197		int16	fan6 current	External (aquabus) fan 6 VRM current
+
+0x199		int16	fan7 rpm	External (aquabus) fan 7 RPM
+0x19b		int16	fan7 duty_cycle	External (aquabus) fan 7 Duty cycle
+0x19d		int16	fan7 voltage	External (aquabus) fan 7 Voltage
+0x19f		int16	fan7 current	External (aquabus) fan 7 VRM current
+
+0x1a1		int16	fan8 rpm	External (aquabus) fan 8 RPM
+0x1a3		int16	fan8 duty_cycle	External (aquabus) fan 8 Duty cycle
+0x1a5		int16	fan8 voltage	External (aquabus) fan 8 Voltage
+0x1a7		int16	fan8 current	External (aquabus) fan 8 VRM current
+
+0x1a9		int16	fan9 rpm	External (aquabus) fan 9 RPM
+0x1ab		int16	fan9 duty_cycle	External (aquabus) fan 9 Duty cycle
+0x1ad		int16	fan9 voltage	External (aquabus) fan 9 Voltage
+0x1af		int16	fan9 current	External (aquabus) fan 9 VRM current
+
+0x1b1		int16	fan10 rpm	External (aquabus) fan 10 RPM
+0x1b3		int16	fan10 duty_cycle	External (aquabus) fan 10 Duty cycle
+0x1b5		int16	fan10 voltage	External (aquabus) fan 10 Voltage
+0x1b7		int16	fan10 current	External (aquabus) fan 10 VRM current
+
+0x1b9		int16	fan11 rpm	External (aquabus) fan 11 RPM
+0x1bb		int16	fan11 duty_cycle	External (aquabus) fan 11 Duty cycle
+0x1bd		int16	fan11 voltage	External (aquabus) fan 11 Voltage
+0x1bf		int16	fan11 current	External (aquabus) fan 11 VRM current
+
+0x1c1		int16	fan12 rpm	External (aquabus) fan 12 RPM
+0x1c3		int16	fan12 duty_cycle	External (aquabus) fan 12 Duty cycle
+0x1c5		int16	fan12 voltage	External (aquabus) fan 12 Voltage
+0x1c7		int16	fan12 current	External (aquabus) fan 12 VRM current
+
+
+
+Settings
+HID feature report 0x0B (11)
+payload length: 2427 Bytes
+
+
+offset		type	value		description
+-------------------------------------------------------
+0x009		int16	key_down sens		Down key sensitivity
+0x00b		int16	key_enter sens		Enter key sensitivity 
+0x00d		int16	key_up sens		Up key sensitivity 
+
+0x00f		int16	disable_keys		Disable keys
+
+0x011		int16	key_prog4 sens		Programmable key 4 sensitivity 
+0x013		int16	key_prog3 sens		Programmable key 3 sensitivity 
+0x015		int16	key_prog2 sens		Programmable key 2 sensitivity 
+0x017		int16	key_prog1 sens		Programmable key 1 sensitivity 
+
+0x01a		int8	language		Language
+
+0x01b		int16	contrast		Display contrast
+0x01d		int16	standby_contrast	Standby display contrast
+0x01f		int16	brightness_in_use	Display brightness while in use
+0x021		int16	brightness_while_idle	Display brightness while idle
+0x023		int16	illumination_time	Display illumination time
+0x025		int8	illumination_mode	Display illumination mode
+0x026		int8	display_mode		Display display mode
+
+0x027		int16	brightness_in_use	Brightness while in use (keys)
+0x029		int16	brightness_while_idle	Brightness while idle (keys)
+0x02b		int8	illumination_mode	Illumination mode (keys)
+
+0x02c		int16	menu_duration		Menu display duration
+
+0x02f		int8	time_zone		Timezone offset from GMT
+0x030		int8	time_format		Bit field for AutoDST, Date format and Time format
+
+0x031		int8	page1 screen_mode	Info page 1 screen mode
+0x032		int16	page1 duration		Info page 1 screen duration
+0x034		int8	page1 info		Info page 1 info to be shown
+
+0x035		int8	page2 screen_mode	Info page 2 screen mode
+0x036		int16	page2 duration		Info page 2 screen duration
+0x038		int8	page2 info		Info page 2 info to be shown
+
+0x039		int8	page3 screen_mode	Info page 3 screen mode
+0x03a		int16	page3 duration		Info page 3 screen duration
+0x03c		int8	page3 info		Info page 3 info to be shown
+
+0x03d		int8	page4 screen_mode	Info page 4 screen mode
+0x03e		int16	page4 duration		Info page 4 screen duration
+0x040		int8	page4 info		Info page 4 info to be shown
+
+0x041		int8	page5 screen_mode	Info page 5 screen mode
+0x042		int16	page5 duration		Info page 5 screen duration
+0x044		int8	page5 info		Info page 5 info to be shown
+
+0x045		int8	page6 screen_mode	Info page 6 screen mode
+0x046		int16	page6 duration		Info page 6 screen duration
+0x048		int8	page6 info		Info page 6 info to be shown
+
+0x049		int8	page7 screen_mode	Info page 7 screen mode
+0x04a		int16	page7 duration		Info page 7 screen duration
+0x04c		int8	page7 info		Info page 7 info to be shown
+
+0x04d		int8	page8 screen_mode	Info page 8 screen mode
+0x04e		int16	page8 duration		Info page 8 screen duration
+0x050		int8	page8 info		Info page 8 info to be shown
+
+0x051		int8	page9 screen_mode	Info page 9 screen mode
+0x052		int16	page9 duration		Info page 9 screen duration
+0x054		int8	page9 info		Info page 9 info to be shown
+
+0x055		int8	page10 screen_mode	Info page 10 screen mode
+0x056		int16	page10 duration		Info page 10 screen duration
+0x058		int8	page10 info		Info page 10 info to be shown
+
+0x059		int8	page11 screen_mode	Info page 11 screen mode
+0x05a		int16	page11 duration		Info page 11 screen duration
+0x05c		int8	page11 info		Info page 11 info to be shown
+
+0x05d		int8	page12 screen_mode	Info page 12 screen mode
+0x05e		int16	page12 duration		Info page 12 screen duration
+0x060		int8	page12 info		Info page 12 info to be shown
+
+0x061		int8	page13 screen_mode	Info page 13 screen mode
+0x062		int16	page13 duration		Info page 13 screen duration
+0x064		int8	page13 info		Info page 13 info to be shown
+
+0x065		int8	page14 screen_mode	Info page 14 screen mode
+0x066		int16	page14 duration		Info page 14 screen duration
+0x068		int8	page14 info		Info page 14 info to be shown
+
+0x069		int8	page15 screen_mode	Info page 15 screen mode
+0x06a		int16	page15 duration		Info page 15 screen duration
+0x06c		int8	page15 info		Info page 15 info to be shown
+
+0x06d		int8	page16 screen_mode	Info page 16 screen mode
+0x06e		int16	page16 duration		Info page 16 screen duration
+0x070		int8	page16 info		Info page 16 info to be shown
+
+0x071		int8	page17 screen_mode	Info page 17 screen mode
+0x072		int16	page17 duration		Info page 17 screen duration
+0x074		int8	page17 info		Info page 17 info to be shown
+
+0x075		int8	page18 screen_mode	Info page 18 screen mode
+0x076		int16	page18 duration		Info page 18 screen duration
+0x078		int8	page18 info		Info page 18 info to be shown
+
+0x079		int8	page19 screen_mode	Info page 19 screen mode
+0x07a		int16	page19 duration		Info page 19 screen duration
+0x07c		int8	page19 info		Info page 19 info to be shown
+
+0x07d		int8	page20 screen_mode	Info page 20 screen mode
+0x07e		int16	page20 duration		Info page 20 screen duration
+0x080		int8	page20 info		Info page 20 info to be shown
+
+0x081		int8	page21 screen_mode	Info page 21 screen mode
+0x082		int16	page21 duration		Info page 21 screen duration
+0x084		int8	page21 info		Info page 21 info to be shown
+
+0x085		int8	page22 screen_mode	Info page 22 screen mode
+0x086		int16	page22 duration		Info page 22 screen duration
+0x088		int8	page22 info		Info page 22 info to be shown
+
+0x089		int8	page23 screen_mode	Info page 23 screen mode
+0x08a		int16	page23 duration		Info page 23 screen duration
+0x08c		int8	page23 info		Info page 23 info to be shown
+
+0x08d		int8	page24 screen_mode	Info page 24 screen mode
+0x08e		int16	page24 duration		Info page 24 screen duration
+0x090		int8	page24 info		Info page 24 info to be shown
+
+0x091		int8	page25 screen_mode	Info page 25 screen mode
+0x092		int16	page25 duration		Info page 25 screen duration
+0x094		int8	page25 info		Info page 25 info to be shown
+
+0x095		int8	page26 screen_mode	Info page 26 screen mode
+0x096		int16	page26 duration		Info page 26 screen duration
+0x098		int8	page26 info		Info page 26 info to be shown
+
+0x099		int8	page27 screen_mode	Info page 27 screen mode
+0x09a		int16	page27 duration		Info page 27 screen duration
+0x09c		int8	page27 info		Info page 27 info to be shown
+
+0x09d		int8	page28 screen_mode	Info page 28 screen mode
+0x09e		int16	page28 duration		Info page 28 screen duration
+0x0a0		int8	page28 info		Info page 28 info to be shown
+
+0x0a1		int8	page29 screen_mode	Info page 29 screen mode
+0x0a2		int16	page29 duration		Info page 29 screen duration
+0x0a4		int8	page29 info		Info page 29 info to be shown
+
+0x0a5		int8	page30 screen_mode	Info page 30 screen mode
+0x0a6		int16	page30 duration		Info page 30 screen duration
+0x0a8		int8	page30 info		Info page 30 info to be shown
+
+0x0a9		int8	page31 screen_mode	Info page 31 screen mode
+0x0aa		int16	page31 duration		Info page 31 screen duration
+0x0ac		int8	page31 info		Info page 31 info to be shown
+
+0x0ad		int8	page32 screen_mode	Info page 32 screen mode
+0x0ae		int16	page32 duration		Info page 32 screen duration
+0x0b0		int8	page32 info		Info page 32 info to be shown
+
+
+0x0c5		int8	temp_units		Temperature units
+0x0c6		int8	flow_units		Flow units
+0x0c7		int8	pressure_units		Pressure units
+0x0c8		int8	decimal_separator	Decimal separator
+
+0x0c9		int8	key_tone		Key tone
+
+0x0ca		int16	standby_lcd_brightness	Standby LCD backlight brightness
+0x0cc		int16	standby_timeout_kad_brightness	Standby timeout key and display brightness
+0x0ce		int16	standby_key_brightness	Standby key backlight brightness
+0x0d0		int16	standby_action_at_power_up	Standby action at power up
+0x0d2		int16	standby_action_at_power_down	Standby action at power down
+
+0x0d4		int16	display_duration_aps	Display duration after page selection
+
+0x0dc		int16	temp1 offset	Internal temp sensor 1 offset
+0x0de		int16	temp2 offset	Internal temp sensor 2 offset
+0x0e0		int16	temp3 offset	Internal temp sensor 3 offset
+0x0e2		int16	temp4 offset	Internal temp sensor 4 offset
+0x0e4		int16	temp5 offset	Internal temp sensor 5 offset
+0x0e6		int16	temp6 offset	Internal temp sensor 6 offset
+0x0e8		int16	temp7 offset	Internal temp sensor 7 offset
+0x0ea		int16	temp8 offset	Internal temp sensor 8 offset
+
+0x0ec		int16	temp9 offset	External (aquabus) temp sensor 9 offset
+0x0ee		int16	temp10 offset	External (aquabus) temp sensor 10 offset
+0x0f0		int16	temp11 offset	External (aquabus) temp sensor 11 offset
+0x0f2		int16	temp12 offset	External (aquabus) temp sensor 12 offset
+0x0f4		int16	temp13 offset	External (aquabus) temp sensor 13 offset
+0x0f6		int16	temp14 offset	External (aquabus) temp sensor 14 offset
+0x0f8		int16	temp15 offset	External (aquabus) temp sensor 15 offset
+0x0fa		int16	temp16 offset	External (aquabus) temp sensor 16 offset
+
+0x0fc		int16	temp17 offset	Software temp sensor 1 (17) offset
+0x0fe		int16	temp18 offset	Software temp sensor 2 (18) offset
+0x100		int16	temp19 offset	Software temp sensor 3 (19) offset
+0x102		int16	temp20 offset	Software temp sensor 4 (20) offset
+0x104		int16	temp21 offset	Software temp sensor 5 (21) offset
+0x106		int16	temp22 offset	Software temp sensor 6 (22) offset
+0x108		int16	temp23 offset	Software temp sensor 7 (23) offset
+0x10a		int16	temp24 offset	Software temp sensor 8 (24) offset
+
+0x10c		int16	temp25 offset	Virtual temp sensor 1 (25) offset
+0x10e		int16	temp26 offset	Virtual temp sensor 2 (26) offset
+0x110		int16	temp27 offset	Virtual temp sensor 3 (27) offset
+0x112		int16	temp28 offset	Virtual temp sensor 4 (28) offset
+0x114		int16	temp29 offset	External (aquabus?) temp sensor 29 offset
+0x116		int16	temp30 offset	External (aquabus?) temp sensor 30 offset
+0x118		int16	temp31 offset	External (aquabus?) temp sensor 31 offset
+0x11a		int16	temp32 offset	External (aquabus?) temp sensor 32 offset
+
+0x11c		int16	temp33 offset	External (aquabus?) temp sensor 33 offset
+0x11e		int16	temp34 offset	External (aquabus?) temp sensor 34 offset
+0x120		int16	temp35 offset	External (aquabus?) temp sensor 35 offset
+0x122		int16	temp36 offset	External (aquabus?) temp sensor 36 offset
+0x124		int16	temp37 offset	External (aquabus?) temp sensor 37 offset
+0x126		int16	temp38 offset	External (aquabus?) temp sensor 38 offset
+0x128		int16	temp39 offset	External (aquabus?) temp sensor 39 offset
+0x12a		int16	temp40 offset	External (aquabus?) temp sensor 40 offset
+
+0x12c		int16	temp41 offset	External (aquabus?) temp sensor 41 offset
+0x12e		int16	temp42 offset	External (aquabus?) temp sensor 42 offset
+0x130		int16	temp43 offset	External (aquabus?) temp sensor 43 offset
+0x132		int16	temp44 offset	External (aquabus?) temp sensor 44 offset
+
+0x134		int16	fan1 vrm_temp offset	Internal fan VRM temp 1 offset
+0x136		int16	fan2 vrm_temp offset	Internal fan VRM temp 2 offset
+0x138		int16	fan3 vrm_temp offset	Internal fan VRM temp 3 offset
+0x13a		int16	fan4 vrm_temp offset	Internal fan VRM temp 4 offset
+
+0x13c		int16	fan5 vrm_temp offset	External (aquabus) fan VRM temp 5 offset
+0x13e		int16	fan6 vrm_temp offset	External (aquabus) fan VRM temp 6 offset
+0x140		int16	fan7 vrm_temp offset	External (aquabus) fan VRM temp 7 offset
+0x142		int16	fan8 vrm_temp offset	External (aquabus) fan VRM temp 8 offset
+0x144		int16	fan9 vrm_temp offset	External (aquabus) fan VRM temp 9 offset
+0x146		int16	fan10 vrm_temp offset	External (aquabus) fan VRM temp 10 offset
+0x148		int16	fan11 vrm_temp offset	External (aquabus) fan VRM temp 11 offset
+0x14a		int16	fan12 vrm_temp offset	External (aquabus) fan VRM temp 12 offset
+
+0x14c		int16	cpu1_temp offset	Internal CPU temp1 offset 
+0x14e		int16	cpu2_temp offset	External CPU temp2 offset?
+0x150		int16	cpu3_temp offset	External CPU temp3 offset?
+0x152		int16	cpu4_temp offset	External CPU temp4 offset? 
+0x154		int16	cpu5_temp offset	External CPU temp5 offset? 
+0x156		int16	cpu6_temp offset	External CPU temp6 offset? 
+0x158		int16	cpu7_temp offset	External CPU temp7 offset? 
+0x15a		int16	cpu8_temp offset	External CPU temp8 offset? 
+
+0x15c		int16	virt_sensor_1_data_source_1	Virtual sensor 1 data source 1
+0x15e		int16	virt_sensor_1_data_source_2	Virtual sensor 1 data source 2
+0x160		int16	virt_sensor_1_data_source_3	Virtual sensor 1 data source 3
+0x162		int8	virt_sensor_1_mode		Virtual sensor 1 mode
+
+0x163		int16	virt_sensor_2_data_source_1	Virtual sensor 2 data source 1
+0x165		int16	virt_sensor_2_data_source_2	Virtual sensor 2 data source 2
+0x167		int16	virt_sensor_2_data_source_3	Virtual sensor 2 data source 3
+0x169		int8	virt_sensor_2_mode		Virtual sensor 2 mode
+
+0x16a		int16	virt_sensor_3_data_source_1	Virtual sensor 3 data source 1
+0x16c		int16	virt_sensor_3_data_source_2	Virtual sensor 3 data source 2
+0x16e		int16	virt_sensor_3_data_source_3	Virtual sensor 3 data source 3
+0x170		int8	virt_sensor_3_mode		Virtual sensor 3 mode
+
+0x171		int16	virt_sensor_4_data_source_1	Virtual sensor 4 data source 1
+0x173		int16	virt_sensor_4_data_source_2	Virtual sensor 4 data source 2
+0x175		int16	virt_sensor_4_data_source_3	Virtual sensor 4 data source 34
+0x177		int8	virt_sensor_4_mode		Virtual sensor 4 mode
+
+0x178		int8	soft_sensor_1_config		Software sensor 1 configuration
+0x179		int16	soft_sensor_1_fallback_val	Software sensor 1 fallback value for interrupted com.
+0x17b		int16	soft_sensor_1_timeout		Software sensor 1 timeout to activate fallback value
+
+0x17d		int8	soft_sensor_2_config		Software sensor 2 configuration
+0x17e		int16	soft_sensor_2_fallback_val	Software sensor 2 fallback value for interrupted com.
+0x180		int16	soft_sensor_2_timeout		Software sensor 2 timeout to activate fallback value
+
+0x182		int8	soft_sensor_3_config		Software sensor 3 configuration
+0x183		int16	soft_sensor_3_fallback_val	Software sensor 3 fallback value for interrupted com.
+0x185		int16	soft_sensor_3_timeout		Software sensor 3 timeout to activate fallback value
+
+0x187		int8	soft_sensor_4_config		Software sensor 4 configuration
+0x188		int16	soft_sensor_4_fallback_val	Software sensor 4 fallback value for interrupted com.
+0x18a		int16	soft_sensor_4_timeout		Software sensor 4 timeout to activate fallback value
+
+0x18c		int8	soft_sensor_5_config		Software sensor 5 configuration
+0x18d		int16	soft_sensor_5_fallback_val	Software sensor 5 fallback value for interrupted com.
+0x18f		int16	soft_sensor_5_timeout		Software sensor 5 timeout to activate fallback value
+
+0x191		int8	soft_sensor_6_config		Software sensor 6 configuration
+0x192		int16	soft_sensor_6_fallback_val	Software sensor 6 fallback value for interrupted com.
+0x194		int16	soft_sensor_6_timeout		Software sensor 6 timeout to activate fallback value
+
+0x196		int8	soft_sensor_7_config		Software sensor 7 configuration
+0x197		int16	soft_sensor_7_fallback_val	Software sensor 7 fallback value for interrupted com.
+0x199		int16	soft_sensor_7_timeout		Software sensor 7 timeout to activate fallback value
+
+0x19b		int8	soft_sensor_8_config		Software sensor 8 configuration
+0x19c		int16	soft_sensor_8_fallback_val	Software sensor 8 fallback value for interrupted com.
+0x19e		int16	soft_sensor_8_timeout		Software sensor 8 timeout to activate fallback value
+
+0x1a0		int16	flow_sensor_1_calibration	Flow sensor 1 calibration value
+0x1a2		int16	flow_sensor_1_lower_limit	Flow sensor 1 lower display limit
+0x1a4		int16	flow_sensor_1_upper_limit	Flow sensor 1 upper display limit
+
+0x1a6		int16	flow_sensor_2_calibration	Flow sensor 2 calibration value
+0x1a8		int16	flow_sensor_2_lower_limit	Flow sensor 2 lower display limit
+0x1aa		int16	flow_sensor_2_upper_limit	Flow sensor 2 upper display limit
+
+0x1ac		int16	flow_sensor_3_calibration	Flow sensor 3 calibration value
+0x1ae		int16	flow_sensor_3_lower_limit	Flow sensor 3 lower display limit
+0x1b0		int16	flow_sensor_3_upper_limit	Flow sensor 3 upper display limit
+
+0x1b2		int16	flow_sensor_4_calibration	Flow sensor 4 calibration value
+0x1b4		int16	flow_sensor_4_lower_limit	Flow sensor 4 lower display limit
+0x1b6		int16	flow_sensor_4_upper_limit	Flow sensor 4 upper display limit
+
+0x1b8		int16	flow_sensor_5_calibration	Flow sensor 5 calibration value
+0x1ba		int16	flow_sensor_5_lower_limit	Flow sensor 5 lower display limit
+0x1bc		int16	flow_sensor_5_upper_limit	Flow sensor 5 upper display limit
+
+0x1be		int16	flow_sensor_6_calibration	Flow sensor 6 calibration value
+0x1c0		int16	flow_sensor_6_lower_limit	Flow sensor 6 lower display limit
+0x1c2		int16	flow_sensor_6_upper_limit	Flow sensor 6 upper display limit
+
+0x1c4		int16	flow_sensor_7_calibration	Flow sensor 7 calibration value
+0x1c6		int16	flow_sensor_7_lower_limit	Flow sensor 7 lower display limit
+0x1c8		int16	flow_sensor_7_upper_limit	Flow sensor 7 upper display limit
+
+0x1ca		int16	flow_sensor_8_calibration	Flow sensor 8 calibration value
+0x1cc		int16	flow_sensor_8_lower_limit	Flow sensor 8 lower display limit
+0x1ce		int16	flow_sensor_8_upper_limit	Flow sensor 8 upper display limit
+
+0x1d0		int16	flow_sensor_9_calibration	Flow sensor 9 calibration value
+0x1d2		int16	flow_sensor_9_lower_limit	Flow sensor 9 lower display limit
+0x1d4		int16	flow_sensor_9_upper_limit	Flow sensor 9 upper display limit
+
+0x1d6		int16	flow_sensor_10_calibration	Flow sensor 10 calibration value
+0x1d8		int16	flow_sensor_10_lower_limit	Flow sensor 10 lower display limit
+0x1da		int16	flow_sensor_10_upper_limit	Flow sensor 10 upper display limit
+
+0x1dc		int16	flow_sensor_11_calibration	Flow sensor 11 calibration value
+0x1de		int16	flow_sensor_11_lower_limit	Flow sensor 11 lower display limit
+0x1e0		int16	flow_sensor_11_upper_limit	Flow sensor 11 upper display limit
+
+0x1e2		int16	flow_sensor_12_calibration	Flow sensor 12 calibration value
+0x1e4		int16	flow_sensor_12_lower_limit	Flow sensor 12 lower display limit
+0x1e6		int16	flow_sensor_12_upper_limit	Flow sensor 12 upper display limit
+
+0x1e8		int16	flow_sensor_13_calibration	Flow sensor 13 calibration value
+0x1ea		int16	flow_sensor_13_lower_limit	Flow sensor 13 lower display limit
+0x1ec		int16	flow_sensor_13_upper_limit	Flow sensor 13 upper display limit
+
+0x1ee		int16	flow_sensor_14_calibration	Flow sensor 14 calibration value
+0x1f0		int16	flow_sensor_14_lower_limit	Flow sensor 14 lower display limit
+0x1f2		int16	flow_sensor_14_upper_limit	Flow sensor 14 upper display limit
+
+0x1f4		int16	power_consumption_1_flow	Power consumption 1 flow sensor
+0x1f6		int16	power_consumption_1_temp1	Power consumption 1 temperature sensor 1
+0x1f8		int16	power_consumption_1_temp2	Power consumption 1 temperature sensor 2
+
+0x1fa		int16	power_consumption_2_flow	Power consumption 2 flow sensor
+0x1fc		int16	power_consumption_2_temp1	Power consumption 2 temperature sensor 1
+0x1fe		int16	power_consumption_2_temp2	Power consumption 2 temperature sensor 2
+
+0x200		int16	power_consumption_3_flow	Power consumption 3 flow sensor
+0x202		int16	power_consumption_3_temp1	Power consumption 3 temperature sensor 1
+0x204		int16	power_consumption_3_temp2	Power consumption 3 temperature sensor 2
+
+0x206		int16	power_consumption_4_flow	Power consumption 4 flow sensor
+0x208		int16	power_consumption_4_temp1	Power consumption 4 temperature sensor 1
+0x20a		int16	power_consumption_4_temp2	Power consumption 4 temperature sensor 2
+
+0x20c		int16			Internal fan 1 Min RPM
+0x20e		int16			Internal fan 1 Max RPM
+0x210		int16			Internal fan 1 Min duty cycle
+0x212		int16			Internal fan 1 Max duty cycle
+0x214		int16			Internal fan 1 Startboost duty cycle
+0x216		int16			Internal fan 1 Startboost duration
+0x218		int16			Internal fan 1 Pulses per revolution
+0x21a		int16			Internal fan 1 Control mode
+0x21c		int16			Internal fan 1 Data source
+0x21e		int16			Internal fan 1 Programmable fuse setting in mA
+
+0x220		int16			Internal fan 2 Min RPM
+0x222		int16			Internal fan 2 Max RPM
+0x224		int16			Internal fan 2 Min duty cycle
+0x226		int16			Internal fan 2 Max duty cycle
+0x228		int16			Internal fan 2 Startboost duty cycle
+0x22a		int16			Internal fan 2 Startboost duration
+0x22c		int16			Internal fan 2 Pulses per revolution
+0x22e		int16			Internal fan 2 Control mode
+0x230		int16			Internal fan 2 Data source
+0x232		int16			Internal fan 2 Programmable fuse setting in mA
+
+0x234		int16			Internal fan 3 Min RPM
+0x236		int16			Internal fan 3 Max RPM
+0x238		int16			Internal fan 3 Min duty cycle
+0x23a		int16			Internal fan 3 Max duty cycle
+0x23c		int16			Internal fan 3 Startboost duty cycle
+0x23e		int16			Internal fan 3 Startboost duration
+0x240		int16			Internal fan 3 Pulses per revolution
+0x242		int16			Internal fan 3 Control mode
+0x244		int16			Internal fan 3 Data source
+0x246		int16			Internal fan 3 Programmable fuse setting in mA
+
+0x248		int16			Internal fan 4 Min RPM
+0x24a		int16			Internal fan 4 Max RPM
+0x24c		int16			Internal fan 4 Min duty cycle
+0x24e		int16			Internal fan 4 Max duty cycle
+0x250		int16			Internal fan 4 Startboost duty cycle
+0x252		int16			Internal fan 4 Startboost duration
+0x254		int16			Internal fan 4 Pulses per revolution
+0x256		int16			Internal fan 4 Control mode
+0x258		int16			Internal fan 4 Data source
+0x25a		int16			Internal fan 4 Programmable fuse setting in mA
+
+0x25c		int16			External (aquabus) fan 5 Min RPM
+0x25e		int16			External (aquabus) fan 5 Max RPM
+0x260		int16			External (aquabus) fan 5 Min duty cycle
+0x262		int16			External (aquabus) fan 5 Max duty cycle
+0x264		int16			External (aquabus) fan 5 Startboost duty cycle
+0x266		int16			External (aquabus) fan 5 Startboost duration
+0x268		int16			External (aquabus) fan 5 Pulses per revolution
+0x26a		int16			External (aquabus) fan 5 Control mode
+0x26c		int16			External (aquabus) fan 5 Data source
+0x26e		int16			External (aquabus) fan 5 Programmable fuse setting in mA
+
+0x25c		int16			External (aquabus) fan 6 Min RPM
+0x25e		int16			External (aquabus) fan 6 Max RPM
+0x260		int16			External (aquabus) fan 6 Min duty cycle
+0x262		int16			External (aquabus) fan 6 Max duty cycle
+0x264		int16			External (aquabus) fan 6 Startboost duty cycle
+0x266		int16			External (aquabus) fan 6 Startboost duration
+0x268		int16			External (aquabus) fan 6 Pulses per revolution
+0x26a		int16			External (aquabus) fan 6 Control mode
+0x26c		int16			External (aquabus) fan 6 Data source
+0x26e		int16			External (aquabus) fan 6 Programmable fuse setting in mA
+
+0x270		int16			External (aquabus) fan 7 Min RPM
+0x272		int16			External (aquabus) fan 7 Max RPM
+0x274		int16			External (aquabus) fan 7 Min duty cycle
+0x276		int16			External (aquabus) fan 7 Max duty cycle
+0x278		int16			External (aquabus) fan 7 Startboost duty cycle
+0x27a		int16			External (aquabus) fan 7 Startboost duration
+0x27c		int16			External (aquabus) fan 7 Pulses per revolution
+0x27e		int16			External (aquabus) fan 7 Control mode
+0x280		int16			External (aquabus) fan 7 Data source
+0x282		int16			External (aquabus) fan 7 Programmable fuse setting in mA
+
+0x284		int16			External (aquabus) fan 8 Min RPM
+0x286		int16			External (aquabus) fan 8 Max RPM
+0x288		int16			External (aquabus) fan 8 Min duty cycle
+0x28a		int16			External (aquabus) fan 8 Max duty cycle
+0x28c		int16			External (aquabus) fan 8 Startboost duty cycle
+0x28e		int16			External (aquabus) fan 8 Startboost duration
+0x290		int16			External (aquabus) fan 8 Pulses per revolution
+0x292		int16			External (aquabus) fan 8 Control mode
+0x294		int16			External (aquabus) fan 8 Data source
+0x296		int16			External (aquabus) fan 8 Programmable fuse setting in mA
+
+0x298		int16			External (aquabus) fan 9 Min RPM
+0x29a		int16			External (aquabus) fan 9 Max RPM
+0x29c		int16			External (aquabus) fan 9 Min duty cycle
+0x29e		int16			External (aquabus) fan 9 Max duty cycle
+0x2a0		int16			External (aquabus) fan 9 Startboost duty cycle
+0x2a2		int16			External (aquabus) fan 9 Startboost duration
+0x2a4		int16			External (aquabus) fan 9 Pulses per revolution
+0x2a6		int16			External (aquabus) fan 9 Control mode
+0x2a8		int16			External (aquabus) fan 9 Data source
+0x2aa		int16			External (aquabus) fan 9 Programmable fuse setting in mA
+
+0x2ac		int16			External (aquabus) fan 10 Min RPM
+0x2ae		int16			External (aquabus) fan 10 Max RPM
+0x2b0		int16			External (aquabus) fan 10 Min duty cycle
+0x2b2		int16			External (aquabus) fan 10 Max duty cycle
+0x2b4		int16			External (aquabus) fan 10 Startboost duty cycle
+0x2b6		int16			External (aquabus) fan 10 Startboost duration
+0x2b8		int16			External (aquabus) fan 10 Pulses per revolution
+0x2ba		int16			External (aquabus) fan 10 Control mode
+0x2bc		int16			External (aquabus) fan 10 Data source
+0x2be		int16			External (aquabus) fan 10 Programmable fuse setting in mA
+
+0x2c0		int16			External (aquabus) fan 11 Min RPM
+0x2c2		int16			External (aquabus) fan 11 Max RPM
+0x2c4		int16			External (aquabus) fan 11 Min duty cycle
+0x2c6		int16			External (aquabus) fan 11 Max duty cycle
+0x2c8		int16			External (aquabus) fan 11 Startboost duty cycle
+0x2ca		int16			External (aquabus) fan 11 Startboost duration
+0x2cc		int16			External (aquabus) fan 11 Pulses per revolution
+0x2ce		int16			External (aquabus) fan 11 Control mode
+0x2d0		int16			External (aquabus) fan 11 Data source
+0x2d2		int16			External (aquabus) fan 11 Programmable fuse setting in mA
+
+0x2c0		int16			External (aquabus) fan 12 Min RPM
+0x2c2		int16			External (aquabus) fan 12 Max RPM
+0x2c4		int16			External (aquabus) fan 12 Min duty cycle
+0x2c6		int16			External (aquabus) fan 12 Max duty cycle
+0x2c8		int16			External (aquabus) fan 12 Startboost duty cycle
+0x2ca		int16			External (aquabus) fan 12 Startboost duration
+0x2cc		int16			External (aquabus) fan 12 Pulses per revolution
+0x2ce		int16			External (aquabus) fan 12 Control mode
+0x2d0		int16			External (aquabus) fan 12 Data source
+0x2d2		int16			External (aquabus) fan 12 Programmable fuse setting in mA
+
+0x30c		int16	power_output_1_min_power	Power ouput 1 minimum power 
+0x30e		int16	power_output_1_max_power	Power ouput 1 maximum power 
+0x310		int16	power_output_1_ds		Power ouput 1 data source
+0x312		int8	power_output_1_mode		Power ouput 1 mode
+
+0x313		int16	power_output_2_min_power	Power ouput 2 minimum power 
+0x315		int16	power_output_2_max_power	Power ouput 2 maximum power 
+0x317		int16	power_output_2_ds		Power ouput 2 data source
+0x319		int8	power_output_2_mode		Power ouput 2 mode
+
+0x31a		int16	power_output_aq_relay_ds	Power ouput Aquaero relay data source
+0x31c		int8	power_output_aq_relay_config	Power ouput Aquaero relay configuration
+0x31d		int16	power_output_aq_relay_switch_thresh	Power ouput Aquaero relay switch threshold
+
+0x3e8		int16	two_point_controller_1_ds		Two point controller 1 data source
+0x3ea		int16	two_point_controller_1_upper_limit	Two point controller 1 upper limit
+0x3ec		int16	two_point_controller_1_lower_limit	Two point controller 1 lower limit
+
+0x3ee		int16	two_point_controller_2_ds		Two point controller 2 data source
+0x3f0		int16	two_point_controller_2_upper_limit	Two point controller 2 upper limit
+0x3f2		int16	two_point_controller_2_lower_limit	Two point controller 2 lower limit
+
+0x3f4		int16	two_point_controller_3_ds		Two point controller 3 data source
+0x3f6		int16	two_point_controller_3_upper_limit	Two point controller 3 upper limit
+0x3f8		int16	two_point_controller_3_lower_limit	Two point controller 3 lower limit
+
+0x3fa		int16	two_point_controller_4_ds		Two point controller 4 data source
+0x3fc		int16	two_point_controller_4_upper_limit	Two point controller 4 upper limit
+0x3fe		int16	two_point_controller_4_lower_limit	Two point controller 4 lower limit
+
+0x400		int16	two_point_controller_5_ds		Two point controller 5 data source
+0x402		int16	two_point_controller_5_upper_limit	Two point controller 5 upper limit
+0x404		int16	two_point_controller_5_lower_limit	Two point controller 5 lower limit
+
+0x406		int16	two_point_controller_6_ds		Two point controller 6 data source
+0x408		int16	two_point_controller_6_upper_limit	Two point controller 6 upper limit
+0x40a		int16	two_point_controller_6_lower_limit	Two point controller 6 lower limit
+
+0x40c		int16	two_point_controller_7_ds		Two point controller 7 data source
+0x40e		int16	two_point_controller_7_upper_limit	Two point controller 7 upper limit
+0x410		int16	two_point_controller_7_lower_limit	Two point controller 7 lower limit
+
+0x412		int16	two_point_controller_8_ds		Two point controller 8 data source
+0x414		int16	two_point_controller_8_upper_limit	Two point controller 8 upper limit
+0x416		int16	two_point_controller_8_lower_limit	Two point controller 8 lower limit
+
+0x418		int16	two_point_controller_9_ds		Two point controller 9 data source
+0x41a		int16	two_point_controller_9_upper_limit	Two point controller 9 upper limit
+0x41c		int16	two_point_controller_9_lower_limit	Two point controller 9 lower limit
+
+0x41e		int16	two_point_controller_10_ds		Two point controller 10 data source
+0x420		int16	two_point_controller_10_upper_limit	Two point controller 10 upper limit
+0x422		int16	two_point_controller_10_lower_limit	Two point controller 10 lower limit
+
+0x424		int16	two_point_controller_11_ds		Two point controller 11 data source
+0x426		int16	two_point_controller_11_upper_limit	Two point controller 11 upper limit
+0x428		int16	two_point_controller_11_lower_limit	Two point controller 11 lower limit
+
+0x42a		int16	two_point_controller_12_ds		Two point controller 12 data source
+0x42c		int16	two_point_controller_12_upper_limit	Two point controller 12 upper limit
+0x42e		int16	two_point_controller_12_lower_limit	Two point controller 12 lower limit
+
+0x430		int16	two_point_controller_13_ds		Two point controller 13 data source
+0x432		int16	two_point_controller_13_upper_limit	Two point controller 13 upper limit
+0x434		int16	two_point_controller_13_lower_limit	Two point controller 13 lower limit
+
+0x436		int16	two_point_controller_14_ds		Two point controller 14 data source
+0x438		int16	two_point_controller_14_upper_limit	Two point controller 14 upper limit
+0x43a		int16	two_point_controller_14_lower_limit	Two point controller 14 lower limit
+
+0x43c		int16	two_point_controller_15_ds		Two point controller 15 data source
+0x43e		int16	two_point_controller_15_upper_limit	Two point controller 15 upper limit
+0x440		int16	two_point_controller_15_lower_limit	Two point controller 15 lower limit
+
+0x442		int16	two_point_controller_16_ds		Two point controller 16 data source
+0x444		int16	two_point_controller_16_upper_limit	Two point controller 16 upper limit
+0x446		int16	two_point_controller_16_lower_limit	Two point controller 16 lower limit
+
+0x448		int16	preset_value_controller 1		Preset value controller 1
+0x44a		int16	preset_value_controller 2		Preset value controller 2
+0x44c		int16	preset_value_controller 3		Preset value controller 3
+0x44e		int16	preset_value_controller 4		Preset value controller 4
+0x450		int16	preset_value_controller 5		Preset value controller 5
+0x452		int16	preset_value_controller 6		Preset value controller 6
+0x454		int16	preset_value_controller 7		Preset value controller 7
+0x456		int16	preset_value_controller 8		Preset value controller 8
+0x458		int16	preset_value_controller 9		Preset value controller 9
+0x45a		int16	preset_value_controller 10		Preset value controller 10
+0x45c		int16	preset_value_controller 11		Preset value controller 11
+0x45e		int16	preset_value_controller 12		Preset value controller 12
+0x460		int16	preset_value_controller 13		Preset value controller 13
+0x462		int16	preset_value_controller 14		Preset value controller 14
+0x464		int16	preset_value_controller 15		Preset value controller 15
+0x466		int16	preset_value_controller 16		Preset value controller 16
+0x468		int16	preset_value_controller 17		Preset value controller 17
+0x46a		int16	preset_value_controller 18		Preset value controller 18
+0x46c		int16	preset_value_controller 19		Preset value controller 19
+0x46e		int16	preset_value_controller 20		Preset value controller 20
+0x470		int16	preset_value_controller 21		Preset value controller 21
+0x472		int16	preset_value_controller 22		Preset value controller 22
+0x474		int16	preset_value_controller 23		Preset value controller 23
+0x476		int16	preset_value_controller 24		Preset value controller 24
+0x478		int16	preset_value_controller 25		Preset value controller 25
+0x47a		int16	preset_value_controller 26		Preset value controller 26
+0x47c		int16	preset_value_controller 27		Preset value controller 27
+0x47e		int16	preset_value_controller 28		Preset value controller 28
+0x480		int16	preset_value_controller 29		Preset value controller 29
+0x482		int16	preset_value_controller 30		Preset value controller 30
+0x484		int16	preset_value_controller 31		Preset value controller 31
+0x486		int16	preset_value_controller 32		Preset value controller 32
+
+0x488		int16	target_val_controller_1_ds		Target value controller 1 data source 
+0x48a		int16	target_val_controller_1_target_val	Target value controller 1 target value
+0x48c		int16	target_val_controller_1_factor_p	Target value controller 1 factor P
+0x48e		int16	target_val_controller_1_factor_i	Target value controller 1 factor I
+0x490		int16	target_val_controller_1_factor_d	Target value controller 1 factor D
+0x492		int16	target_val_controller_1_reset_time	Target value controller 1 reset time
+0x494		int16	target_val_controller_1_hysteresis	Target value controller 1 hysteresis
+
+0x496		int16	target_val_controller_2_ds		Target value controller 2 data source 
+0x498		int16	target_val_controller_2_target_val	Target value controller 2 target value
+0x49a		int16	target_val_controller_2_factor_p	Target value controller 2 factor P
+0x49c		int16	target_val_controller_2_factor_i	Target value controller 2 factor I
+0x49e		int16	target_val_controller_2_factor_d	Target value controller 2 factor D
+0x4a0		int16	target_val_controller_2_reset_time	Target value controller 2 reset time
+0x4a2		int16	target_val_controller_2_hysteresis	Target value controller 2 hysteresis
+
+0x4a4		int16	target_val_controller_3_ds		Target value controller 3 data source 
+0x4a6		int16	target_val_controller_3_target_val	Target value controller 3 target value
+0x4a8		int16	target_val_controller_3_factor_p	Target value controller 3 factor P
+0x4aa		int16	target_val_controller_3_factor_i	Target value controller 3 factor I
+0x4ac		int16	target_val_controller_3_factor_d	Target value controller 3 factor D
+0x4ae		int16	target_val_controller_3_reset_time	Target value controller 3 reset time
+0x4b0		int16	target_val_controller_3_hysteresis	Target value controller 3 hysteresis
+
+0x4b2		int16	target_val_controller_4_ds		Target value controller 4 data source 
+0x4b4		int16	target_val_controller_4_target_val	Target value controller 4 target value
+0x4b6		int16	target_val_controller_4_factor_p	Target value controller 4 factor P
+0x4b8		int16	target_val_controller_4_factor_i	Target value controller 4 factor I
+0x4ba		int16	target_val_controller_4_factor_d	Target value controller 4 factor D
+0x4bc		int16	target_val_controller_4_reset_time	Target value controller 4 reset time
+0x4be		int16	target_val_controller_4_hysteresis	Target value controller 4 hysteresis
+
+0x4c0		int16	target_val_controller_5_ds		Target value controller 5 data source 
+0x4c2		int16	target_val_controller_5_target_val	Target value controller 5 target value
+0x4c4		int16	target_val_controller_5_factor_p	Target value controller 5 factor P
+0x4c6		int16	target_val_controller_5_factor_i	Target value controller 5 factor I
+0x4c8		int16	target_val_controller_5_factor_d	Target value controller 5 factor D
+0x4ca		int16	target_val_controller_5_reset_time	Target value controller 5 reset time
+0x4cc		int16	target_val_controller_5_hysteresis	Target value controller 5 hysteresis
+
+0x4ce		int16	target_val_controller_6_ds		Target value controller 6 data source 
+0x4d0		int16	target_val_controller_6_target_val	Target value controller 6 target value
+0x4d2		int16	target_val_controller_6_factor_p	Target value controller 6 factor P
+0x4d4		int16	target_val_controller_6_factor_i	Target value controller 6 factor I
+0x4d6		int16	target_val_controller_6_factor_d	Target value controller 6 factor D
+0x4d8		int16	target_val_controller_6_reset_time	Target value controller 6 reset time
+0x4da		int16	target_val_controller_6_hysteresis	Target value controller 6 hysteresis
+
+0x4dc		int16	target_val_controller_7_ds		Target value controller 7 data source 
+0x4de		int16	target_val_controller_7_target_val	Target value controller 7 target value
+0x4e0		int16	target_val_controller_7_factor_p	Target value controller 7 factor P
+0x4e2		int16	target_val_controller_7_factor_i	Target value controller 7 factor I
+0x4e4		int16	target_val_controller_7_factor_d	Target value controller 7 factor D
+0x4e6		int16	target_val_controller_7_reset_time	Target value controller 7 reset time
+0x4e8		int16	target_val_controller_7_hysteresis	Target value controller 7 hysteresis
+
+0x4ea		int16	target_val_controller_8_ds		Target value controller 8 data source 
+0x4ec		int16	target_val_controller_8_target_val	Target value controller 8 target value
+0x4ee		int16	target_val_controller_8_factor_p	Target value controller 8 factor P
+0x4f0		int16	target_val_controller_8_factor_i	Target value controller 8 factor I
+0x4f2		int16	target_val_controller_8_factor_d	Target value controller 8 factor D
+0x4f4		int16	target_val_controller_8_reset_time	Target value controller 8 reset time
+0x4f6		int16	target_val_controller_8_hysteresis	Target value controller 8 hysteresis
+
+0x4f8		int16	curve_controller_1_ds		Curve controller 1 data source
+0x4fa		int16	curve_controller_1_startup_temp	Curve controller 1 startup temperature		
+0x4fc		int16	curve_controller_1_pt_1_temp	Curve controller 1 point 1 temperature	
+0x4fe		int16	curve_controller_1_pt_2_temp	Curve controller 1 point 2 temperature
+0x500		int16	curve_controller_1_pt_3_temp	Curve controller 1 point 3 temperature
+0x502		int16	curve_controller_1_pt_4_temp	Curve controller 1 point 4 temperature
+0x504		int16	curve_controller_1_pt_5_temp	Curve controller 1 point 5 temperature
+0x506		int16	curve_controller_1_pt_6_temp	Curve controller 1 point 6 temperature
+0x508		int16	curve_controller_1_pt_7_temp	Curve controller 1 point 7 temperature
+0x50a		int16	curve_controller_1_pt_8_temp	Curve controller 1 point 8 temperature
+0x50c		int16	curve_controller_1_pt_9_temp	Curve controller 1 point 9 temperature
+0x50e		int16	curve_controller_1_pt_10_temp	Curve controller 1 point 10 temperature
+0x510		int16	curve_controller_1_pt_11_temp	Curve controller 1 point 11 temperature
+0x512		int16	curve_controller_1_pt_12_temp	Curve controller 1 point 12 temperature
+0x514		int16	curve_controller_1_pt_13_temp	Curve controller 1 point 13 temperature
+0x516		int16	curve_controller_1_pt_14_temp	Curve controller 1 point 14 temperature
+0x518		int16	curve_controller_1_pt_15_temp	Curve controller 1 point 15 temperature
+0x51a		int16	curve_controller_1_pt_16_temp	Curve controller 1 point 16 temperature
+0x51c		int16	curve_controller_1_pt_1_percent	Curve controller 1 point 1 percent
+0x51e		int16	curve_controller_1_pt_2_percent	Curve controller 1 point 2 percent
+0x520		int16	curve_controller_1_pt_3_percent	Curve controller 1 point 3 percent
+0x522		int16	curve_controller_1_pt_4_percent	Curve controller 1 point 4 percent
+0x524		int16	curve_controller_1_pt_5_percent	Curve controller 1 point 5 percent
+0x526		int16	curve_controller_1_pt_6_percent	Curve controller 1 point 6 percent
+0x528		int16	curve_controller_1_pt_7_percent	Curve controller 1 point 7 percent
+0x52a		int16	curve_controller_1_pt_8_percent	Curve controller 1 point 8 percent
+0x52c		int16	curve_controller_1_pt_9_percent	Curve controller 1 point 9 percent
+0x52e		int16	curve_controller_1_pt_10_percent	Curve controller 1 point 10 percent
+0x530		int16	curve_controller_1_pt_11_percent	Curve controller 1 point 11 percent
+0x532		int16	curve_controller_1_pt_12_percent	Curve controller 1 point 12 percent
+0x534		int16	curve_controller_1_pt_13_percent	Curve controller 1 point 13 percent
+0x536		int16	curve_controller_1_pt_14_percent	Curve controller 1 point 14 percent
+0x538		int16	curve_controller_1_pt_15_percent	Curve controller 1 point 15 percent
+0x53a		int16	curve_controller_1_pt_16_percent	Curve controller 1 point 16 percent
+
+0x53c		int16	curve_controller_2_ds		Curve controller 2 data source
+0x53e		int16	curve_controller_2_startup_temp	Curve controller 2 startup temperature		
+0x540		int16	curve_controller_2_pt_1_temp	Curve controller 2 point 1 temperature	
+0x542		int16	curve_controller_2_pt_2_temp	Curve controller 2 point 2 temperature
+0x544		int16	curve_controller_2_pt_3_temp	Curve controller 2 point 3 temperature
+0x546		int16	curve_controller_2_pt_4_temp	Curve controller 2 point 4 temperature
+0x548		int16	curve_controller_2_pt_5_temp	Curve controller 2 point 5 temperature
+0x54a		int16	curve_controller_2_pt_6_temp	Curve controller 2 point 6 temperature
+0x54c		int16	curve_controller_2_pt_7_temp	Curve controller 2 point 7 temperature
+0x54e		int16	curve_controller_2_pt_8_temp	Curve controller 2 point 8 temperature
+0x550		int16	curve_controller_2_pt_9_temp	Curve controller 2 point 9 temperature
+0x552		int16	curve_controller_2_pt_10_temp	Curve controller 2 point 10 temperature
+0x554		int16	curve_controller_2_pt_11_temp	Curve controller 2 point 11 temperature
+0x556		int16	curve_controller_2_pt_12_temp	Curve controller 2 point 12 temperature
+0x558		int16	curve_controller_2_pt_13_temp	Curve controller 2 point 13 temperature
+0x55a		int16	curve_controller_2_pt_14_temp	Curve controller 2 point 14 temperature
+0x55c		int16	curve_controller_2_pt_15_temp	Curve controller 2 point 15 temperature
+0x55e		int16	curve_controller_2_pt_16_temp	Curve controller 2 point 16 temperature
+0x560		int16	curve_controller_2_pt_1_percent	Curve controller 2 point 1 percent
+0x562		int16	curve_controller_2_pt_2_percent	Curve controller 2 point 2 percent
+0x564		int16	curve_controller_2_pt_3_percent	Curve controller 2 point 3 percent
+0x566		int16	curve_controller_2_pt_4_percent	Curve controller 2 point 4 percent
+0x568		int16	curve_controller_2_pt_5_percent	Curve controller 2 point 5 percent
+0x56a		int16	curve_controller_2_pt_6_percent	Curve controller 2 point 6 percent
+0x56c		int16	curve_controller_2_pt_7_percent	Curve controller 2 point 7 percent
+0x56e		int16	curve_controller_2_pt_8_percent	Curve controller 2 point 8 percent
+0x570		int16	curve_controller_2_pt_9_percent	Curve controller 2 point 9 percent
+0x572		int16	curve_controller_2_pt_10_percent	Curve controller 2 point 10 percent
+0x574		int16	curve_controller_2_pt_11_percent	Curve controller 2 point 11 percent
+0x576		int16	curve_controller_2_pt_12_percent	Curve controller 2 point 12 percent
+0x578		int16	curve_controller_2_pt_13_percent	Curve controller 2 point 13 percent
+0x57a		int16	curve_controller_2_pt_14_percent	Curve controller 2 point 14 percent
+0x57c		int16	curve_controller_2_pt_15_percent	Curve controller 2 point 15 percent
+0x57e		int16	curve_controller_2_pt_16_percent	Curve controller 2 point 16 percent
+
+0x580		int16	curve_controller_3_ds		Curve controller 3 data source
+0x582		int16	curve_controller_3_startup_temp	Curve controller 3 startup temperature		
+0x584		int16	curve_controller_3_pt_1_temp	Curve controller 3 point 1 temperature	
+0x586		int16	curve_controller_3_pt_2_temp	Curve controller 3 point 2 temperature
+0x588		int16	curve_controller_3_pt_3_temp	Curve controller 3 point 3 temperature
+0x58a		int16	curve_controller_3_pt_4_temp	Curve controller 3 point 4 temperature
+0x58c		int16	curve_controller_3_pt_5_temp	Curve controller 3 point 5 temperature
+0x58e		int16	curve_controller_3_pt_6_temp	Curve controller 3 point 6 temperature
+0x590		int16	curve_controller_3_pt_7_temp	Curve controller 3 point 7 temperature
+0x592		int16	curve_controller_3_pt_8_temp	Curve controller 3 point 8 temperature
+0x594		int16	curve_controller_3_pt_9_temp	Curve controller 3 point 9 temperature
+0x596		int16	curve_controller_3_pt_10_temp	Curve controller 3 point 10 temperature
+0x598		int16	curve_controller_3_pt_11_temp	Curve controller 3 point 11 temperature
+0x59a		int16	curve_controller_3_pt_12_temp	Curve controller 3 point 12 temperature
+0x59c		int16	curve_controller_3_pt_13_temp	Curve controller 3 point 13 temperature
+0x59e		int16	curve_controller_3_pt_14_temp	Curve controller 3 point 14 temperature
+0x5a0		int16	curve_controller_3_pt_15_temp	Curve controller 3 point 15 temperature
+0x5a2		int16	curve_controller_3_pt_16_temp	Curve controller 3 point 16 temperature
+0x5a4		int16	curve_controller_3_pt_1_percent	Curve controller 3 point 1 percent
+0x5a6		int16	curve_controller_3_pt_2_percent	Curve controller 3 point 2 percent
+0x5a8		int16	curve_controller_3_pt_3_percent	Curve controller 3 point 3 percent
+0x5aa		int16	curve_controller_3_pt_4_percent	Curve controller 3 point 4 percent
+0x5ac		int16	curve_controller_3_pt_5_percent	Curve controller 3 point 5 percent
+0x5ae		int16	curve_controller_3_pt_6_percent	Curve controller 3 point 6 percent
+0x5b0		int16	curve_controller_3_pt_7_percent	Curve controller 3 point 7 percent
+0x5b2		int16	curve_controller_3_pt_8_percent	Curve controller 3 point 8 percent
+0x5b4		int16	curve_controller_3_pt_9_percent	Curve controller 3 point 9 percent
+0x5b6		int16	curve_controller_3_pt_10_percent	Curve controller 3 point 10 percent
+0x5b8		int16	curve_controller_3_pt_11_percent	Curve controller 3 point 11 percent
+0x5ba		int16	curve_controller_3_pt_12_percent	Curve controller 3 point 12 percent
+0x5bc		int16	curve_controller_3_pt_13_percent	Curve controller 3 point 13 percent
+0x5be		int16	curve_controller_3_pt_14_percent	Curve controller 3 point 14 percent
+0x5c0		int16	curve_controller_3_pt_15_percent	Curve controller 3 point 15 percent
+0x5c2		int16	curve_controller_3_pt_16_percent	Curve controller 3 point 16 percent
+
+0x5c4		int16	curve_controller_4_ds		Curve controller 4 data source
+0x5c6		int16	curve_controller_4_startup_temp	Curve controller 4 startup temperature		
+0x5c8		int16	curve_controller_4_pt_1_temp	Curve controller 4 point 1 temperature	
+0x5ca		int16	curve_controller_4_pt_2_temp	Curve controller 4 point 2 temperature
+0x5cc		int16	curve_controller_4_pt_3_temp	Curve controller 4 point 3 temperature
+0x5ce		int16	curve_controller_4_pt_4_temp	Curve controller 4 point 4 temperature
+0x5d0		int16	curve_controller_4_pt_5_temp	Curve controller 4 point 5 temperature
+0x5d2		int16	curve_controller_4_pt_6_temp	Curve controller 4 point 6 temperature
+0x5d4		int16	curve_controller_4_pt_7_temp	Curve controller 4 point 7 temperature
+0x5d6		int16	curve_controller_4_pt_8_temp	Curve controller 4 point 8 temperature
+0x5d8		int16	curve_controller_4_pt_9_temp	Curve controller 4 point 9 temperature
+0x5da		int16	curve_controller_4_pt_10_temp	Curve controller 4 point 10 temperature
+0x5dc		int16	curve_controller_4_pt_11_temp	Curve controller 4 point 11 temperature
+0x5de		int16	curve_controller_4_pt_12_temp	Curve controller 4 point 12 temperature
+0x5e0		int16	curve_controller_4_pt_13_temp	Curve controller 4 point 13 temperature
+0x5e2		int16	curve_controller_4_pt_14_temp	Curve controller 4 point 14 temperature
+0x5e4		int16	curve_controller_4_pt_15_temp	Curve controller 4 point 15 temperature
+0x5e6		int16	curve_controller_4_pt_16_temp	Curve controller 4 point 16 temperature
+0x5e8		int16	curve_controller_4_pt_1_percent	Curve controller 4 point 1 percent
+0x5ea		int16	curve_controller_4_pt_2_percent	Curve controller 4 point 2 percent
+0x5ec		int16	curve_controller_4_pt_3_percent	Curve controller 4 point 3 percent
+0x5ee		int16	curve_controller_4_pt_4_percent	Curve controller 4 point 4 percent
+0x5f0		int16	curve_controller_4_pt_5_percent	Curve controller 4 point 5 percent
+0x5f2		int16	curve_controller_4_pt_6_percent	Curve controller 4 point 6 percent
+0x5f4		int16	curve_controller_4_pt_7_percent	Curve controller 4 point 7 percent
+0x5f6		int16	curve_controller_4_pt_8_percent	Curve controller 4 point 8 percent
+0x5f8		int16	curve_controller_4_pt_9_percent	Curve controller 4 point 9 percent
+0x5fa		int16	curve_controller_4_pt_10_percent	Curve controller 4 point 10 percent
+0x5fc		int16	curve_controller_4_pt_11_percent	Curve controller 4 point 11 percent
+0x5fe		int16	curve_controller_4_pt_12_percent	Curve controller 4 point 12 percent
+0x600		int16	curve_controller_4_pt_13_percent	Curve controller 4 point 13 percent
+0x602		int16	curve_controller_4_pt_14_percent	Curve controller 4 point 14 percent
+0x604		int16	curve_controller_4_pt_15_percent	Curve controller 4 point 15 percent
+0x606		int16	curve_controller_4_pt_16_percent	Curve controller 4 point 16 percent
+
+0x608		int16	rgb_led_controller_data_source		RGB LED data source
+0x60a		int8	rgb_led_controller_pulsating_brightness	RGB LED pulsating brightness
+0x60b		int16	rgb_led_controller_low_temp_temp	RGB LED low temperature temperature setting
+0x60d		int16	rgb_led_controller_low_temp_red_led	RGB LED low temperature red LED
+0x60f		int16	rgb_led_controller_low_temp_green_led	RGB LED low temperature green LED
+0x611		int16	rgb_led_controller_low_temp_blue_led	RGB LED low temperature blue LED
+0x613		int16	rgb_led_controller_optimum_temp_temp	RGB LED optimum temperature temperature setting
+0x615		int16	rgb_led_controller_optimum_temp_red_led	RGB LED optimum temperature red LED
+0x617		int16	rgb_led_controller_optimum_temp_green_led	RGB LED optimum temperature green LED
+0x619		int16	rgb_led_controller_optimum_temp_blue_led	RGB LED optimum temperature blue LED
+0x61b		int16	rgb_led_controller_high_temp_temp	RGB LED high temperature temperature setting
+0x61d		int16	rgb_led_controller_high_temp_red_led	RGB LED high temperature red LED
+0x61f		int16	rgb_led_controller_high_temp_green_led	RGB LED high temperature green LED
+0x621		int16	rgb_led_controller_high_temp_blue_led	RGB LED high temperature blue LED
+
+0x623		int8	data_log_1_interval			Data log 1 interval
+0x624		int16	data_log_1_data_source			Data log 1 data source
+
+0x626		int8	data_log_2_interval			Data log 2 interval
+0x627		int16	data_log_2_data_source			Data log 2 data source
+
+0x629		int8	data_log_3_interval			Data log 3 interval
+0x62a		int16	data_log_3_data_source			Data log 3 data source
+
+0x62c		int8	data_log_4_interval			Data log 4 interval
+0x62d		int16	data_log_4_data_source			Data log 4 data source
+
+0x62f		int8	data_log_5_interval			Data log 5 interval
+0x630		int16	data_log_5_data_source			Data log 5 data source
+
+0x632		int8	data_log_6_interval			Data log 6 interval
+0x633		int16	data_log_6_data_source			Data log 6 data source
+
+0x635		int8	data_log_7_interval			Data log 7 interval
+0x636		int16	data_log_7_data_source			Data log 7 data source
+
+0x638		int8	data_log_8_interval			Data log 8 interval
+0x639		int16	data_log_8_data_source			Data log 8 data source
+
+0x63b		int8	data_log_9_interval			Data log 9 interval
+0x63c		int16	data_log_9_data_source			Data log 9 data source
+
+0x63e		int8	data_log_10_interval			Data log 10 interval
+0x63f		int16	data_log_10_data_source			Data log 10 data source
+
+0x641		int8	data_log_11_interval			Data log 11 interval
+0x642		int16	data_log_11_data_source			Data log 11 data source
+
+0x644		int8	data_log_12_interval			Data log 12 interval
+0x645		int16	data_log_12_data_source			Data log 12 data source
+
+0x647		int8	data_log_13_interval			Data log 13 interval
+0x648		int16	data_log_13_data_source			Data log 13 data source
+
+0x64a		int8	data_log_14_interval			Data log 14 interval
+0x64b		int16	data_log_14_data_source			Data log 14 data source
+
+0x64d		int8	data_log_15_interval			Data log 15 interval
+0x64e		int16	data_log_15_data_source			Data log 15 data source
+
+0x650		int8	data_log_16_interval			Data log 16 interval
+0x651		int16	data_log_16_data_source			Data log 16 data source
+
+0x653		int16	alarm_normal_op 1st_action		normal operation 1st action
+0x655		int16	alarm_normal_op 2nd_action		normal operation 2nd action
+0x657		int16	alarm_normal_op 3rd_action		normal operation 3rd action
+
+0x659		int16	alarm_warning 1st_action		warning 1st action
+0x65b		int16	alarm_warning 2nd_action		warning operation 2nd action
+0x65d		int16	alarm_warning 3rd_action		warning operation 3rd action
+
+0x65f		int16	alarm_alarm 1st_action			alarm 1st action
+0x661		int16	alarm_alarm 2nd_action			alarm operation 2nd action
+0x663		int16	alarm_alarm 3rd_action			alarm operation 3rd action
+
+0x665		int16	alarm_alarm_warn_4 1st_action		alarm warning 4 1st action
+0x667		int16	alarm_alarm_warn_4 2nd_action		alarm warning 4 operation 2nd action
+0x669		int16	alarm_alarm_warn_4 3rd_action		alarm warning 4 warning operation 3rd action
+
+0x66b		int16	alarm_alarm_warn_5 1st_action		alarm warning 5 1st action
+0x66d		int16	alarm_alarm_warn_5 2nd_action		alarm warning 5 operation 2nd action
+0x66f		int16	alarm_alarm_warn_5 3rd_action		alarm warning 5 warning operation 3rd action
+
+0x671		int16	alarm_alarm_warn_6 1st_action		alarm warning 6 1st action
+0x673		int16	alarm_alarm_warn_6 2nd_action		alarm warning 6 operation 2nd action
+0x675		int16	alarm_alarm_warn_6 3rd_action		alarm warning 6 warning operation 3rd action
+
+0x677		int16	alarm_alarm_warn_7 1st_action		alarm warning 7 1st action
+0x679		int16	alarm_alarm_warn_7 2nd_action		alarm warning 7 operation 2nd action
+0x67b		int16	alarm_alarm_warn_7 3rd_action		alarm warning 7 warning operation 3rd action
+
+0x67d		int16	alarm_alarm_warn_8 1st_action		alarm warning 8 1st action
+0x67f		int16	alarm_alarm_warn_8 2nd_action		alarm warning 8 operation 2nd action
+0x681		int16	alarm_alarm_warn_8 3rd_action		alarm warning 8 warning operation 3rd action
+
+0x683		int16	suppress_alarm_at_poweron		Duration to supress alarm at power on
+
+0x685		int16	alarm_temp_1 data_souce			Temperature alarm 1 data source
+0x687		int8	alarm_temp_1 configuration		Temperature alarm 1 configuration
+0x688		int16	alarm_temp_1 limit_for_warning		Temperature alarm 1 limit for warning
+0x68a		int8	alarm_temp_1 set_warning_level		Temperature alarm 1 set warning level
+0x68b		int16	alarm_temp_1 limit_for_alarm		Temperature alarm 1 limit for alarm
+0x68d		int8	alarm_temp_1 set_alrm_level		Temperature alarm 1 set alarm level
+
+0x68e		int16	alarm_temp_2 data_souce			Temperature alarm 2 data source
+0x690		int8	alarm_temp_2 configuration		Temperature alarm 2 configuration
+0x691		int16	alarm_temp_2 limit_for_warning		Temperature alarm 2 limit for warning
+0x693		int8	alarm_temp_2 set_warning_level		Temperature alarm 2 set warning level
+0x694		int16	alarm_temp_2 limit_for_alarm		Temperature alarm 2 limit for alarm
+0x696		int8	alarm_temp_2 set_alrm_level		Temperature alarm 2 set alarm level
+
+0x697		int16	alarm_temp_3 data_souce			Temperature alarm 3 data source
+0x699		int8	alarm_temp_3 configuration		Temperature alarm 3 configuration
+0x69a		int16	alarm_temp_3 limit_for_warning		Temperature alarm 3 limit for warning
+0x69c		int8	alarm_temp_3 set_warning_level		Temperature alarm 3 set warning level
+0x69d		int16	alarm_temp_3 limit_for_alarm		Temperature alarm 3 limit for alarm
+0x69f		int8	alarm_temp_3 set_alrm_level		Temperature alarm 3 set alarm level
+
+0x6a0		int16	alarm_temp_4 data_souce			Temperature alarm 4 data source
+0x6a2		int8	alarm_temp_4 configuration		Temperature alarm 4 configuration
+0x6a3		int16	alarm_temp_4 limit_for_warning		Temperature alarm 4 limit for warning
+0x6a5		int8	alarm_temp_4 set_warning_level		Temperature alarm 4 set warning level
+0x6a6		int16	alarm_temp_4 limit_for_alarm		Temperature alarm 4 limit for alarm
+0x6a8		int8	alarm_temp_4 set_alrm_level		Temperature alarm 4 set alarm level
+
+0x6a9		int16	alarm_temp_5 data_souce			Temperature alarm 5 data source
+0x6ab		int8	alarm_temp_5 configuration		Temperature alarm 5 configuration
+0x6ac		int16	alarm_temp_5 limit_for_warning		Temperature alarm 5 limit for warning
+0x6ae		int8	alarm_temp_5 set_warning_level		Temperature alarm 5 set warning level
+0x6af		int16	alarm_temp_5 limit_for_alarm		Temperature alarm 5 limit for alarm
+0x6b1		int8	alarm_temp_5 set_alrm_level		Temperature alarm 5 set alarm level
+
+0x6b2		int16	alarm_temp_6 data_souce			Temperature alarm 6 data source
+0x6b4		int8	alarm_temp_6 configuration		Temperature alarm 6 configuration
+0x6b5		int16	alarm_temp_6 limit_for_warning		Temperature alarm 6 limit for warning
+0x6b7		int8	alarm_temp_6 set_warning_level		Temperature alarm 6 set warning level
+0x6b8		int16	alarm_temp_6 limit_for_alarm		Temperature alarm 6 limit for alarm
+0x6ba		int8	alarm_temp_6 set_alrm_level		Temperature alarm 6 set alarm level
+
+0x6bb		int16	alarm_temp_7 data_souce			Temperature alarm 7 data source
+0x6bd		int8	alarm_temp_7 configuration		Temperature alarm 7 configuration
+0x6be		int16	alarm_temp_7 limit_for_warning		Temperature alarm 7 limit for warning
+0x6c0		int8	alarm_temp_7 set_warning_level		Temperature alarm 7 set warning level
+0x6c1		int16	alarm_temp_7 limit_for_alarm		Temperature alarm 7 limit for alarm
+0x6c3		int8	alarm_temp_7 set_alrm_level		Temperature alarm 7 set alarm level
+
+0x6c4		int16	alarm_temp_8 data_souce			Temperature alarm 8 data source
+0x6c6		int8	alarm_temp_8 configuration		Temperature alarm 8 configuration
+0x6c7		int16	alarm_temp_8 limit_for_warning		Temperature alarm 8 limit for warning
+0x6c9		int8	alarm_temp_8 set_warning_level		Temperature alarm 8 set warning level
+0x6ca		int16	alarm_temp_8 limit_for_alarm		Temperature alarm 8 limit for alarm
+0x6cc		int8	alarm_temp_8 set_alrm_level		Temperature alarm 8 set alarm level
+
+0x6cd		int16	alarm_temp_9 data_souce			Temperature alarm 9 data source
+0x6cf		int8	alarm_temp_9 configuration		Temperature alarm 9 configuration
+0x6d0		int16	alarm_temp_9 limit_for_warning		Temperature alarm 9 limit for warning
+0x6d2		int8	alarm_temp_9 set_warning_level		Temperature alarm 9 set warning level
+0x6d3		int16	alarm_temp_9 limit_for_alarm		Temperature alarm 9 limit for alarm
+0x6d5		int8	alarm_temp_9 set_alrm_level		Temperature alarm 9 set alarm level
+
+0x6d6		int16	alarm_temp_10 data_souce		Temperature alarm 10 data source
+0x6d8		int8	alarm_temp_10 configuration		Temperature alarm 10 configuration
+0x6d9		int16	alarm_temp_10 limit_for_warning		Temperature alarm 10 limit for warning
+0x6db		int8	alarm_temp_10 set_warning_level		Temperature alarm 10 set warning level
+0x6dc		int16	alarm_temp_10 limit_for_alarm		Temperature alarm 10 limit for alarm
+0x6de		int8	alarm_temp_10 set_alrm_level		Temperature alarm 10 set alarm level
+
+0x6df		int16	alarm_temp_11 data_souce		Temperature alarm 11 data source
+0x6e1		int8	alarm_temp_11 configuration		Temperature alarm 11 configuration
+0x6e2		int16	alarm_temp_11 limit_for_warning		Temperature alarm 11 limit for warning
+0x6e4		int8	alarm_temp_11 set_warning_level		Temperature alarm 11 set warning level
+0x6e5		int16	alarm_temp_11 limit_for_alarm		Temperature alarm 11 limit for alarm
+0x6e7		int8	alarm_temp_11 set_alrm_level		Temperature alarm 11 set alarm level
+
+0x6e8		int16	alarm_temp_12 data_souce		Temperature alarm 12 data source
+0x6ea		int8	alarm_temp_12 configuration		Temperature alarm 12 configuration
+0x6eb		int16	alarm_temp_12 limit_for_warning		Temperature alarm 12 limit for warning
+0x6ed		int8	alarm_temp_12 set_warning_level		Temperature alarm 12 set warning level
+0x6ee		int16	alarm_temp_12 limit_for_alarm		Temperature alarm 12 limit for alarm
+0x6f0		int8	alarm_temp_12 set_alrm_level		Temperature alarm 12 set alarm level
+
+0x6f1		int16	alarm_temp_13 data_souce		Temperature alarm 13 data source
+0x6f3		int8	alarm_temp_13 configuration		Temperature alarm 13 configuration
+0x6f4		int16	alarm_temp_13 limit_for_warning		Temperature alarm 13 limit for warning
+0x6f6		int8	alarm_temp_13 set_warning_level		Temperature alarm 13 set warning level
+0x6f7		int16	alarm_temp_13 limit_for_alarm		Temperature alarm 13 limit for alarm
+0x6f9		int8	alarm_temp_13 set_alrm_level		Temperature alarm 13 set alarm level
+
+0x6fa		int16	alarm_temp_14 data_souce		Temperature alarm 14 data source
+0x6fc		int8	alarm_temp_14 configuration		Temperature alarm 14 configuration
+0x6fd		int16	alarm_temp_14 limit_for_warning		Temperature alarm 14 limit for warning
+0x6ff		int8	alarm_temp_14 set_warning_level		Temperature alarm 14 set warning level
+0x700		int16	alarm_temp_14 limit_for_alarm		Temperature alarm 14 limit for alarm
+0x702		int8	alarm_temp_14 set_alrm_level		Temperature alarm 14 set alarm level
+
+0x703		int16	alarm_temp_15 data_souce		Temperature alarm 15 data source
+0x705		int8	alarm_temp_15 configuration		Temperature alarm 15 configuration
+0x706		int16	alarm_temp_15 limit_for_warning		Temperature alarm 15 limit for warning
+0x708		int8	alarm_temp_15 set_warning_level		Temperature alarm 15 set warning level
+0x709		int16	alarm_temp_15 limit_for_alarm		Temperature alarm 15 limit for alarm
+0x70b		int8	alarm_temp_15 set_alrm_level		Temperature alarm 15 set alarm level
+
+0x70c		int16	alarm_temp_16 data_souce		Temperature alarm 16 data source
+0x70e		int8	alarm_temp_16 configuration		Temperature alarm 16 configuration
+0x70f		int16	alarm_temp_16 limit_for_warning		Temperature alarm 16 limit for warning
+0x711		int8	alarm_temp_16 set_warning_level		Temperature alarm 16 set warning level
+0x712		int16	alarm_temp_16 limit_for_alarm		Temperature alarm 16 limit for alarm
+0x714		int8	alarm_temp_16 set_alrm_level		Temperature alarm 16 set alarm level
+
+0x715		int8	alarm_fan_1 limit_for_warning		Fan alarm 1 limit for warning
+0x716		int8	alarm_fan_1 set_warning_level		Fan alarm 1 set warning level
+0x717		int8	alarm_fan_1 limit_for_alarm		Fan alarm 1 limit for alarm
+0x718		int8	alarm_fan_1 set_alrm_level		Fan alarm 1 set alarm level
+
+0x719		int8	alarm_fan_2 limit_for_warning		Fan alarm 2 limit for warning
+0x71a		int8	alarm_fan_2 set_warning_level		Fan alarm 2 set warning level
+0x71b		int8	alarm_fan_2 limit_for_alarm		Fan alarm 2 limit for alarm
+0x71c		int8	alarm_fan_2 set_alrm_level		Fan alarm 2 set alarm level
+
+0x71d		int8	alarm_fan_3 limit_for_warning		Fan alarm 3 limit for warning
+0x71e		int8	alarm_fan_3 set_warning_level		Fan alarm 3 set warning level
+0x71f		int8	alarm_fan_3 limit_for_alarm		Fan alarm 3 limit for alarm
+0x720		int8	alarm_fan_3 set_alrm_level		Fan alarm 3 set alarm level
+
+0x721		int8	alarm_fan_4 limit_for_warning		Fan alarm 4 limit for warning
+0x722		int8	alarm_fan_4 set_warning_level		Fan alarm 4 set warning level
+0x723		int8	alarm_fan_4 limit_for_alarm		Fan alarm 4 limit for alarm
+0x724		int8	alarm_fan_4 set_alrm_level		Fan alarm 4 set alarm level
+
+0x725		int8	alarm_fan_5 limit_for_warning		Fan alarm 5 limit for warning
+0x726		int8	alarm_fan_5 set_warning_level		Fan alarm 5 set warning level
+0x727		int8	alarm_fan_5 limit_for_alarm		Fan alarm 5 limit for alarm
+0x728		int8	alarm_fan_5 set_alrm_level		Fan alarm 5 set alarm level
+
+0x729		int8	alarm_fan_6 limit_for_warning		Fan alarm 6 limit for warning
+0x72a		int8	alarm_fan_6 set_warning_level		Fan alarm 6 set warning level
+0x72b		int8	alarm_fan_6 limit_for_alarm		Fan alarm 6 limit for alarm
+0x72c		int8	alarm_fan_6 set_alrm_level		Fan alarm 6 set alarm level
+
+0x72d		int8	alarm_fan_7 limit_for_warning		Fan alarm 7 limit for warning
+0x72e		int8	alarm_fan_7 set_warning_level		Fan alarm 7 set warning level
+0x72f		int8	alarm_fan_7 limit_for_alarm		Fan alarm 7 limit for alarm
+0x730		int8	alarm_fan_7 set_alrm_level		Fan alarm 7 set alarm level
+
+0x731		int8	alarm_fan_8 limit_for_warning		Fan alarm 8 limit for warning
+0x732		int8	alarm_fan_8 set_warning_level		Fan alarm 8 set warning level
+0x733		int8	alarm_fan_8 limit_for_alarm		Fan alarm 8 limit for alarm
+0x734		int8	alarm_fan_8 set_alrm_level		Fan alarm 8 set alarm level
+
+0x735		int8	alarm_fan_9 limit_for_warning		Fan alarm 9 limit for warning
+0x736		int8	alarm_fan_9 set_warning_level		Fan alarm 9 set warning level
+0x737		int8	alarm_fan_9 limit_for_alarm		Fan alarm 9 limit for alarm
+0x738		int8	alarm_fan_9 set_alrm_level		Fan alarm 9 set alarm level
+
+0x739		int8	alarm_fan_10 limit_for_warning		Fan alarm 10 limit for warning
+0x73a		int8	alarm_fan_10 set_warning_level		Fan alarm 10 set warning level
+0x73b		int8	alarm_fan_10 limit_for_alarm		Fan alarm 10 limit for alarm
+0x73c		int8	alarm_fan_10 set_alrm_level		Fan alarm 10 set alarm level
+
+0x73d		int8	alarm_fan_11 limit_for_warning		Fan alarm 11 limit for warning
+0x73e		int8	alarm_fan_11 set_warning_level		Fan alarm 11 set warning level
+0x73f		int8	alarm_fan_11 limit_for_alarm		Fan alarm 11 limit for alarm
+0x740		int8	alarm_fan_11 set_alrm_level		Fan alarm 11 set alarm level
+
+0x741		int8	alarm_fan_12 limit_for_warning		Fan alarm 12 limit for warning
+0x742		int8	alarm_fan_12 set_warning_level		Fan alarm 12 set warning level
+0x743		int8	alarm_fan_12 limit_for_alarm		Fan alarm 12 limit for alarm
+0x744		int8	alarm_fan_12 set_alrm_level		Fan alarm 12 set alarm level
+
+0x745		int16	alarm_flow_1 data_source		Flow alarm 1 data source
+0x747		int8	alarm_flow_1 configuration		Flow alarm 1 configuration
+0x748		int16	alarm_flow_1 limit_for_warning		Flow alarm 1 limit for warning
+0x74a		int8	alarm_flow_1 set_warning_level		Flow alarm 1 set warning level
+0x74b		int16	alarm_flow_1 limit_for_alarm		Flow alarm 1 limit for alarm
+0x74d		int8	alarm_flow_1 set_alrm_level		Flow alarm 1 set alarm level
+
+0x74e		int16	alarm_flow_2 data_source		Flow alarm 2 data source
+0x750		int8	alarm_flow_2 configuration		Flow alarm 2 configuration
+0x751		int16	alarm_flow_2 limit_for_warning		Flow alarm 2 limit for warning
+0x753		int8	alarm_flow_2 set_warning_level		Flow alarm 2 set warning level
+0x754		int16	alarm_flow_2 limit_for_alarm		Flow alarm 2 limit for alarm
+0x756		int8	alarm_flow_2 set_alrm_level		Flow alarm 2 set alarm level
+
+0x757		int16	alarm_flow_3 data_source		Flow alarm 3 data source
+0x759		int8	alarm_flow_3 configuration		Flow alarm 3 configuration
+0x75a		int16	alarm_flow_3 limit_for_warning		Flow alarm 3 limit for warning
+0x75c		int8	alarm_flow_3 set_warning_level		Flow alarm 3 set warning level
+0x75d		int16	alarm_flow_3 limit_for_alarm		Flow alarm 3 limit for alarm
+0x75f		int8	alarm_flow_3 set_alrm_level		Flow alarm 3 set alarm level
+
+0x760		int16	alarm_flow_4 data_source		Flow alarm 4 data source
+0x762		int8	alarm_flow_4 configuration		Flow alarm 4 configuration
+0x763		int16	alarm_flow_4 limit_for_warning		Flow alarm 4 limit for warning
+0x765		int8	alarm_flow_4 set_warning_level		Flow alarm 4 set warning level
+0x766		int16	alarm_flow_4 limit_for_alarm		Flow alarm 4 limit for alarm
+0x768		int8	alarm_flow_4 set_alrm_level		Flow alarm 4 set alarm level
+
+0x769		int16	alarm_pump_1 data_source		Pump alarm 1 data source
+0x76b		int8	alarm_pump_1 configuration		Pump alarm 1 configuration
+0x76c		int8	alarm_pump_1 set_alrm_level		Pump alarm 1 set alarm level
+
+0x76d		int16	alarm_pump_2 data_source		Pump alarm 2 data source
+0x76f		int8	alarm_pump_2 configuration		Pump alarm 2 configuration
+0x770		int8	alarm_pump_2 set_alrm_level		Pump alarm 2 set alarm level
+
+0x771		int16	alarm_pump_3 data_source		Pump alarm 3 data source
+0x773		int8	alarm_pump_3 configuration		Pump alarm 3 configuration
+0x774		int8	alarm_pump_3 set_alrm_level		Pump alarm 3 set alarm level
+
+0x775		int16	alarm_pump_4 data_source		Pump alarm 4 data source
+0x777		int8	alarm_pump_4 configuration		Pump alarm 4 configuration
+0x778		int8	alarm_pump_4 set_alrm_level		Pump alarm 4 set alarm level
+
+0x779		int16	alarm_fill_1 data_source		Fill alarm 1 data source
+0x77b		int8	alarm_fill_1 configuration		Fill alarm 1 configuration
+0x77c		int16	alarm_fill_1 limit_for_warning		Fill alarm 1 limit for warning
+0x77e		int8	alarm_fill_1 set_warning_level		Fill alarm 1 set warning level
+0x77f		int16	alarm_fill_1 limit_for_alarm		Fill alarm 1 limit for alarm
+0x781		int8	alarm_fill_1 set_alrm_level		Fill alarm 1 set alarm level
+
+0x782		int16	alarm_fill_2 data_source		Fill alarm 2 data source
+0x784		int8	alarm_fill_2 configuration		Fill alarm 2 configuration
+0x785		int16	alarm_fill_2 limit_for_warning		Fill alarm 2 limit for warning
+0x787		int8	alarm_fill_2 set_warning_level		Fill alarm 2 set warning level
+0x788		int16	alarm_fill_2 limit_for_alarm		Fill alarm 2 limit for alarm
+0x78a		int8	alarm_fill_2 set_alrm_level		Fill alarm 2 set alarm level
+
+0x78b		int16	alarm_fill_3 data_source		Fill alarm 3 data source
+0x78d		int8	alarm_fill_3 configuration		Fill alarm 3 configuration
+0x78e		int16	alarm_fill_3 limit_for_warning		Fill alarm 3 limit for warning
+0x790		int8	alarm_fill_3 set_warning_level		Fill alarm 3 set warning level
+0x791		int16	alarm_fill_3 limit_for_alarm		Fill alarm 3 limit for alarm
+0x793		int8	alarm_fill_3 set_alrm_level		Fill alarm 3 set alarm level
+
+0x794		int16	alarm_fill_4 data_source		Fill alarm 4 data source
+0x796		int8	alarm_fill_4 configuration		Fill alarm 4 configuration
+0x797		int16	alarm_fill_4 limit_for_warning		Fill alarm 4 limit for warning
+0x799		int8	alarm_fill_4 set_warning_level		Fill alarm 4 set warning level
+0x79a		int16	alarm_fill_4 limit_for_alarm		Fill alarm 4 limit for alarm
+0x79c		int8	alarm_fill_4 set_alrm_level		Fill alarm 4 set alarm level
+
+0x79d-0x7c0	unknown, but looks like 4 more fill level sensors
+
+0x7c1		int8	timer_1 active_days			Timer 1 active on these days
+0x7c2		int32	timer_1 switching_time			Timer 1 switching time
+0x7c6		int16	timer_1 action				Timer 1 action to be performed
+
+0x7c8		int8	timer_2 active_days			Timer 2 active on these days
+0x7c9		int32	timer_2 switching_time			Timer 2 switching time
+0x7cd		int16	timer_2 action				Timer 2 action to be performed
+
+0x7cf		int8	timer_3 active_days			Timer 3 active on these days
+0x7d0		int32	timer_3 switching_time			Timer 3 switching time
+0x7d4		int16	timer_3 action				Timer 3 action to be performed
+
+0x7d6		int8	timer_4 active_days			Timer 4 active on these days
+0x7d7		int32	timer_4 switching_time			Timer 4 switching time
+0x7db		int16	timer_4 action				Timer 4 action to be performed
+
+0x7dd		int8	timer_5 active_days			Timer 5 active on these days
+0x7de		int32	timer_5 switching_time			Timer 5 switching time
+0x7e2		int16	timer_5 action				Timer 5 action to be performed
+
+0x7e4		int8	timer_6 active_days			Timer 6 active on these days
+0x7e5		int32	timer_6 switching_time			Timer 6 switching time
+0x7e9		int16	timer_6 action				Timer 6 action to be performed
+
+0x7eb		int8	timer_7 active_days			Timer 7 active on these days
+0x7ec		int32	timer_7 switching_time			Timer 7 switching time
+0x7f0		int16	timer_7 action				Timer 7 action to be performed
+
+0x7f2		int8	timer_8 active_days			Timer 8 active on these days
+0x7f3		int32	timer_8 switching_time			Timer 8 switching time
+0x7f7		int16	timer_8 action				Timer 8 action to be performed
+
+0x7f9		int8	timer_9 active_days			Timer 9 active on these days
+0x7fa		int32	timer_9 switching_time			Timer 9 switching time
+0x7fe		int16	timer_9 action				Timer 9 action to be performed
+
+0x800		int8	timer_10 active_days			Timer 10 active on these days
+0x801		int32	timer_10 switching_time			Timer 10 switching time
+0x805		int16	timer_10 action				Timer 10 action to be performed
+
+0x807		int8	timer_11 active_days			Timer 11 active on these days
+0x808		int32	timer_11 switching_time			Timer 11 switching time
+0x80c		int16	timer_11 action				Timer 11 action to be performed
+
+0x80e		int8	timer_12 active_days			Timer 12 active on these days
+0x80f		int32	timer_12 switching_time			Timer 12 switching time
+0x813		int16	timer_12 action				Timer 12 action to be performed
+
+0x815		int8	timer_13 active_days			Timer 13 active on these days
+0x816		int32	timer_13 switching_time			Timer 13 switching time
+0x81a		int16	timer_13 action				Timer 13 action to be performed
+
+0x81c		int8	timer_14 active_days			Timer 14 active on these days
+0x81d		int32	timer_14 switching_time			Timer 14 switching time
+0x821		int16	timer_14 action				Timer 14 action to be performed
+
+0x823		int8	timer_15 active_days			Timer 15 active on these days
+0x824		int32	timer_15 switching_time			Timer 15 switching time
+0x828		int16	timer_15 action				Timer 15 action to be performed
+
+0x82a		int8	timer_16 active_days			Timer 16 active on these days
+0x82b		int32	timer_16 switching_time			Timer 16 switching time
+0x82f		int16	timer_16 action				Timer 16 action to be performed
+
+0x831		int8	timer_17 active_days			Timer 17 active on these days
+0x832		int32	timer_17 switching_time			Timer 17 switching time
+0x836		int16	timer_17 action				Timer 17 action to be performed
+
+0x838		int8	timer_18 active_days			Timer 18 active on these days
+0x839		int32	timer_18 switching_time			Timer 18 switching time
+0x83d		int16	timer_18 action				Timer 18 action to be performed
+
+0x83f		int8	timer_19 active_days			Timer 19 active on these days
+0x840		int32	timer_19 switching_time			Timer 19 switching time
+0x844		int16	timer_19 action				Timer 19 action to be performed
+
+0x846		int8	timer_20 active_days			Timer 20 active on these days
+0x847		int32	timer_20 switching_time			Timer 20 switching time
+0x84b		int16	timer_20 action				Timer 20 action to be performed
+
+0x84d		int8	timer_21 active_days			Timer 21 active on these days
+0x84e		int32	timer_21 switching_time			Timer 21 switching time
+0x852		int16	timer_21 action				Timer 21 action to be performed
+
+0x854		int8	timer_22 active_days			Timer 22 active on these days
+0x855		int32	timer_22 switching_time			Timer 22 switching time
+0x859		int16	timer_22 action				Timer 22 action to be performed
+
+0x85b		int8	timer_23 active_days			Timer 23 active on these days
+0x85c		int32	timer_23 switching_time			Timer 23 switching time
+0x860		int16	timer_23 action				Timer 23 action to be performed
+
+0x862		int8	timer_24 active_days			Timer 24 active on these days
+0x863		int32	timer_24 switching_time			Timer 24 switching time
+0x867		int16	timer_24 action				Timer 24 action to be performed
+
+0x869		int8	timer_25 active_days			Timer 25 active on these days
+0x86a		int32	timer_25 switching_time			Timer 25 switching time
+0x86e		int16	timer_25 action				Timer 25 action to be performed
+
+0x870		int8	timer_26 active_days			Timer 26 active on these days
+0x871		int32	timer_26 switching_time			Timer 26 switching time
+0x875		int16	timer_26 action				Timer 26 action to be performed
+
+0x877		int8	timer_27 active_days			Timer 27 active on these days
+0x878		int32	timer_27 switching_time			Timer 27 switching time
+0x87c		int16	timer_27 action				Timer 27 action to be performed
+
+0x87e		int8	timer_28 active_days			Timer 28 active on these days
+0x87f		int32	timer_28 switching_time			Timer 28 switching time
+0x883		int16	timer_28 action				Timer 28 action to be performed
+
+0x885		int8	timer_29 active_days			Timer 29 active on these days
+0x886		int32	timer_29 switching_time			Timer 29 switching time
+0x88a		int16	timer_29 action				Timer 29 action to be performed
+
+0x88c		int8	timer_30 active_days			Timer 30 active on these days
+0x88d		int32	timer_30 switching_time			Timer 30 switching time
+0x891		int16	timer_30 action				Timer 30 action to be performed
+
+0x893		int8	timer_31 active_days			Timer 31 active on these days
+0x894		int32	timer_31 switching_time			Timer 31 switching time
+0x898		int16	timer_31 action				Timer 31 action to be performed
+
+0x89a		int8	timer_32 active_days			Timer 32 active on these days
+0x89b		int32	timer_32 switching_time			Timer 32 switching time
+0x89f		int16	timer_32 action				Timer 32 action to be performed
+
+0x8a1		int8	infrared_functions			Infrared function control
+0x8a2		int8	infrared_keyboard_layout		Infrared keyboard layout
+
+0x8a3		int8	ir_command_1 config			Infrared command 1 configuration
+0x8a4		int8	ir_command_1 ?				Infrared command 1 ?
+0x8a5		int16	ir_command_1 action			Infrared command 1 action to be performed
+0x8a7		int16	ir_command_1 refresh_rate		Infrared command 1 refresh rate for infrared signal
+0x8a9		int16	ir_command_1 learned_signal_1		Infrared command 1 learned signal part 1/3
+0x8ab		int16	ir_command_1 learned_signal_2		Infrared command 1 learned signal part 2/3
+0x8ad		int16	ir_command_1 learned_signal_3		Infrared command 1 learned signal part 3/3
+
+0x8af		int8	ir_command_2 config			Infrared command 2 configuration
+0x8b0		int8	ir_command_2 ?				Infrared command 2 ?
+0x8b1		int16	ir_command_2 action			Infrared command 2 action to be performed
+0x8b3		int16	ir_command_2 refresh_rate		Infrared command 2 refresh rate for infrared signal
+0x8b5		int16	ir_command_2 learned_signal_1		Infrared command 2 learned signal part 1/3
+0x8b7		int16	ir_command_2 learned_signal_2		Infrared command 2 learned signal part 2/3
+0x8b9		int16	ir_command_2 learned_signal_3		Infrared command 2 learned signal part 3/3
+
+0x8bb		int8	ir_command_3 config			Infrared command 3 configuration
+0x8bc		int8	ir_command_3 ?				Infrared command 3 ?
+0x8bd		int16	ir_command_3 action			Infrared command 3 action to be performed
+0x8bf		int16	ir_command_3 refresh_rate		Infrared command 3 refresh rate for infrared signal
+0x8c1		int16	ir_command_3 learned_signal_1		Infrared command 3 learned signal part 1/3
+0x8c3		int16	ir_command_3 learned_signal_2		Infrared command 3 learned signal part 2/3
+0x8c5		int16	ir_command_3 learned_signal_3		Infrared command 3 learned signal part 3/3
+
+0x8c7		int8	ir_command_4 config			Infrared command 4 configuration
+0x8c8		int8	ir_command_4 ?				Infrared command 4 ?
+0x8c9		int16	ir_command_4 action			Infrared command 4 action to be performed
+0x8cb		int16	ir_command_4 refresh_rate		Infrared command 4 refresh rate for infrared signal
+0x8cd		int16	ir_command_4 learned_signal_1		Infrared command 4 learned signal part 1/3
+0x8cf		int16	ir_command_4 learned_signal_2		Infrared command 4 learned signal part 2/3
+0x8d1		int16	ir_command_4 learned_signal_3		Infrared command 4 learned signal part 3/3
+
+0x8d3		int8	ir_command_5 config			Infrared command 5 configuration
+0x8d4		int8	ir_command_5 ?				Infrared command 5 ?
+0x8d5		int16	ir_command_5 action			Infrared command 5 action to be performed
+0x8d7		int16	ir_command_5 refresh_rate		Infrared command 5 refresh rate for infrared signal
+0x8d9		int16	ir_command_5 learned_signal_1		Infrared command 5 learned signal part 1/3
+0x8db		int16	ir_command_5 learned_signal_2		Infrared command 5 learned signal part 2/3
+0x8dd		int16	ir_command_5 learned_signal_3		Infrared command 5 learned signal part 3/3
+
+0x8df		int8	ir_command_6 config			Infrared command 6 configuration
+0x8e0		int8	ir_command_6 ?				Infrared command 6 ?
+0x8e1		int16	ir_command_6 action			Infrared command 6 action to be performed
+0x8e3		int16	ir_command_6 refresh_rate		Infrared command 6 refresh rate for infrared signal
+0x8e5		int16	ir_command_6 learned_signal_1		Infrared command 6 learned signal part 1/3
+0x8e7		int16	ir_command_6 learned_signal_2		Infrared command 6 learned signal part 2/3
+0x8e9		int16	ir_command_6 learned_signal_3		Infrared command 6 learned signal part 3/3
+
+0x8eb		int8	ir_command_7 config			Infrared command 7 configuration
+0x8ec		int8	ir_command_7 ?				Infrared command 7 ?
+0x8ed		int16	ir_command_7 action			Infrared command 7 action to be performed
+0x8ef		int16	ir_command_7 refresh_rate		Infrared command 7 refresh rate for infrared signal
+0x8f1		int16	ir_command_7 learned_signal_1		Infrared command 7 learned signal part 1/3
+0x8f3		int16	ir_command_7 learned_signal_2		Infrared command 7 learned signal part 2/3
+0x8f5		int16	ir_command_7 learned_signal_3		Infrared command 7 learned signal part 3/3
+
+0x8f7		int8	ir_command_8 config			Infrared command 8 configuration
+0x8f8		int8	ir_command_8 ?				Infrared command 8 ?
+0x8f9		int16	ir_command_8 action			Infrared command 8 action to be performed
+0x8fb		int16	ir_command_8 refresh_rate		Infrared command 8 refresh rate for infrared signal
+0x8fd		int16	ir_command_8 learned_signal_1		Infrared command 8 learned signal part 1/3
+0x8ff		int16	ir_command_8 learned_signal_2		Infrared command 8 learned signal part 2/3
+0x901		int16	ir_command_8 learned_signal_3		Infrared command 8 learned signal part 3/3
+
+0x903		int8	ir_command_9 config			Infrared command 9 configuration
+0x904		int8	ir_command_9 ?				Infrared command 9 ?
+0x905		int16	ir_command_9 action			Infrared command 9 action to be performed
+0x907		int16	ir_command_9 refresh_rate		Infrared command 9 refresh rate for infrared signal
+0x909		int16	ir_command_9 learned_signal_1		Infrared command 9 learned signal part 1/3
+0x90b		int16	ir_command_9 learned_signal_2		Infrared command 9 learned signal part 2/3
+0x90d		int16	ir_command_9 learned_signal_3		Infrared command 9 learned signal part 3/3
+
+0x90f		int8	ir_command_10 config			Infrared command 10 configuration
+0x910		int8	ir_command_10 ?				Infrared command 10 ?
+0x911		int16	ir_command_10 action			Infrared command 10 action to be performed
+0x913		int16	ir_command_10 refresh_rate		Infrared command 10 refresh rate for infrared signal
+0x915		int16	ir_command_10 learned_signal_1		Infrared command 10 learned signal part 1/3
+0x917		int16	ir_command_10 learned_signal_2		Infrared command 10 learned signal part 2/3
+0x919		int16	ir_command_10 learned_signal_3		Infrared command 10 learned signal part 3/3
+
+0x91b		int8	ir_command_11 config			Infrared command 11 configuration
+0x91c		int8	ir_command_11 ?				Infrared command 11 ?
+0x91d		int16	ir_command_11 action			Infrared command 11 action to be performed
+0x91f		int16	ir_command_11 refresh_rate		Infrared command 11 refresh rate for infrared signal
+0x921		int16	ir_command_11 learned_signal_1		Infrared command 11 learned signal part 1/3
+0x923		int16	ir_command_11 learned_signal_2		Infrared command 11 learned signal part 2/3
+0x925		int16	ir_command_11 learned_signal_3		Infrared command 11 learned signal part 3/3
+
+0x927		int8	ir_command_12 config			Infrared command 12 configuration
+0x928		int8	ir_command_12 ?				Infrared command 12 ?
+0x929		int16	ir_command_12 action			Infrared command 12 action to be performed
+0x92b		int16	ir_command_12 refresh_rate		Infrared command 12 refresh rate for infrared signal
+0x92d		int16	ir_command_12 learned_signal_1		Infrared command 12 learned signal part 1/3
+0x92f		int16	ir_command_12 learned_signal_2		Infrared command 12 learned signal part 2/3
+0x931		int16	ir_command_12 learned_signal_3		Infrared command 12 learned signal part 3/3
+
+0x933		int8	ir_command_13 config			Infrared command 13 configuration
+0x934		int8	ir_command_13 ?				Infrared command 13 ?
+0x935		int16	ir_command_13 action			Infrared command 13 action to be performed
+0x937		int16	ir_command_13 refresh_rate		Infrared command 13 refresh rate for infrared signal
+0x939		int16	ir_command_13 learned_signal_1		Infrared command 13 learned signal part 1/3
+0x93b		int16	ir_command_13 learned_signal_2		Infrared command 13 learned signal part 2/3
+0x93d		int16	ir_command_13 learned_signal_3		Infrared command 13 learned signal part 3/3
+
+0x93f		int8	ir_command_14 config			Infrared command 14 configuration
+0x940		int8	ir_command_14 ?				Infrared command 14 ?
+0x941		int16	ir_command_14 action			Infrared command 14 action to be performed
+0x943		int16	ir_command_14 refresh_rate		Infrared command 14 refresh rate for infrared signal
+0x945		int16	ir_command_14 learned_signal_1		Infrared command 14 learned signal part 1/3
+0x947		int16	ir_command_14 learned_signal_2		Infrared command 14 learned signal part 2/3
+0x949		int16	ir_command_14 learned_signal_3		Infrared command 14 learned signal part 3/3
+
+0x94b		int8	ir_command_15 config			Infrared command 15 configuration
+0x94c		int8	ir_command_15 ?				Infrared command 15 ?
+0x94d		int16	ir_command_15 action			Infrared command 15 action to be performed
+0x94f		int16	ir_command_15 refresh_rate		Infrared command 15 refresh rate for infrared signal
+0x951		int16	ir_command_15 learned_signal_1		Infrared command 15 learned signal part 1/3
+0x953		int16	ir_command_15 learned_signal_2		Infrared command 15 learned signal part 2/3
+0x955		int16	ir_command_15 learned_signal_3		Infrared command 15 learned signal part 3/3
+
+0x957		int8	ir_command_16 config			Infrared command 16 configuration
+0x958		int8	ir_command_16 ?				Infrared command 16 ?
+0x959		int16	ir_command_16 action			Infrared command 16 action to be performed
+0x95b		int16	ir_command_16 refresh_rate		Infrared command 16 refresh rate for infrared signal
+0x95d		int16	ir_command_16 learned_signal_1		Infrared command 16 learned signal part 1/3
+0x95f		int16	ir_command_16 learned_signal_2		Infrared command 16 learned signal part 2/3
+0x961		int16	ir_command_16 learned_signal_3		Infrared command 16 learned signal part 3/3
+
+0x963		int8	ir_command_pc config			Infrared command pc on/off configuration
+0x964		int8	ir_command_pc ?				Infrared command pc on/off ?
+0x965		int16	ir_command_pc ?				Infrared command pc on/off ?
+0x967		int16	ir_command_pc refresh_rate		Infrared command pc on/off refresh rate for infrared signal
+0x969		int16	ir_command_pc learned_signal_1		Infrared command pc on/off learned signal part 1/3
+0x96b		int16	ir_command_pc learned_signal_2		Infrared command pc on/off learned signal part 2/3
+0x96d		int16	ir_command_pc learned_signal_3		Infrared command pc on/off learned signal part 3/3
+0x96f		int16	ir_command_pc action_on			Infrared command pc on/off action to switch off the pc
+0x971		int16	ir_command_pc action_off		Infrared command pc on/off action to switch on the pc
+
+0x973		int8			Allow output override

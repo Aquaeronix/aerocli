@@ -16,14 +16,9 @@
 					</item_000>
 				</rrd>
 				<sv_graph>
-					<hash_1200192cd4fe8dcdcfdc892403acd175402385>
-						<field_name>title</field_name>
-						<sequence>1</sequence>
-						<text>|host_description| - Aquaero 5 - |query_stempName|</text>
-					</hash_1200192cd4fe8dcdcfdc892403acd175402385>
 					<hash_1200194e89d6c036330d4d69c70c446ded7cdb>
 						<field_name>title</field_name>
-						<sequence>2</sequence>
+						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_stempName|</text>
 					</hash_1200194e89d6c036330d4d69c70c446ded7cdb>
 				</sv_graph>
@@ -34,12 +29,6 @@
 						<sequence>1</sequence>
 						<text>|host_description| - Aquaero 5 - |query_deviceID| |query_stempName|</text>
 					</hash_1300198e64d242466123442aa731ff5b13ae97>
-					<hash_1300192c022cc4ae37ca02cadc2fd4c3e87620>
-						<field_name>name</field_name>
-						<data_template_id>hash_010019091af1515c721c3b8d9e7a03e7409bfe</data_template_id>
-						<sequence>2</sequence>
-						<text>|host_description| - Aquaero 5 - |query_stempName|</text>
-					</hash_1300192c022cc4ae37ca02cadc2fd4c3e87620>
 				</sv_data_source>
 			</hash_110019982fc2308a460349ac76d047b4a743c2>
 		</graphs>

@@ -20,7 +20,8 @@
 
 CC = gcc
 CFLAGS = -Wall -ansi -std=gnu99 -pedantic -I /usr/include -O2
-MKDIR_P = mkdir -p
+
+$(shell   mkdir -p bin/ obj/)
 
 # location of external library: jsonrpc-c
 ifndef JRPCC_PREFIX

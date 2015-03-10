@@ -1,11 +1,15 @@
+Aquaeronix: Tools for Accessing the Aquaero5(R) USB Device
+--------------------------------------------------------------
 
-         Aquaeronix: Tools for Accessing the Aquaero5(R) USB Device
-        --------------------------------------------------------------
-        
-       (C) 2012 lynix <lynix47@gmail.com>
-       (C) 2013 JinTu <JinTu@praecogito.com>, lynix <lynix47@gmail.com>
-       (C) 2014 barracks510 <barracks510@gmail.com>
-       (C) 2015 barracks510 <barracks510@gmail.com>
+[![Build Status](https://travis-ci.org/barracks510/aquaeronix.svg?branch=stable)](https://travis-ci.org/barracks510/aquaeronix)
+
+&copy; 2012 lynix <lynix47@gmail.com>, 
+
+&copy; 2013 JinTu <JinTu@praecogito.com> lynix <lynix47@gmail.com>, 
+
+&copy; 2014 barracks510 <barracks510@gmail.com>, 
+
+&copy; 2015 barracks510 <barracks510@gmail.com>
  
 
 SUMMARY

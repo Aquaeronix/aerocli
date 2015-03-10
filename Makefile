@@ -25,6 +25,7 @@ ifdef DEBUG
 	CFLAGS += -g
 endif
 
+$(shell   mkdir -p bin/ obj/)
 
 all : bin/aerocli
 

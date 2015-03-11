@@ -25,20 +25,41 @@ ifdef DEBUG
 	CFLAGS += -g
 endif
 
-$(shell   mkdir -p bin/ obj/)
 
-all : bin/aerocli
+LIB_OBJS=obj/libaquaero5.o
+
+.PHONY: all default clean install 
+
+$(shell mkdir -p bin/ obj/ lib/)
+	
+default : bin/aerocli
+
+all : bin/aerocli lib/libaquaero5.a lib/libaquaero5.so
 
 bin/aerocli: obj/aerocli.o obj/libaquaero5.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
-	
+
 obj/aerocli.o: src/aerocli.c src/libaquaero5.h
 	$(CC) $(CFLAGS) -o $@ -c $<
-	
+
 obj/libaquaero5.o: src/libaquaero5.c src/libaquaero5.h \
 		src/aquaero5-user-strings.h src/aquaero5-offsets.h
-	$(CC) $(CFLAGS) -o $@ -c $<
-	
+	$(CC) $(CFLAGS) -fPIC -o $@ -c $<
+
+# Static library file
+lib/libaquaero5.a: $(LIB_OBJS)
+	ar cr $@ $^
+
+# Dynamic library file
+lib/libaquaero5.so: $(LIB_OBJS)
+	$(CC) -shared -o $@ $^
 
 clean :
-	rm -f bin/aerocli obj/*.o
+	rm -f bin/aerocli obj/*.o lib/*.a lib/*.so
+
+install :
+	$(shell mkdir -p $(INSTALL_PATH)/bin/ $(INSTALL_PATH)/obj/ $(INSTALL_PATH)/lib/)
+	install -C bin/aerocli $(DESTDIR)/bin
+	install -C obj/aerocli.o $(DESTDIR)/obj
+	install -C obj/libaquaero5.o $(DESTDIR)/obj
+	install -C lib/libaquaero5.so $(DESTDIR)/lib

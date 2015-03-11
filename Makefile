@@ -58,7 +58,7 @@ clean :
 	rm -f bin/aerocli obj/*.o lib/*.a lib/*.so
 
 install :
-	$(shell mkdir -p $(INSTALL_PATH)/bin/ $(INSTALL_PATH)/obj/ $(INSTALL_PATH)/lib/)
+	$(shell mkdir -p $(DESTDIR)/bin/ $(DESTDIR)/obj/ $(DESTDIR)/lib/)
 	install -C bin/aerocli $(DESTDIR)/bin
 	install -C obj/aerocli.o $(DESTDIR)/obj
 	install -C obj/libaquaero5.o $(DESTDIR)/obj

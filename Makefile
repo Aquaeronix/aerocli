@@ -26,7 +26,7 @@ $(shell   mkdir -p bin/ obj/ lib/)
 # location of external library: jsonrpc-c
 ifndef JRPCC_PREFIX
 	#JRPCC_PREFIX = /usr
-	JRPCC_PREFIX = /usr/local
+	JRPCC_PREFIX = /usr/local/lib
 endif
 
 # Uncomment the following line if using firmware 1027.
@@ -70,4 +70,4 @@ clean :
 	rm -f bin/aerocli obj/*.o lib/*.a lib/*.so
 
 install :
-	install -C -groot -oroot bin/aerocli /usr/local/sbin
+	install -C bin/aerocli /usr/local/sbin

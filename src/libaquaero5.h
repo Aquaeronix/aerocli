@@ -1,7 +1,7 @@
 /* Copyright 2012 lynix <lynix47@gmail.com>
  * Copyright 2013 JinTu <JinTu@praecogito.com>, lynix <lynix47@gmail.com>
  * Copyright 2014 barracks510 <barracks510@gmail.com>
- * Copyright 2015 barracks510 <barracks510@gmail.com>
+ * COpyright 2015 barracks510 <barracks510@gmail.com>
  *
  * This file is part of Aquaeronix.
  *
@@ -177,8 +177,6 @@ typedef enum {
 	M_OUTPUT 	= 0x0000, 
 	M_RPM 		= 0x0001 
 } fan_regulation_mode_t;
-
-typedef enum { FALSE, TRUE } boolean_t;
 
 typedef enum {
 	NONE		=	0xffff,

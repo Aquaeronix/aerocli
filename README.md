@@ -1,7 +1,7 @@
 Aquaeronix: Tools for Accessing the Aquaero5(R) USB Device
 --------------------------------------------------------------
 
-[![Build Status](https://travis-ci.org/barracks510/aquaeronix.svg?branch=stable)](https://travis-ci.org/barracks510/aquaeronix)
+[![Build Status](https://travis-ci.org/Aquaeronix/aquaeronix.svg?branch=stable)](https://travis-ci.org/Aquaeronix/aquaeronix)
 
 &copy; 2012 lynix <lynix47@gmail.com>, 
 

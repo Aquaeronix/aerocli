@@ -64,3 +64,4 @@ install :
 	install -C obj/libaquaero5.o $(DESTDIR)/usr/obj
 	install -C lib/libaquaero5.so $(DESTDIR)/usr/lib
 	install -C lib/libaquaero5.a $(DESTDIR)/usr/lib
+	install -C src/aerocli-setsensor $(DESTDIR)/usr/bin

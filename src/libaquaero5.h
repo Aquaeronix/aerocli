@@ -49,10 +49,104 @@
 #define AQ5_NUM_FILL_ALARMS				4
 #define AQ5_NUM_TIMERS					32
 #define AQ5_NUM_IR_COMMANDS				16
+#define AQ5_NUM_AQUASTREAM_XT		2
+#define AQ5_NUM_NAME_TYPES		28
 
 /* constant for unknown value */
 #define AQ5_FLOAT_UNDEF			-99.0
 
+/* The intrapage delay for name reports */
+#define AQ5_NAME_REPORT_INTRAPAGE_DELAY 7
+
+
+typedef enum { FALSE, TRUE } boolean_t;
+
+typedef enum {
+	NAME_BUTTON,
+	NAME_SENSOR,
+	NAME_POWERADJUST,
+	NAME_SOFTWARE_SENSOR,
+	NAME_VIRTUAL_SENSOR,
+	NAME_MPS,
+	NAME_AQUASTREAM,
+	NAME_SENSOR_EXT1,
+	NAME_FAN_AMPLIFIER,
+	NAME_CPU,
+	NAME_SENSOR_EXT2,
+	NAME_FAN,
+	NAME_FLOW,
+	NAME_PROFILE,
+	NAME_AQUASTREAM_XT,
+	NAME_MULTISWITCH,
+	NAME_TARGET_VALUE_CONT,
+	NAME_CURVE_CONT,
+	NAME_TWO_POINT_CONT,
+	NAME_PRESET_VALUE_CONT,
+	NAME_POWER_OUTPUT,
+	NAME_ALERT_LEVEL,
+	NAME_AQ5,
+	NAME_FILL_LEVEL,
+	NAME_PRESSURE,
+	NAME_HUMIDITY,
+	NAME_WATER_QUALITY,
+	NAME_MPS_D5
+} name_enum_t;
+
+typedef struct {
+	uint8_t	address;
+	uint8_t	count;
+} name_position_t;
+
+static name_position_t name_positions[] = {
+	[NAME_BUTTON] 		= { 0,	16 },
+	[NAME_SENSOR] 		= { 16,	8 },
+	[NAME_POWERADJUST] 	= { 24,	8 },
+	[NAME_SOFTWARE_SENSOR] 	= { 32,	8 },
+	[NAME_VIRTUAL_SENSOR] 	= { 40,	4 },
+	[NAME_MPS] 		= { 44,	8 },
+	[NAME_AQUASTREAM] 	= { 52,	2 },
+	[NAME_SENSOR_EXT1] 	= { 54,	6 },
+	[NAME_FAN_AMPLIFIER] 	= { 60,	12 },
+	[NAME_CPU] 		= { 72,	1 },
+	[NAME_SENSOR_EXT2] 	= { 73, 7 },
+	[NAME_FAN] 		= { 80,	12 },
+	[NAME_FLOW] 		= { 92,	14 },
+	[NAME_PROFILE] 		= { 106,	4 },
+	[NAME_AQUASTREAM_XT] 	= { 110,	2 },
+	[NAME_MULTISWITCH] 	= { 112,	2 },
+	[NAME_TARGET_VALUE_CONT] = { 114,	8 },
+	[NAME_CURVE_CONT] 	= { 122,	4 },
+	[NAME_TWO_POINT_CONT] 	= { 126,	16 },
+	[NAME_PRESET_VALUE_CONT] = { 142,	8 },
+	[NAME_POWER_OUTPUT]	= { 150,	2 },
+	[NAME_ALERT_LEVEL] 	= { 152,	8 },
+	[NAME_AQ5] 		= { 160,	1 },
+	[NAME_FILL_LEVEL] 	= { 161,	4 },
+	[NAME_PRESSURE] 	= { 165,	4 },
+	[NAME_HUMIDITY] 	= { 169,	4 },
+	[NAME_WATER_QUALITY] 	= { 173,	4 },
+	[NAME_MPS_D5] 		= { 177,	4 }
+};
+
+typedef enum {
+	AQASTREAM_XT_MODE_AUTO		=	0x00,
+	AQASTREAM_XT_MODE_MANUAL	=	0x01,
+	AQASTREAM_XT_MODE_DEARATION	=	0x02,
+	AQASTREAM_XT_MODE_OFFLINE	=	0xff
+} aquastream_xt_freqmode_t;
+
+typedef struct {
+	boolean_t	available;
+	boolean_t	alarm;
+} aquastream_xt_status_t;	
+
+typedef struct {
+	aquastream_xt_status_t	status;
+	aquastream_xt_freqmode_t	freqmode;
+	uint16_t	frequency;
+	double		voltage;
+	uint16_t	current;
+} aquastream_xt_data_t;
 
 /* structures holding device data */
 typedef struct {
@@ -76,6 +170,7 @@ typedef struct {
 	double		flow[AQ5_NUM_FLOW];
 	double		cpu_temp[AQ5_NUM_CPU];
 	double		level[AQ5_NUM_LEVEL];
+	aquastream_xt_data_t	aquastream_xt[AQ5_NUM_AQUASTREAM_XT];
 } aq5_data_t;
 
 typedef enum { 
@@ -326,7 +421,8 @@ typedef enum {
 	PAGE_DISPLAY_MODE,
 	DISABLE_KEYS,
 	ILLUM_MODE,
-	KEY_TONE
+	KEY_TONE,
+	AQUASTREAM_XT_FREQMODE
 } val_str_opt_t;
 
 typedef enum {
@@ -739,6 +835,12 @@ typedef struct {
 } switch_pc_via_ir_t;
 
 typedef struct {
+	aquastream_xt_freqmode_t	freqmode;
+	uint16_t			frequency;
+} aquastream_xt_settings_t;
+
+typedef struct {
+	aquastream_xt_settings_t	aquastream_xt[AQ5_NUM_AQUASTREAM_XT];
 	disable_keys_t		allow_output_override;
 	infrared_functions_t	infrared_functions;
 	language_t		infrared_keyboard_layout;
@@ -825,6 +927,16 @@ int	libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg);
 int	libaquaero5_getsettings(char *device, aq5_settings_t *settings_dest, char **err_msg);
 void	libaquaero5_exit();
 char	*libaquaero5_get_string(int id, val_str_opt_t opt);
+void 	libaquaero5_init_soft_sensors();
+int	libaquaero5_set_soft_sensor(int sensor_id, double value);
+int 	libaquaero5_commit_soft_sensors(char *device, char **err_msg);
+int	libaquaero5_set_time(char *device, time_t time, char **err_msg);
+int	libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg);
+char	*libaquaero5_get_name(name_enum_t type, uint8_t index);
+char	*libaquaero5_get_default_name_by_ref(char *reference, uint8_t index);
+char	*libaquaero5_get_default_name_by_type(name_enum_t type, uint8_t index);
+char	*libaquaero5_get_name_ref_by_type(name_enum_t type);
+int 	libaquaero5_set_name_by_ref(char *device, char *reference, uint8_t index, char *name, char **err_msg);
 
 /* helpful for debugging */
 int 	libaquaero5_dump_data(char *file);

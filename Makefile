@@ -1,4 +1,5 @@
 # Copyright 2012 lynix <lynix47@gmail.com>
+# Copyright 2013 JinTu <JinTu@praecogito.com>, lynix <lynix47@gmail.com>
 # Copyright 2014 barracks510 <barracks510@gmail.com>
 # Copyright 2015 barracks510 <barracks510@gmail.com>
 #

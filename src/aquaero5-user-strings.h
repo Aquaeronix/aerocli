@@ -538,4 +538,317 @@ val_str_t boolean_strings[] = {
 	{ -1,						"Unknown" }
 };
 
+/* Aquastream frequency mode strings */
+val_str_t aquastream_xt_freqmode_strings[] = {
+	{ (aquastream_xt_freqmode_t)AQASTREAM_XT_MODE_AUTO,		"Auto" },
+	{ (aquastream_xt_freqmode_t)AQASTREAM_XT_MODE_MANUAL,		"Manual" },
+	{ (aquastream_xt_freqmode_t)AQASTREAM_XT_MODE_DEARATION,	"Dearation" },
+	{ (aquastream_xt_freqmode_t)AQASTREAM_XT_MODE_OFFLINE,		"Offline" },
+	{ -1,								"Unknown" }
+};
+
+
+/* Definitions for device name defaults */
+typedef struct {
+	int	name_type;
+	char	*ref;
+	char	*name_string[16];
+} default_name_str_t;
+
+default_name_str_t default_name_strings[] = {
+	{ NAME_BUTTON,	"buttons", 
+		{ 
+			"F1",
+			"F2",
+			"F3",
+			"F4",
+			"exit",
+			"Menu",
+			"back",
+			"cancel",
+			"learn",
+			"dummy",
+			"dummy",
+			"dummy",
+			"dummy",
+			"dummy",
+			"dummy",
+			"dummy"
+		}
+	},
+	{ NAME_SENSOR,	"sensors",
+		{
+			"Sensor 1",
+			"Sensor 2",
+			"Sensor 3",
+			"Sensor 4",
+			"Sensor 5",
+			"Sensor 6",
+			"Sensor 7",
+			"Sensor 8"
+		}
+	},
+	{ NAME_POWERADJUST,	"poweradjust",
+		{
+			"poweradjust 1",
+			"poweradjust 2",
+			"poweradjust 3",
+			"poweradjust 4",
+			"poweradjust 5",
+			"poweradjust 6",
+			"poweradjust 7",
+			"poweradjust 8"
+		}
+	},
+	{ NAME_SOFTWARE_SENSOR,	"software sensor",
+		{
+			"Software sensor 1",
+			"Software sensor 2",
+			"Software sensor 3",
+			"Software sensor 4",
+			"Software sensor 5",
+			"Software sensor 6",
+			"Software sensor 7",
+			"Software sensor 8"
+		}
+	},
+	{ NAME_VIRTUAL_SENSOR,	"virtual sensor",
+		{
+			"Virtual sensor 1",
+			"Virtual sensor 2",
+			"Virtual sensor 3",
+			"Virtual sensor 4"
+		}
+	},
+	{ NAME_MPS,	"MPS",
+		{
+			"MPS 1 external",
+			"MPS 1 internal",
+			"MPS 2 external",
+			"MPS 2 internal",
+			"MPS 3 external",
+			"MPS 3 internal",
+			"MPS 4 external",
+			"MPS 4 internal"
+		}
+	},
+	{ NAME_AQUASTREAM,	"aquastream",
+		{
+			"aquastream 1",
+			"aquastream 2"
+		}
+	},
+	{ NAME_SENSOR_EXT1,	"external sensors 1",
+		{
+			"Sensor 39",
+			"Sensor 40",
+			"Sensor 41",
+			"Sensor 42",
+			"Sensor 43",
+			"Sensor 44"
+		}
+	},
+	{ NAME_FAN_AMPLIFIER,	"fan amplifier",
+		{
+			"Fan amplifier 1",
+			"Fan amplifier 2",
+			"Fan amplifier 3",
+			"Fan amplifier 4",
+			"Fan amplifier 5",
+			"Fan amplifier 6",
+			"Fan amplifier 7",
+			"Fan amplifier 8",
+			"Fan amplifier 9",
+			"Fan amplifier 10",
+			"Fan amplifier 11",
+			"Fan amplifier 12"
+		}
+	},
+	{ NAME_CPU,	"CPU",
+		{
+			"aquaero CPU"
+		}
+	},
+	{ NAME_SENSOR_EXT2,	"external sensors 2",
+		{
+			"Sensor 58",
+			"Sensor 59",
+			"Sensor 60",
+			"Sensor 61",
+			"Sensor 62",
+			"Sensor 63",
+			"Sensor 64"
+		}
+	},
+	{ NAME_FAN,	"fan",
+		{
+			"Fan 1",
+			"Fan 2",
+			"Fan 3",
+			"Fan 4",
+			"Fan 5",
+			"Fan 6",
+			"Fan 7",
+			"Fan 8",
+			"Fan 9",
+			"Fan 10",
+			"Fan 11",
+			"Fan 12"
+		}
+	},
+	{ NAME_FLOW,	"flow sensor",
+		{
+			"Flow 1",
+			"Flow 2",
+			"Flow 3",
+			"Flow 4",
+			"Flow 5",
+			"Flow 6",
+			"Flow 7",
+			"Flow 8",
+			"Flow 9",
+			"Flow 10",
+			"Flow 11",
+			"Flow 12",
+			"Flow 13",
+			"Flow 14"
+		}
+	},
+	{ NAME_PROFILE,	"profile",
+		{
+			"Profile 1",
+			"Profile 2",
+			"Profile 3",
+			"Profile 4"
+		}
+	},
+	{ NAME_AQUASTREAM_XT, "aquastream XT",
+		{
+			"aquastream xt 1",
+			"aquastream xt 2"
+		}
+	},
+	{ NAME_MULTISWITCH, "multiswitch",
+		{
+			"multiswitch 1",
+			"multiswitch 2"
+		}
+	},
+	{ NAME_TARGET_VALUE_CONT, "target value controller",
+		{
+			"Target value 1",
+			"Target value 2",
+			"Target value 3",
+			"Target value 4",
+			"Target value 5",
+			"Target value 6",
+			"Target value 7",
+			"Target value 8"
+		}
+	},
+	{ NAME_CURVE_CONT, "curve controller",
+		{
+			"Curve controller 1",
+			"Curve controller 2",
+			"Curve controller 3",
+			"Curve controller 4"
+		}
+	},
+	{ NAME_TWO_POINT_CONT, "two point controller",
+		{
+			"Two point 1",
+			"Two point 2",
+			"Two point 3",
+			"Two point 4",
+			"Two point 5",
+			"Two point 6",
+			"Two point 7",
+			"Two point 8",
+			"Two point 9",
+			"Two point 10",
+			"Two point 11",
+			"Two point 12",
+			"Two point 13",
+			"Two point 14",
+			"Two point 15",
+			"Two point 16"
+		}
+	},
+	{ NAME_PRESET_VALUE_CONT, "preset value controller",
+		{
+			"Preset value 1",
+			"Preset value 2",
+			"Preset value 3",
+			"Preset value 4",
+			"Preset value 5",
+			"Preset value 6",
+			"Preset value 7",
+			"Preset value 8"
+		}
+	},
+	{ NAME_POWER_OUTPUT, "power output",
+		{
+			"Power output 1",
+			"Power output 2"
+		}
+	},
+	{ NAME_ALERT_LEVEL, "alert level",
+		{
+			"Normal operation",
+			"Warning",
+			"Alarm",
+			"Alarm/Warning 4",
+			"Alarm/Warning 5",
+			"Alarm/Warning 6",
+			"Alarm/Warning 7",
+			"Alarm/Warning 8"
+		}
+	},
+	{ NAME_AQ5, "aq5",
+		{
+			"aquaero 5"
+		}
+	},
+	{ NAME_FILL_LEVEL, "fill level",
+		{
+			"Fill level 1",
+			"Fill level 2",
+			"Fill level 3",
+			"Fill level 4"
+		}
+	},
+	{ NAME_PRESSURE, "pressure",
+		{
+			"Pressure 1",
+			"Pressure 2",
+			"Pressure 3",
+			"Pressure 4"
+		}
+	},
+	{ NAME_HUMIDITY, "humidity",
+		{
+			"Humidity 1",
+			"Humidity 2",
+			"Humidity 3",
+			"Humidity 4"
+		}
+	},
+	{ NAME_WATER_QUALITY, "water quality",
+		{
+			"Water quality 1",
+			"Water quality 2",
+			"Water quality 3",
+			"Water quality 4"
+		}
+	},
+	{ NAME_MPS_D5, "mps D5",
+		{
+			"mps D5 - 1",
+			"mps D5 - 2",
+			"mps D5 - 3",
+			"mps D5 - 4"
+		}
+	}
+};
+
 #endif /* AQUAERO5_USER_STRINGS_H_ */

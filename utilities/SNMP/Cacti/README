@@ -1,0 +1,12 @@
+This directory contains Cacti templates for using the SNMP data made available from the Aquaero 5 via aerotools-ng and snmp_persist_aquaero5.pl
+
+
+Installation Instructions
+
+Copy the contents of snmp_queries to your Cacti resource/snmp_queries/ directory (e.g. /var/www/html/cacti/resource/snmp_queries/)
+
+Import the contents of the data_queries directory via the Cacti web interface.
+
+Add the data queries to the hosts running snmp_persist_aquaero5.pl, Select "Create Graphs for this Host", select the device/sensors you want to monitor, then click "Create".
+
+Have fun!

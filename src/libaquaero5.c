@@ -645,10 +645,10 @@ int libaquaero5_getsettings(char *device, aq5_settings_t *settings_dest, char **
 	}
 
 	/* Aquastream settings */
-	for (int i=0; i<AQ5_NUM_FAN; i++) {
+	/*for (int i=0; i<AQ5_NUM_FAN; i++) {
 		settings_dest->aquastream_xt[i].freqmode = aq5_buf_settings[AQ5_SETTINGS_AQUASTREAM_XT_OFFS + i * AQ5_SETTINGS_AQUASTREAM_XT_DIST];
 		settings_dest->aquastream_xt[i].frequency = aq5_get_int16(aq5_buf_settings, AQ5_SETTINGS_AQUASTREAM_XT_OFFS + 1 + i * AQ5_SETTINGS_AQUASTREAM_XT_DIST);
-	}
+	}*/
 
 	/* Power and relay output settings  */
 	settings_dest->power_output_1_config.min_power = aq5_get_int16(aq5_buf_settings, AQ5_SETTINGS_POWER_OUTPUT_OFFS) /100;

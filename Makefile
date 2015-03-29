@@ -59,6 +59,7 @@ lib/libaquaero5.so: $(LIB_OBJS)
 
 clean :
 	rm -f bin/aerocli obj/*.o lib/*.a lib/*.so
+	rmdir bin/ obj/ lib/
 
 install :
 	$(shell mkdir -p $(DESTDIR)/usr/bin/ $(DESTDIR)/usr/obj/ $(DESTDIR)/usr/lib/)

@@ -24,23 +24,28 @@
 	#define AQ5_FW_TARGET 1030
 #endif
 
+#define AQ5_TIME_LEN			4
+#define AQ5_SOFT_SENSORS_LEN	16
+#define AQ5_REPORT_NAME_LEN		523
+#define AQ5_CLEAN_NAME_LEN		4096
+#define AQ5_DATA_LEN_MAX		1024 /* should big the higest AQ5_DATA_LEN value. We put here some margin*/
+
+#ifndef AQ5_DETECT_FW
+
 /* report lengths */
 #if AQ5_FW_TARGET == 1027
-	#define AQ5_TIME_LEN			4
-	#define AQ5_SOFT_SENSORS_LEN		16
-	#define AQ5_DATA_LEN			659
-	#define AQ5_REPORT_NAME_LEN		523
-	#define AQ5_CLEAN_NAME_LEN		4096
+	#define AQ5_DATA_LEN		659
+
 	#define AQ5_FW_MIN			1027
 	#define AQ5_FW_MAX			1027
 #elif ((AQ5_FW_TARGET <= 1030) && (AQ5_FW_TARGET >= 1028))
-	#define AQ5_TIME_LEN			4
-	#define AQ5_SOFT_SENSORS_LEN		16
-	#define AQ5_DATA_LEN			661
-	#define AQ5_REPORT_NAME_LEN		523
-	#define AQ5_CLEAN_NAME_LEN		4096
+	#define AQ5_DATA_LEN		661
 	#define AQ5_FW_MIN			1028
 	#define AQ5_FW_MAX			1030
+#elif ((AQ5_FW_TARGET <= 2002) && (AQ5_FW_TARGET >= 2000))
+	#define AQ5_DATA_LEN  661
+	#define AQ5_FW_MIN	 2000
+	#define AQ5_FW_MAX	 2002
 #endif
 
 /* data offsets for status report */
@@ -82,7 +87,28 @@
 	#define AQ5_LEVEL_OFFS				0x149
 	#define AQ5_FAN_OFFS				0x16b
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1cb
+#elif ((AQ5_FW_TARGET <= 2002) && (AQ5_FW_TARGET >= 2000))
+	#define AQ5_CURRENT_TIME_OFFS	  0x001
+	#define AQ5_SERIAL_MAJ_OFFS  0x007
+	#define AQ5_SERIAL_MIN_OFFS	  0x009
+	#define AQ5_FIRMWARE_VER_OFFS	  0x00b
+	#define AQ5_BOOTLOADER_VER_OFFS  0x00d
+	#define AQ5_HARDWARE_VER_OFFS	  0x00f
+	#define AQ5_UPTIME_OFFS		  0x011
+	#define AQ5_TOTAL_TIME_OFFS	  0x015
+	#define AQ5_TEMP_OFFS			  0x065
+	#define AQ5_VTEMP_OFFS			  0x095
+	#define AQ5_STEMP_OFFS			  0x085
+	#define AQ5_OTEMP_OFFS			  0x09d
+	#define AQ5_FAN_VRM_OFFS		  0x0bd
+	#define AQ5_CPU_TEMP_OFFS		  0x0d5
+	#define AQ5_FLOW_OFFS			  0x0f9
+	#define AQ5_LEVEL_OFFS			  0x149
+	#define AQ5_FAN_OFFS			  0x173
+	#define AQ5_AQUASTREAM_XT_OFFS	  0x1cb
 #endif
+
+#endif /* #ifndef AQ5_DETECT_FW */
 
 #define AQ5_TEMP_DIST			2
 #define AQ5_TEMP_UNDEF			0x7fff

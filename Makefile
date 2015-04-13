@@ -23,6 +23,8 @@ CFLAGS = -Wall -ansi -std=gnu99 -pedantic -I /usr/include -O2
 
 # Uncomment the following line if using firmware 1027.
 # CFLAGS += -D'AQ5_FW_TARGET=1027'
+# Uncomment the following line if using firmware autodetection.
+CFLAGS += -DAQ5_DETECT_FW
 
 ifdef DEBUG  
 	CFLAGS += -g

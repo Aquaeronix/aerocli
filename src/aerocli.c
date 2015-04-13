@@ -56,6 +56,8 @@ void print_help()
 	printf("  -s  SENSOR:VALUE   set the given sofware SENSOR to the specified VALUE\n");
 	printf("  -n  REFERENCE:INDEX:VALUE set the given name REFERENCE:INDEX to the specified VALUE\n");
 	printf("  -T                 synchronize time\n\n");
+	printf("  -f  FAN:VALUE   set the given FAN to the specified VALUE, eg 2:20.00 to set FAN2 to 20%%\n");
+	printf("        	      set the VALUE to -1 to set default value\n");
 
 	printf("  -D  FILE    dump data to FILE\n");
 	printf("  -S  FILE    dump settings to FILE\n");
@@ -75,7 +77,7 @@ void parse_cmdline(int argc, char *argv[])
 	char *ref = NULL; /* Need this to satisfy silly compiler warning */
 	char *new_val;
 
-	while ((c = getopt(argc, argv, "d:o:aqs:n:D:S:hT")) != -1) {
+	while ((c = getopt(argc, argv, "d:o:aqs:f:n:D:S:hT")) != -1) {
 		switch (c) {
 			case 'q':
 				quiet = 1;
@@ -112,6 +114,7 @@ void parse_cmdline(int argc, char *argv[])
 					argstr = strsep(&optarg, ":");
 					/* Sanity check the given arguments */
 					if (argstr == NULL) {
+						printf("optarg = %s\n", optarg);
 						fprintf(stderr, "option -s requires SENSOR:VALUE (i.e. -s 1:30.00)\n");
 						exit(EXIT_FAILURE);
 					}
@@ -125,6 +128,26 @@ void parse_cmdline(int argc, char *argv[])
 						} else {
 							set_software_sensors = 1;
 						}
+					}
+				}
+				break;
+			case 'f':
+				/* Split the arguments */
+				for (int i=0; i<2; i++) {
+					argstr = strsep(&optarg, ":");
+					/* Sanity check the given arguments */
+					if (argstr == NULL) {
+						fprintf(stderr, "option -f requires SENSOR:VALUE (i.e. -s 1:30.00)\n");
+						exit(EXIT_FAILURE);
+					}
+					if (i == 0) {
+						index = (int)strtol(argstr, (char **) NULL, 10);
+					} 
+					else {
+						if (libaquaero5_set_fan(device, index, strtod(argstr, (char **) NULL),&err_msg) == -1) {
+							fprintf(stderr, "Illegal sensor value. Must be in the range of 1-4 for FAN and -1:100.00 for VALUE\n");
+							exit(EXIT_FAILURE);
+						} 
 					}
 				}
 				break;
@@ -319,7 +342,7 @@ void print_flow(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 {
 	printf("-------- Flow Sensors --------\n");
 	for (int n=0; n<AQ5_NUM_FLOW; n++) {
-		if ((aq_data->flow[n] != 0) && (!out_all))
+		if ((aq_data->flow[n] != AQ5_FLOAT_UNDEF) && (!out_all))
 			printf("Flow %2d:%18.0f %s\n", n+1, aq_data->flow[n], flow_unit);
 		if (out_all) {
 			printf("Flow %2d '%s':\t%2.0f %s\n", n+1, 
@@ -334,7 +357,7 @@ void print_levels(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 {
 	printf("------- Liquid Levels --------\n");
 	for (int n=0; n<AQ5_NUM_LEVEL; n++) {
-			if ((aq_data->level[n] != 0) && (!out_all)) 
+			if ((aq_data->level[n] != AQ5_FLOAT_UNDEF) && (!out_all)) 
 				printf("Level %2d:%20.0f%%\n", n+1, aq_data->level[n]);
 			if (out_all) {
 				printf("Level %2d '%s':\t%2.0f%%\n", n+1, 
@@ -1045,13 +1068,14 @@ int main(int argc, char *argv[])
 				strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	
+//if(aquaero_data.firmware_version < 2000) // for now, does not work with FW >=2000
+{
 	if (libaquaero5_get_all_names(device, 3, &err_msg) < 0) {
 		fprintf(stderr, "failed to get names: %s (%s)\n", err_msg,
 				strerror(errno));
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
-
+}
 
 	if (dump_data_file != NULL) {
 		if (libaquaero5_dump_data(dump_data_file) != 0)

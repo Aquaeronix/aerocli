@@ -36,7 +36,6 @@
 #include <linux/hiddev.h>
 #include <dirent.h>
 
-
 /* usb communication related constants */
 #define AQ5_USB_VID				0x0c70
 #define AQ5_USB_PID				0xf001
@@ -72,13 +71,124 @@
 
 /* device-specific globals */
 /* TODO: vectorize to handle more than one device */
-unsigned char aq5_buf_data[AQ5_DATA_LEN];
+unsigned char aq5_buf_data[AQ5_DATA_LEN_MAX];
 unsigned char aq5_buf_settings[AQ5_SETTINGS_LEN];
 unsigned char aq5_buf_soft_sensors[AQ5_SOFT_SENSORS_LEN];
 unsigned char aq5_buf_time[AQ5_TIME_LEN];
 unsigned char aq5_buf_name[AQ5_NAME_LEN + 3];
 char **aq5_buf_device_names;
 int aq5_fd = -1;
+
+#ifdef AQ5_DETECT_FW
+static uint16_t AQ5_DATA_LEN	=  661;
+static uint16_t AQ5_FW_MIN	= 2000;
+static uint16_t AQ5_FW_MAX	= 2002;
+
+static uint16_t AQ5_CURRENT_TIME_OFFS	=  0x001;
+static uint16_t AQ5_SERIAL_MAJ_OFFS	=  0x007;
+static uint16_t AQ5_SERIAL_MIN_OFFS	=  0x009;
+static uint16_t AQ5_FIRMWARE_VER_OFFS	=  0x00b;
+static uint16_t AQ5_BOOTLOADER_VER_OFFS=  0x00d;
+static uint16_t AQ5_HARDWARE_VER_OFFS	=  0x00f;
+static uint16_t AQ5_UPTIME_OFFS		=  0x011;
+static uint16_t AQ5_TOTAL_TIME_OFFS	=  0x015;
+static uint16_t AQ5_TEMP_OFFS			=  0x065;
+static uint16_t AQ5_VTEMP_OFFS			=  0x095;
+static uint16_t AQ5_STEMP_OFFS			=  0x085;
+static uint16_t AQ5_OTEMP_OFFS			=  0x09d;
+static uint16_t AQ5_FAN_VRM_OFFS		=  0x0bd; 
+static uint16_t AQ5_CPU_TEMP_OFFS		=  0x0d5;
+static uint16_t AQ5_FLOW_OFFS			=  0x0f9;
+static uint16_t AQ5_LEVEL_OFFS			=  0x149;
+static uint16_t AQ5_FAN_OFFS			=  0x173;
+static uint16_t AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
+
+static int aq5_set_offsets(uint16_t firmware_version)
+{
+	if (firmware_version == 1027)
+	{
+		AQ5_DATA_LEN = 659;
+		AQ5_FW_MIN	 = 1027;
+		AQ5_FW_MAX   = 1027;
+		
+		AQ5_CURRENT_TIME_OFFS		= 0x001;
+		AQ5_SERIAL_MAJ_OFFS			= 0x007;
+		AQ5_SERIAL_MIN_OFFS			= 0x009;
+		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS		= 0x00d;
+		AQ5_HARDWARE_VER_OFFS		= 0x00f;
+		AQ5_UPTIME_OFFS				= 0x011;
+		AQ5_TOTAL_TIME_OFFS			= 0x015;
+		AQ5_TEMP_OFFS				= 0x067;
+		AQ5_VTEMP_OFFS				= 0x097;
+		AQ5_STEMP_OFFS				= 0x087;
+		AQ5_OTEMP_OFFS				= 0x09f;
+		AQ5_FAN_VRM_OFFS			= 0x0bf;
+		AQ5_CPU_TEMP_OFFS			= 0x0d7;
+		AQ5_FLOW_OFFS				= 0x0fb;
+		AQ5_LEVEL_OFFS				= 0x147;
+		AQ5_FAN_OFFS				= 0x169;
+		AQ5_AQUASTREAM_XT_OFFS		= 0x1c9;
+	}
+	else if ((firmware_version <= 1030) && (firmware_version >= 1028))
+	{
+		AQ5_DATA_LEN		= 661;
+		AQ5_FW_MIN			= 1028;
+		AQ5_FW_MAX			= 1030;
+		AQ5_CURRENT_TIME_OFFS		= 0x001;
+		AQ5_SERIAL_MAJ_OFFS			= 0x007;
+		AQ5_SERIAL_MIN_OFFS			= 0x009;
+		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS		= 0x00d;
+		AQ5_HARDWARE_VER_OFFS		= 0x00f;
+		AQ5_UPTIME_OFFS				= 0x011;
+		AQ5_TOTAL_TIME_OFFS			= 0x015;
+		AQ5_TEMP_OFFS				= 0x069;
+		AQ5_VTEMP_OFFS				= 0x099;
+		AQ5_STEMP_OFFS				= 0x089;
+		AQ5_OTEMP_OFFS				= 0x0a1;
+		AQ5_FAN_VRM_OFFS			= 0x0c1;
+		AQ5_CPU_TEMP_OFFS			= 0x0d9;
+		AQ5_FLOW_OFFS				= 0x0fd;
+		AQ5_LEVEL_OFFS				= 0x149;
+		AQ5_FAN_OFFS				= 0x16b;
+		AQ5_AQUASTREAM_XT_OFFS		= 0x1cb;
+	}
+	else if ((firmware_version <= 2002) && (firmware_version >= 2000))
+	{
+		AQ5_DATA_LEN	=  661;
+		AQ5_FW_MIN	= 2000;
+		AQ5_FW_MAX	= 2002;
+		
+		AQ5_CURRENT_TIME_OFFS	=  0x001;
+		AQ5_SERIAL_MAJ_OFFS  	= 	0x007;
+		AQ5_SERIAL_MIN_OFFS	  	= 	0x009;
+		AQ5_FIRMWARE_VER_OFFS	=  0x00b;
+		AQ5_BOOTLOADER_VER_OFFS = 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
+		AQ5_UPTIME_OFFS		  	= 	0x011;
+		AQ5_TOTAL_TIME_OFFS	  	= 	0x015;
+		AQ5_TEMP_OFFS			=  0x065;
+		AQ5_VTEMP_OFFS			=  0x095;
+		AQ5_STEMP_OFFS			=  0x085;
+		AQ5_OTEMP_OFFS		=  0x09d;
+		AQ5_FAN_VRM_OFFS		=  0x0bd;
+		AQ5_CPU_TEMP_OFFS		=  0x0d5;
+		AQ5_FLOW_OFFS			=  0x0f9;
+		AQ5_LEVEL_OFFS			=  0x145;
+		AQ5_FAN_OFFS			=  0x173;
+		AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
+	}
+	else
+	{
+		printf("Unsupported firmware %u\n", firmware_version);
+		return -1;
+	}
+	
+	return 0;
+}
+
+#endif /* #ifndef AQ5_DETECT_FW */
 
 /* helper functions */
 
@@ -341,6 +451,9 @@ static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int l
 				i++;
 			} else {
 				wrong_reports++;
+#ifdef DEBUG
+				printf("Value at %d on page %d does not match (%02X). Loop iteration %d\n", page_position_offset, i, ref_multi_i.values[page_position_offset], c);
+#endif
 			}
 		}
 	}
@@ -485,6 +598,7 @@ int libaquaero5_getsettings(char *device, aq5_settings_t *settings_dest, char **
 		printf("failed to get report!");
 		return -1;	
 	}
+
 
 	/* User interface settings */
 	settings_dest->disable_keys = aq5_get_int16(aq5_buf_settings, AQ5_SETTINGS_DISABLE_KEYS_OFFS);
@@ -895,6 +1009,13 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	data_dest->bootloader_version = aq5_get_int16(aq5_buf_data, AQ5_BOOTLOADER_VER_OFFS);
 	data_dest->hardware_version = aq5_get_int16(aq5_buf_data, AQ5_HARDWARE_VER_OFFS);
 
+#ifdef AQ5_DETECT_FW
+	if(aq5_set_offsets(data_dest->firmware_version) != 0)
+	{
+		return -1;
+	}
+#endif
+
 	/* operating times */
 	aq5_get_uptime(aq5_get_int32(aq5_buf_data, AQ5_UPTIME_OFFS), &data_dest->uptime);
 	aq5_get_uptime(aq5_get_int32(aq5_buf_data, AQ5_TOTAL_TIME_OFFS), &data_dest->total_time);
@@ -936,7 +1057,11 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 
 	/* flow sensors */
 	for (int i=0; i<AQ5_NUM_FLOW; i++) {
-		data_dest->flow[i] = (double)aq5_get_int16(aq5_buf_data, AQ5_FLOW_OFFS + i * AQ5_FLOW_DIST) / 10.0;
+		n = aq5_get_int16(aq5_buf_data, AQ5_FLOW_OFFS + i * AQ5_FLOW_DIST);
+		if(n != 0x7FFF)
+			data_dest->flow[i] = (double)(n / 10.0);
+		else
+			data_dest->flow[i] = AQ5_FLOAT_UNDEF;
 	}
 
 	/* CPU temp */
@@ -947,7 +1072,11 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 
 	/* Liquid level sensors */
 	for (int i=0; i<AQ5_NUM_LEVEL; i++) {
-		data_dest->level[i] = (double)aq5_get_int16(aq5_buf_data, AQ5_LEVEL_OFFS + i * AQ5_LEVEL_DIST) / 100.0;
+		n = aq5_get_int16(aq5_buf_data, AQ5_LEVEL_OFFS + i * AQ5_LEVEL_DIST);
+		if(n != 0x7FFF)
+			data_dest->level[i] = (double)(n / 100.0);
+		else
+			data_dest->level[i] = AQ5_FLOAT_UNDEF;
 	}
 
 	/* Aquastreams */
@@ -971,8 +1100,10 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 
 	/* firmware compatibility check */
 	if ((data_dest->firmware_version < AQ5_FW_MIN) || (data_dest->firmware_version > AQ5_FW_MAX))
+	{
+		printf("FW: %d\n", data_dest->firmware_version);
 		*err_msg = "unsupported firmware version";
-
+	}
 	return 0;
 }
 
@@ -1166,7 +1297,7 @@ int libaquaero5_set_time(char *device, time_t time, char **err_msg)
  	 * Convert the given time into Aq5 format time:
 	 * - the time in seconds since 1/1/2009 00:00:00 UTC 
 	 */
-	aq5_set_int32(aq5_buf_time, 0, (uint32_t)(time - 1230768000));	
+	aq5_set_int32(aq5_buf_time, 0, (uint32_t)(time - 1230768000));
 	if (aq5_send_report(aq5_fd, 0x5, HID_REPORT_TYPE_OUTPUT, aq5_buf_time) != 0) {
 		*err_msg = "libaquaero5_set_time() failed!";
 		return -1;
@@ -1343,3 +1474,45 @@ int libaquaero5_set_name_by_ref(char *device, char *reference, uint8_t index, ch
 	return -1; 
 }
 
+/* Set the aq5 device fan (override) */
+int libaquaero5_set_fan(char *device, uint8_t fan_index, double percent, char **err_msg)
+{
+	unsigned char aq5_buf_fan[6] = {0x00, 0x64, 0x00, 0x00, 0xFF, 0xFF};
+
+	/* Allow the device to be disconnected and open only if the fd is undefined */
+	if (aq5_open(device, err_msg) != 0) {
+		return -1;
+	}
+
+	/* 
+	06:00:67:00:00:23:28
+	67=fan4
+	64=fan1...
+
+	val=FFFF : default
+	fan_index = [1...4]
+	 */
+	if(percent >= 0)
+	{
+		aq5_set_int16(aq5_buf_fan, 4, (uint16_t)(percent*100));
+	}
+	else
+	{
+		aq5_buf_fan[4] = 0xFF;
+		aq5_buf_fan[5] = 0xFF;
+	}
+	
+	if((fan_index < 1) || (fan_index > 4))
+	{
+		*err_msg = "libaquaero5_set_fan() : invalid fan_index parameter";
+		return -2;
+	}
+	aq5_buf_fan[1] = 0x63 +fan_index;
+	/*printf("%x:%x:%x:%x:%x:%x\n", aq5_buf_fan[0],aq5_buf_fan[1],aq5_buf_fan[2],aq5_buf_fan[3],aq5_buf_fan[4],aq5_buf_fan[5]);*/
+	if (aq5_send_report(aq5_fd, 0x6, HID_REPORT_TYPE_OUTPUT, aq5_buf_fan) != 0) {
+		*err_msg = "libaquaero5_set_fan() failed!";
+		return -1;
+	}
+
+	return 0;
+}

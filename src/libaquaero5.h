@@ -936,6 +936,9 @@ char	*libaquaero5_get_default_name_by_type(name_enum_t type, uint8_t index);
 char	*libaquaero5_get_name_ref_by_type(name_enum_t type);
 int 	libaquaero5_set_name_by_ref(char *device, char *reference, uint8_t index, char *name, char **err_msg);
 
+/* Set the aq5 device fan (override) */
+int libaquaero5_set_fan(char *device, uint8_t fan_id, double percent, char **err_msg);
+
 /* helpful for debugging */
 int 	libaquaero5_dump_data(char *file);
 int	libaquaero5_dump_settings(char *file);

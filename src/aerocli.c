@@ -395,6 +395,54 @@ void print_aquastream_xts(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 	}
 }
 
+void print_aquabus(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
+{
+	printf("------- Aquabus -------\n");
+	if (!out_all) {
+		
+			if (aq_data->aquabus.mps1 != FALSE) {
+				printf("mps 1 : Connected\n");
+			}
+
+			if (aq_data->aquabus.mps2 != FALSE) {
+				printf("mps 2 : Connected\n");
+			}
+
+			if (aq_data->aquabus.mps3 != FALSE) {
+				printf("mps 3 : Connected\n");
+			}
+
+			if (aq_data->aquabus.mps4 != FALSE) {
+				printf("mps 4 : Connected\n");
+			}
+	} else {
+			if (aq_data->aquabus.mps1 != FALSE) {
+				printf("mps 1 : Connected\n");
+			} else {
+				printf("mps 1 : Not connected\n");
+			}
+
+			if (aq_data->aquabus.mps2 != FALSE) {
+				printf("mps 2 : Connected\n");
+			} else {
+				printf("mps 2 : Not connected\n");
+			}
+
+			if (aq_data->aquabus.mps3 != FALSE) {
+				printf("mps 3 : Connected\n");
+			} else {
+				printf("mps 3 : Not connected\n");
+			}
+
+			if (aq_data->aquabus.mps4 != FALSE) {
+				printf("mps 4 : Connected\n");
+			} else {
+				printf("mps 4 : Not connected\n");
+			}
+	}
+}
+
+
 void print_settings(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 {
 	printf("---------- Settings ----------\n");
@@ -1114,6 +1162,7 @@ int main(int argc, char *argv[])
 			print_flow(&aquaero_data, &aquaero_settings);
 			print_levels(&aquaero_data, &aquaero_settings);
 			print_aquastream_xts(&aquaero_data, &aquaero_settings);
+			print_aquabus(&aquaero_data, &aquaero_settings);
 			if (out_all)
 				print_settings(&aquaero_data, &aquaero_settings);
 		} else if (out_format == F_SCRIPT) {

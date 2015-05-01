@@ -101,7 +101,9 @@ static uint16_t AQ5_CPU_TEMP_OFFS		=  0x0d5;
 static uint16_t AQ5_FLOW_OFFS			=  0x0f9;
 static uint16_t AQ5_LEVEL_OFFS			=  0x149;
 static uint16_t AQ5_FAN_OFFS			=  0x173;
+static uint16_t AQ5_FAN_DIST			=  8;
 static uint16_t AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
+static uint16_t AQ5_AQUABUS_STATUS_OFFS	=  0x39;
 
 static int aq5_set_offsets(uint16_t firmware_version)
 {
@@ -128,6 +130,7 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_FLOW_OFFS				= 0x0fb;
 		AQ5_LEVEL_OFFS				= 0x147;
 		AQ5_FAN_OFFS				= 0x169;
+		AQ5_FAN_DIST			= 8;
 		AQ5_AQUASTREAM_XT_OFFS		= 0x1c9;
 	}
 	else if ((firmware_version <= 1030) && (firmware_version >= 1028))
@@ -136,25 +139,26 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_FW_MIN			= 1028;
 		AQ5_FW_MAX			= 1030;
 		AQ5_CURRENT_TIME_OFFS		= 0x001;
-		AQ5_SERIAL_MAJ_OFFS			= 0x007;
-		AQ5_SERIAL_MIN_OFFS			= 0x009;
+		AQ5_SERIAL_MAJ_OFFS		= 0x007;
+		AQ5_SERIAL_MIN_OFFS		= 0x009;
 		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
-		AQ5_BOOTLOADER_VER_OFFS		= 0x00d;
-		AQ5_HARDWARE_VER_OFFS		= 0x00f;
-		AQ5_UPTIME_OFFS				= 0x011;
-		AQ5_TOTAL_TIME_OFFS			= 0x015;
+		AQ5_BOOTLOADER_VER_OFFS	= 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
+		AQ5_UPTIME_OFFS			= 0x011;
+		AQ5_TOTAL_TIME_OFFS		= 0x015;
 		AQ5_TEMP_OFFS				= 0x069;
 		AQ5_VTEMP_OFFS				= 0x099;
 		AQ5_STEMP_OFFS				= 0x089;
-		AQ5_OTEMP_OFFS				= 0x0a1;
+		AQ5_OTEMP_OFFS			= 0x0a1;
 		AQ5_FAN_VRM_OFFS			= 0x0c1;
 		AQ5_CPU_TEMP_OFFS			= 0x0d9;
 		AQ5_FLOW_OFFS				= 0x0fd;
 		AQ5_LEVEL_OFFS				= 0x149;
 		AQ5_FAN_OFFS				= 0x16b;
-		AQ5_AQUASTREAM_XT_OFFS		= 0x1cb;
+		AQ5_FAN_DIST				= 8;
+		AQ5_AQUASTREAM_XT_OFFS	= 0x1cb;
 	}
-	else if ((firmware_version <= 2002) && (firmware_version >= 2000))
+	else if ((firmware_version <= 2003) && (firmware_version >= 2000))
 	{
 		AQ5_DATA_LEN	=  661;
 		AQ5_FW_MIN	= 2000;
@@ -176,7 +180,8 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_CPU_TEMP_OFFS		=  0x0d5;
 		AQ5_FLOW_OFFS			=  0x0f9;
 		AQ5_LEVEL_OFFS			=  0x145;
-		AQ5_FAN_OFFS			=  0x173;
+		AQ5_FAN_OFFS			=  0x167;
+		AQ5_FAN_DIST			= 12;
 		AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
 	}
 	else
@@ -192,17 +197,28 @@ static int aq5_set_offsets(uint16_t firmware_version)
 
 /* helper functions */
 
-static inline uint16_t aq5_get_int16(unsigned char *buffer, short offset)
+static inline int16_t aq5_get_int16(unsigned char *buffer, short offset)
+{
+	return (int16_t)((buffer[offset] << 8) | buffer[offset + 1]);
+}
+
+static inline uint16_t aq5_get_uint16(unsigned char *buffer, short offset)
 {
 	return (uint16_t)((buffer[offset] << 8) | buffer[offset + 1]);
 }
-
 
 static inline uint32_t aq5_get_int32(unsigned char *buffer, short offset)
 {
 	return (buffer[offset] << 24) | (buffer[offset + 1] << 16) |
 			(buffer[offset + 2] << 8) | buffer[offset + 3];
 }
+
+static inline uint32_t aq5_get_uint32(unsigned char *buffer, short offset)
+{
+	return (buffer[offset] << 24) | (buffer[offset + 1] << 16) |
+			(buffer[offset + 2] << 8) | buffer[offset + 3];
+}
+
 
 inline void aq5_set_int16(unsigned char *buffer, short offset, uint16_t val)
 {
@@ -1097,6 +1113,14 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 		data_dest->aquastream_xt[i].voltage = (double)aq5_get_int16(aq5_buf_data, AQ5_AQUASTREAM_XT_OFFS + 4 + i * AQ5_AQUASTREAM_XT_DIST) / 100.0;
 		data_dest->aquastream_xt[i].current = aq5_get_int16(aq5_buf_data, AQ5_AQUASTREAM_XT_OFFS + 6 + i * AQ5_AQUASTREAM_XT_DIST);
 	}
+
+	/* Aquabus */
+	n =   aq5_get_uint32(aq5_buf_data, AQ5_AQUABUS_STATUS_OFFS);
+	data_dest->aquabus.mps1= (n &  AQUABUS_MPS1_PRESENT) == AQUABUS_MPS1_PRESENT;
+	data_dest->aquabus.mps2= (n &  AQUABUS_MPS2_PRESENT) == AQUABUS_MPS2_PRESENT;
+	data_dest->aquabus.mps3= (n &  AQUABUS_MPS3_PRESENT) == AQUABUS_MPS3_PRESENT;
+	data_dest->aquabus.mps4= (n &  AQUABUS_MPS4_PRESENT) == AQUABUS_MPS4_PRESENT;
+
 
 	/* firmware compatibility check */
 	if ((data_dest->firmware_version < AQ5_FW_MIN) || (data_dest->firmware_version > AQ5_FW_MAX))

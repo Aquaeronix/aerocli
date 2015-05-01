@@ -148,6 +148,13 @@ typedef struct {
 	uint16_t	current;
 } aquastream_xt_data_t;
 
+typedef struct {
+	boolean_t mps1;
+	boolean_t mps2;
+	boolean_t mps3;
+	boolean_t mps4;
+} aquabus_data_t;
+
 /* structures holding device data */
 typedef struct {
 	struct tm	time_utc;
@@ -171,6 +178,7 @@ typedef struct {
 	double		cpu_temp[AQ5_NUM_CPU];
 	double		level[AQ5_NUM_LEVEL];
 	aquastream_xt_data_t	aquastream_xt[AQ5_NUM_AQUASTREAM_XT];
+	aquabus_data_t aquabus;
 } aq5_data_t;
 
 typedef enum { 

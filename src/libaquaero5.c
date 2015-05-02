@@ -82,7 +82,7 @@ int aq5_fd = -1;
 #ifdef AQ5_DETECT_FW
 static uint16_t AQ5_DATA_LEN	=  661;
 static uint16_t AQ5_FW_MIN	= 2000;
-static uint16_t AQ5_FW_MAX	= 2002;
+static uint16_t AQ5_FW_MAX	= 2003;
 
 static uint16_t AQ5_CURRENT_TIME_OFFS	=  0x001;
 static uint16_t AQ5_SERIAL_MAJ_OFFS	=  0x007;
@@ -162,7 +162,7 @@ static int aq5_set_offsets(uint16_t firmware_version)
 	{
 		AQ5_DATA_LEN	=  661;
 		AQ5_FW_MIN	= 2000;
-		AQ5_FW_MAX	= 2002;
+		AQ5_FW_MAX	= 2003;
 		
 		AQ5_CURRENT_TIME_OFFS	=  0x001;
 		AQ5_SERIAL_MAJ_OFFS  	= 	0x007;
@@ -1024,6 +1024,7 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	data_dest->firmware_version = aq5_get_int16(aq5_buf_data, AQ5_FIRMWARE_VER_OFFS);
 	data_dest->bootloader_version = aq5_get_int16(aq5_buf_data, AQ5_BOOTLOADER_VER_OFFS);
 	data_dest->hardware_version = aq5_get_int16(aq5_buf_data, AQ5_HARDWARE_VER_OFFS);
+	data_dest->structure_version = aq5_get_uint16(aq5_buf_data, AQ5_STRUCTURE_VER_OFFS);
 
 #ifdef AQ5_DETECT_FW
 	if(aq5_set_offsets(data_dest->firmware_version) != 0)

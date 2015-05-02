@@ -163,6 +163,7 @@ typedef struct {
 	uint16_t	firmware_version;
 	uint16_t	bootloader_version;
 	uint16_t	hardware_version;
+	uint16_t	structure_version;
 	struct tm	uptime;
 	struct tm	total_time;
 	double		temp[AQ5_NUM_TEMP];
@@ -257,6 +258,31 @@ typedef enum {
 	PRESET_VAL_31	=	0x007e,
 	PRESET_VAL_32	=	0x007f
 } controller_data_source_t;
+
+typedef enum {
+
+ 	AQUABUS_AQUASTREAM1_PRESENT =	0x0001,
+	AQUABUS_AQUASTREAM2_PRESENT	=	0x0002,
+	AQUABUS_POWERADJUST1_PRESENT=	0x0004,
+	AQUABUS_POWERADJUST2_PRESENT=	0x0008,
+	AQUABUS_POWERADJUST3_PRESENT=	0x0010,
+	AQUABUS_POWERADJUST4_PRESENT=	0x0020,
+	AQUABUS_POWERADJUST5_PRESENT=	0x0040,
+	AQUABUS_POWERADJUST6_PRESENT=	0x0080,
+	AQUABUS_POWERADJUST7_PRESENT=	0x0100,
+	AQUABUS_POWERADJUST8_PRESENT =	0x0200,
+      
+	AQUABUS_MPS1_PRESENT=	0x0400,
+	AQUABUS_MPS2_PRESENT=	0x0800,
+	AQUABUS_MPS3_PRESENT=	0x1000,
+	AQUABUS_MPS4_PRESENT=	0x2000,
+      
+	AQUABUS_RTC_PRESENT=	0x4000,
+	AQUABUS_AQUAERO5SLAVE_PRESENT=		0x8000,
+      
+	AQUABUS_FARBWERK1_PRESENT=	0x10000,
+	AQUABUS_FARBWERK2_PRESENT=	0x20000
+} aquabus_device_status_t;
 
 typedef struct {
 	fan_regulation_mode_t	fan_regulation_mode;

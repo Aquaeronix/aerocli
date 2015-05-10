@@ -207,7 +207,7 @@ void parse_cmdline(int argc, char *argv[])
 }
 
 
-inline void print_with_offset(double value, double offset, char *unit)
+static inline void print_with_offset(double value, double offset, char *unit)
 {
 	printf("%5.2f %s (%+.2f)", value, unit, offset);
 }
@@ -231,23 +231,26 @@ void print_system(aq5_data_t *aq_data, aq5_settings_t *aq_sett) {
 
 	printf("----------- System -----------\n");
 	if (!out_all) {
+		printf("Firmware		= %d\n", aq_data->firmware_version);
+		printf("Structure version	= %d\n", aq_data->structure_version);
 		printf("Time:%25s\n", time_local_str);
 		printf("Uptime:%23s\n", uptime_str);
 		printf("CPU Temp:%18.2f %s\n", aq_data->cpu_temp[0], temp_unit);
 	} else {
 		char time_utc_str[21], uptime_total_str[51];
-		printf("Name          = '%s'\n", libaquaero5_get_name(NAME_AQ5, 0));
+		printf("Name			= '%s'\n", libaquaero5_get_name(NAME_AQ5, 0));
 		strftime(time_utc_str, 20, "%Y-%m-%d %H:%M:%S", &aq_data->time_utc);
 		strftime(uptime_total_str, 50, "%yy %dd %H:%M:%S", &aq_data->total_time);
-		printf("Time (UTC)    = %s\n", time_utc_str);
-		printf("Time (local)  = %s\n", time_local_str);
-		printf("Uptime        = %s\n", uptime_str);
-		printf("Uptime total  = %s\n", uptime_total_str);
-		printf("Serial number = %d-%d\n", aq_data->serial_major,
+		printf("Time (UTC)		= %s\n", time_utc_str);
+		printf("Time (local)		= %s\n", time_local_str);
+		printf("Uptime			= %s\n", uptime_str);
+		printf("Uptime total		= %s\n", uptime_total_str);
+		printf("Serial number	= %d-%d\n", aq_data->serial_major,
 				aq_data->serial_minor);
-		printf("Firmware      = %d\n", aq_data->firmware_version);
-		printf("Bootloader    = %d\n", aq_data->bootloader_version);
-		printf("Hardware      = %d\n", aq_data->hardware_version);
+		printf("Firmware		= %d\n", aq_data->firmware_version);
+		printf("Bootloader		= %d\n", aq_data->bootloader_version);
+		printf("Hardware		= %d\n", aq_data->hardware_version);
+		printf("Structure version	= %d\n", aq_data->structure_version);
 		printf("CPU Temp      = ");
 		for (int n=0; n<AQ5_NUM_CPU; n++) {
 			if (aq_data->cpu_temp[n] != AQ5_FLOAT_UNDEF)
@@ -267,6 +270,9 @@ void print_sensors(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 		for (int n=0; n<AQ5_NUM_TEMP; n++)
 			if (aq_data->temp[n] != AQ5_FLOAT_UNDEF)
 				printf("Sensor %2d:%17.2f %s\n", n+1, aq_data->temp[n], temp_unit);
+		for (int n=0; n<AQ5_NUM_OTHER_SENSORS; n++)
+			if (aq_data->otemp[n] != AQ5_FLOAT_UNDEF)
+				printf("Mps sensor %2d:%13.2f %s\n", n+1, aq_data->otemp[n], temp_unit);
 		return;
 	}
 
@@ -1116,7 +1122,15 @@ int main(int argc, char *argv[])
 				strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-//if(aquaero_data.firmware_version < 2000) // for now, does not work with FW >=2000
+if(aquaero_data.firmware_version >= 2000)
+{
+	if (libaquaero5_get_all_names2(device, 3, &err_msg) < 0) {
+		fprintf(stderr, "failed to get names: %s (%s)\n", err_msg,
+				strerror(errno));
+		//exit(EXIT_FAILURE);
+	}
+}
+else
 {
 	if (libaquaero5_get_all_names(device, 3, &err_msg) < 0) {
 		fprintf(stderr, "failed to get names: %s (%s)\n", err_msg,

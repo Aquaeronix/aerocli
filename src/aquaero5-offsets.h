@@ -26,9 +26,9 @@
 
 #define AQ5_TIME_LEN			4
 #define AQ5_SOFT_SENSORS_LEN	16
-#define AQ5_REPORT_NAME_LEN		523
+
 #define AQ5_CLEAN_NAME_LEN		4096
-#define AQ5_DATA_LEN_MAX		1024 /* should be big enough to hold the biggest "AQ5_DATA_LEN" value from the different version. We put here some margin*/
+#define AQ5_DATA_LEN_MAX		2048 /* should be big enough to hold the biggest "AQ5_DATA_LEN" value from the different version. We put here some margin*/
 
 #define AQ5_STRUCTURE_VER_OFFS 5
 
@@ -45,13 +45,15 @@
 	#define AQ5_FW_MIN			1028
 	#define AQ5_FW_MAX			1030
 #elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
-	#define AQ5_DATA_LEN  661
+	#define AQ5_DATA_LEN  869
 	#define AQ5_FW_MIN	 2000
 	#define AQ5_FW_MAX	 2003
 #endif
 
 /* data offsets for status report */
 #if AQ5_FW_TARGET == 1027
+	#define AQ5_REPORT_NAME_LEN		523
+
 	#define AQ5_CURRENT_TIME_OFFS		0x001
 	#define AQ5_SERIAL_MAJ_OFFS			0x007
 	#define AQ5_SERIAL_MIN_OFFS			0x009
@@ -72,6 +74,8 @@
 	#define AQ5_FAN_DIST			8
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1c9
 #elif ((AQ5_FW_TARGET <= 1030) && (AQ5_FW_TARGET >= 1028))
+	#define AQ5_REPORT_NAME_LEN		523
+
 	#define AQ5_CURRENT_TIME_OFFS		0x001
 	#define AQ5_SERIAL_MAJ_OFFS			0x007
 	#define AQ5_SERIAL_MIN_OFFS			0x009
@@ -92,6 +96,8 @@
 	#define AQ5_FAN_DIST			8
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1cb
 #elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
+	#define AQ5_REPORT_NAME_LEN		1102
+
 	#define AQ5_CURRENT_TIME_OFFS	  0x001
 	#define AQ5_SERIAL_MAJ_OFFS  0x007
 	#define AQ5_SERIAL_MIN_OFFS	  0x009
@@ -192,7 +198,7 @@
 #define AQ5_SETTINGS_ALLOW_OUTPUT_OVERRIDE_OFFS	0x973
 #define AQ5_SETTINGS_FAN_DIST					20
 
-#define AQ5_SETTINGS_LEN		2428
+#define AQ5_SETTINGS_LEN		2644
 #define AQ5_SETTINGS_INFO_PAGE_DIST				4
 #define AQ5_SETTINGS_VIRT_SENSOR_DIST			7
 #define AQ5_SETTINGS_SOFT_SENSOR_DIST			5

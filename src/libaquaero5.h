@@ -56,7 +56,7 @@
 #define AQ5_FLOAT_UNDEF			-99.0
 
 /* The intrapage delay for name reports */
-#define AQ5_NAME_REPORT_INTRAPAGE_DELAY 7
+#define AQ5_NAME_REPORT_INTRAPAGE_DELAY 50
 
 
 typedef enum { FALSE, TRUE } boolean_t;
@@ -89,44 +89,19 @@ typedef enum {
 	NAME_PRESSURE,
 	NAME_HUMIDITY,
 	NAME_WATER_QUALITY,
-	NAME_MPS_D5
+	NAME_MPS_D5,
+	NAME_PUMP,
+	NAME_TIMER,
+	NAME_POWER_CONSUMPTION,
+	NAME_OUTPUT
 } name_enum_t;
 
 typedef struct {
-	uint8_t	address;
+	uint16_t	address;
 	uint8_t	count;
 } name_position_t;
 
-static name_position_t name_positions[] = {
-	[NAME_BUTTON] 		= { 0,	16 },
-	[NAME_SENSOR] 		= { 16,	8 },
-	[NAME_POWERADJUST] 	= { 24,	8 },
-	[NAME_SOFTWARE_SENSOR] 	= { 32,	8 },
-	[NAME_VIRTUAL_SENSOR] 	= { 40,	4 },
-	[NAME_MPS] 		= { 44,	8 },
-	[NAME_AQUASTREAM] 	= { 52,	2 },
-	[NAME_SENSOR_EXT1] 	= { 54,	6 },
-	[NAME_FAN_AMPLIFIER] 	= { 60,	12 },
-	[NAME_CPU] 		= { 72,	1 },
-	[NAME_SENSOR_EXT2] 	= { 73, 7 },
-	[NAME_FAN] 		= { 80,	12 },
-	[NAME_FLOW] 		= { 92,	14 },
-	[NAME_PROFILE] 		= { 106,	4 },
-	[NAME_AQUASTREAM_XT] 	= { 110,	2 },
-	[NAME_MULTISWITCH] 	= { 112,	2 },
-	[NAME_TARGET_VALUE_CONT] = { 114,	8 },
-	[NAME_CURVE_CONT] 	= { 122,	4 },
-	[NAME_TWO_POINT_CONT] 	= { 126,	16 },
-	[NAME_PRESET_VALUE_CONT] = { 142,	8 },
-	[NAME_POWER_OUTPUT]	= { 150,	2 },
-	[NAME_ALERT_LEVEL] 	= { 152,	8 },
-	[NAME_AQ5] 		= { 160,	1 },
-	[NAME_FILL_LEVEL] 	= { 161,	4 },
-	[NAME_PRESSURE] 	= { 165,	4 },
-	[NAME_HUMIDITY] 	= { 169,	4 },
-	[NAME_WATER_QUALITY] 	= { 173,	4 },
-	[NAME_MPS_D5] 		= { 177,	4 }
-};
+const name_position_t* name_positions;
 
 typedef enum {
 	AQASTREAM_XT_MODE_AUTO		=	0x00,
@@ -964,6 +939,7 @@ int	libaquaero5_set_soft_sensor(int sensor_id, double value);
 int 	libaquaero5_commit_soft_sensors(char *device, char **err_msg);
 int	libaquaero5_set_time(char *device, time_t time, char **err_msg);
 int	libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg);
+int	libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg);
 char	*libaquaero5_get_name(name_enum_t type, uint8_t index);
 char	*libaquaero5_get_default_name_by_ref(char *reference, uint8_t index);
 char	*libaquaero5_get_default_name_by_type(name_enum_t type, uint8_t index);

@@ -80,6 +80,8 @@ unsigned char aq5_buf_name[AQ5_NAME_LEN + 3];
 char **aq5_buf_device_names = NULL;
 int aq5_fd = -1;
 
+static uint16_t fw_ver =AQ5_FW_TARGET;
+
 #ifdef AQ5_DETECT_FW
 static uint16_t AQ5_DATA_LEN	=  661;
 static uint16_t AQ5_FW_MIN	= 2000;
@@ -108,6 +110,8 @@ static uint16_t AQ5_FAN_DIST			=  8;
 static uint16_t AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
 static uint16_t AQ5_AQUABUS_STATUS_OFFS	=  0x39;
 static uint16_t AQ5_NUM_NAMES	=  181;
+#define AQ5_HEADER_NAME_SIZE	9
+static uint16_t AQ5_FOOTER_NAME_SIZE = 2;
 
 const name_position_t* name_positions = NULL;
 
@@ -178,6 +182,8 @@ static const name_position_t name_positions_1200[] = {
 };
 static int aq5_set_offsets(uint16_t firmware_version)
 {
+	fw_ver = firmware_version;
+
 	if (firmware_version == 1027)
 	{
 		AQ5_DATA_LEN = 659;
@@ -260,6 +266,7 @@ static int aq5_set_offsets(uint16_t firmware_version)
 
 		name_positions = name_positions_1200;
 		AQ5_NUM_NAMES = 258;
+		AQ5_FOOTER_NAME_SIZE = 4;
 	}
 	else
 	{
@@ -489,9 +496,9 @@ static int aq5_open(char *device, char **err_msg)
 	return 0;
 }
 
-
+#if 0
 /* Dumb read function for doing interrupt reads */
-static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int len, int count, char **err_msg)
+static int aq5_interruptRead_old(int fd, int report_id, unsigned char *buffer, int len, int count, char **err_msg)
 {
 	struct hiddev_report_info rinfo;
 	struct hiddev_usage_ref_multi ref_multi_i;
@@ -567,20 +574,17 @@ static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int l
 	*err_msg = "Failed to find enough matching report pages!";
 	return -1;
 }
+#endif
 
 /* Dumb read function for doing interrupt reads */
-static int aq5_interruptRead2(int fd, int report_id, unsigned char *buffer, int len, char **err_msg)
+static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int len, int report_pages[], int report_pages_count, char **err_msg)
 {
 	int i = 0;
 	int j = 0;
 	int c = 0;
 	int wrong_reports = 0;
-	int report_pages[] = {
-		0x00,
-		0x04,
-		0x08,
-		0x0c
-	}; 
+
+#define AQ5_PAGE_POSITION_OFFSET 3
 
 	struct hiddev_usage_ref uref[AQ5_DATA_LEN_MAX];
 	int retval;
@@ -625,17 +629,16 @@ static int aq5_interruptRead2(int fd, int report_id, unsigned char *buffer, int 
 		if(uref[0].report_id != report_id)
 			continue;
 
-		if ((uref[3].value&0x0F) == report_pages[i]) {
+		if (uref[AQ5_PAGE_POSITION_OFFSET].value == report_pages[i]) {
 #ifdef DEBUG
-				printf("Value on page %d matches (%02X). Loop iteration %d\n", i, uref[3].value, c);
+				printf("Value on page %d matches (%02X). Loop iteration %d\n", i, uref[AQ5_PAGE_POSITION_OFFSET].value, c);
 #endif
-#define AQ5_HEADER_NAME_SIZE	9
-#define AQ5_FOOTER_NAME_SIZE	4
+
 			for (j = 0; j<(len-AQ5_HEADER_NAME_SIZE-AQ5_FOOTER_NAME_SIZE); j++) {
 				buffer[(i*(len-AQ5_HEADER_NAME_SIZE-AQ5_FOOTER_NAME_SIZE))+j] = uref[j+AQ5_HEADER_NAME_SIZE].value;
 			}
 
-			if (i == 3) {
+			if (i == (report_pages_count-1)) {
 #ifdef DEBUG
 				printf("Last array index was %d, number of wrong reports was %d\n", (i*len)+j, wrong_reports);
 #endif
@@ -645,7 +648,7 @@ static int aq5_interruptRead2(int fd, int report_id, unsigned char *buffer, int 
 		} else {
 			wrong_reports++;
 #ifdef DEBUG
-			printf("Value at %d on page %d does not match (%02X). Loop iteration %d\n", page_position_offset, i, tmp_buffer[3], c);
+			printf("Value at %d on page %d does not match (%02X). Loop iteration %d\n", page_position_offset, i,  uref[AQ5_PAGE_POSITION_OFFSET].value, c);
 #endif
 		}
 	}
@@ -1506,7 +1509,7 @@ int libaquaero5_set_time(char *device, time_t time, char **err_msg)
 
 	return 0;
 }
-
+#if 0
 /* Send report 0x09, then read back report 0x0c 8x for all the device names */
 int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 {
@@ -1581,9 +1584,9 @@ int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 
 	return 0;
 }
-
+#endif
 /* Send 3 reports 0x09, then read back reports 0x0c 4x each for all the device names */
-int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
+int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 {
 	unsigned char *name_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN * 12);
 	unsigned char *rname_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN);
@@ -1598,16 +1601,19 @@ int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
 		return -1;
 	}
 
-		/* We need to ensure that the buffer is initialized with 0s for each attempt */
-		for (int j=0; j<AQ5_REPORT_NAME_LEN; j++) {
-			rname_buffer[j] = 0;
-		}
+	/* We need to ensure that the buffer is initialized with 0s for each attempt */
+	for (int j=0; j<AQ5_REPORT_NAME_LEN; j++) {
+		rname_buffer[j] = 0;
+	}
 
-		for (int j=0; j<(AQ5_REPORT_NAME_LEN * 12); j++) {
-			name_buffer[j] = 0;
-		}
+	for (int j=0; j<(AQ5_REPORT_NAME_LEN * 12); j++) {
+		name_buffer[j] = 0;
+	}
 
-		ioctl(aq5_fd, HIDIOCSFLAG, &flaguref);
+	ioctl(aq5_fd, HIDIOCSFLAG, &flaguref);
+
+	if(fw_ver >= 2000) {
+
 #ifdef DEBUG
 		printf("Sending first report...\n");
 #endif
@@ -1625,7 +1631,7 @@ int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
 		}
 
 		/* Now read out the 4x report 0xC */
-		read_data = aq5_interruptRead2(aq5_fd, 0xc, name_buffer, AQ5_REPORT_NAME_LEN, err_msg);
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer, AQ5_REPORT_NAME_LEN,(int[4]){0x40, 0x44, 0x48, 0x4c}, 4, err_msg);
 		if (read_data < 0) {
 			free(name_buffer);
 			free(rname_buffer);
@@ -1652,7 +1658,7 @@ int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
 		}
 
 		/* Now read out the 4x report 0xC */
-		read_data = aq5_interruptRead2(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN, err_msg);
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN,(int[4]){0x50, 0x54, 0x58, 0x5c}, 4, err_msg);
 		if ( read_data < 0) {
 			free(name_buffer);
 			free(rname_buffer);
@@ -1679,7 +1685,7 @@ int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
 		}
 
 		/* Now read out the 4x report 0xC */
-		read_data = aq5_interruptRead2(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN, err_msg);
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN,(int[4]){0x60, 0x64, 0x68, 0x6c}, 4, err_msg);
 		if ( read_data < 0) {
 			free(name_buffer);
 			free(rname_buffer);
@@ -1687,12 +1693,50 @@ int libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg)
 		}
 		read_total_len += read_data;
 		
-
-		for (int j=0; j<AQ5_NUM_NAMES; j++) {
-			aq5_buf_device_names[j] = malloc((AQ5_NAME_LEN+1) * sizeof(char));
-			memcpy(aq5_buf_device_names[j], (const char *)name_buffer + (j * AQ5_NAME_LEN), AQ5_NAME_LEN);
-			aq5_buf_device_names[j][AQ5_NAME_LEN] = '\0';
+	}
+	else {
+#ifdef DEBUG
+		printf("Sending report...\n");
+#endif
+		/* Define the report 9 request */
+		aq5_set_int16(rname_buffer, 0, 0x0100);
+		aq5_set_int16(rname_buffer, 2, 0x09c0);
+		aq5_set_int16(rname_buffer, 4, 0x0000);
+		aq5_set_int16(rname_buffer, 6, 0x0010);
+		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 2, 0xdd82);
+		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
+			*err_msg = "sending name report request failed!";
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
 		}
+
+		/* Now read out the 8x report 0xC */
+		read_data = aq5_interruptRead(aq5_fd, 
+										0xc, 
+										name_buffer, AQ5_REPORT_NAME_LEN,
+										(int[]) {	0xc0,
+													0xc2,
+													0xc4,
+													0xc6,
+													0xc8,
+													0xca,
+													0xcc,
+													0xce}, 8, 
+										err_msg);
+		if (read_data < 0) {
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
+		}
+		read_total_len += read_data;
+	}
+
+	for (int j=0; j<AQ5_NUM_NAMES; j++) {
+		aq5_buf_device_names[j] = malloc((AQ5_NAME_LEN+1) * sizeof(char));
+		memcpy(aq5_buf_device_names[j], (const char *)name_buffer + (j * AQ5_NAME_LEN), AQ5_NAME_LEN);
+		aq5_buf_device_names[j][AQ5_NAME_LEN] = '\0';
+	}
 
 #ifdef DEBUG
 {

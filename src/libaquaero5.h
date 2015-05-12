@@ -55,7 +55,7 @@
 /* constant for unknown value */
 #define AQ5_FLOAT_UNDEF			-99.0
 
-/* The intrapage delay for name reports */
+/* The intrapage delay for name reports, in ms */
 #define AQ5_NAME_REPORT_INTRAPAGE_DELAY 50
 
 
@@ -939,7 +939,6 @@ int	libaquaero5_set_soft_sensor(int sensor_id, double value);
 int 	libaquaero5_commit_soft_sensors(char *device, char **err_msg);
 int	libaquaero5_set_time(char *device, time_t time, char **err_msg);
 int	libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg);
-int	libaquaero5_get_all_names2(char *device, int max_attempts, char **err_msg);
 char	*libaquaero5_get_name(name_enum_t type, uint8_t index);
 char	*libaquaero5_get_default_name_by_ref(char *reference, uint8_t index);
 char	*libaquaero5_get_default_name_by_type(name_enum_t type, uint8_t index);

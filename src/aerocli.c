@@ -1122,22 +1122,13 @@ int main(int argc, char *argv[])
 				strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-if(aquaero_data.firmware_version >= 2000)
-{
-	if (libaquaero5_get_all_names2(device, 3, &err_msg) < 0) {
-		fprintf(stderr, "failed to get names: %s (%s)\n", err_msg,
-				strerror(errno));
-		//exit(EXIT_FAILURE);
-	}
-}
-else
-{
+
 	if (libaquaero5_get_all_names(device, 3, &err_msg) < 0) {
 		fprintf(stderr, "failed to get names: %s (%s)\n", err_msg,
 				strerror(errno));
 		//exit(EXIT_FAILURE);
 	}
-}
+
 
 	if (dump_data_file != NULL) {
 		if (libaquaero5_dump_data(dump_data_file) != 0)

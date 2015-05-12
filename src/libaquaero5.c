@@ -25,7 +25,7 @@
 /* libs */
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <alloca.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -33,9 +33,9 @@
 #include <sys/types.h>
 #include <sys/utsname.h>
 #include <sys/ioctl.h>
+#include <poll.h>
 #include <linux/hiddev.h>
 #include <dirent.h>
-
 
 /* usb communication related constants */
 #define AQ5_USB_VID				0x0c70
@@ -72,21 +72,224 @@
 
 /* device-specific globals */
 /* TODO: vectorize to handle more than one device */
-unsigned char aq5_buf_data[AQ5_DATA_LEN];
+unsigned char aq5_buf_data[AQ5_DATA_LEN_MAX];
 unsigned char aq5_buf_settings[AQ5_SETTINGS_LEN];
 unsigned char aq5_buf_soft_sensors[AQ5_SOFT_SENSORS_LEN];
 unsigned char aq5_buf_time[AQ5_TIME_LEN];
 unsigned char aq5_buf_name[AQ5_NAME_LEN + 3];
-char **aq5_buf_device_names;
+char **aq5_buf_device_names = NULL;
 int aq5_fd = -1;
+
+static uint16_t fw_ver =AQ5_FW_TARGET;
+
+#ifdef AQ5_DETECT_FW
+static uint16_t AQ5_DATA_LEN	=  661;
+static uint16_t AQ5_FW_MIN	= 2000;
+static uint16_t AQ5_FW_MAX	= 2003;
+
+static uint16_t AQ5_REPORT_NAME_LEN = 523;
+
+static uint16_t AQ5_CURRENT_TIME_OFFS	=  0x001;
+static uint16_t AQ5_SERIAL_MAJ_OFFS	=  0x007;
+static uint16_t AQ5_SERIAL_MIN_OFFS	=  0x009;
+static uint16_t AQ5_FIRMWARE_VER_OFFS	=  0x00b;
+static uint16_t AQ5_BOOTLOADER_VER_OFFS=  0x00d;
+static uint16_t AQ5_HARDWARE_VER_OFFS	=  0x00f;
+static uint16_t AQ5_UPTIME_OFFS		=  0x011;
+static uint16_t AQ5_TOTAL_TIME_OFFS	=  0x015;
+static uint16_t AQ5_TEMP_OFFS			=  0x065;
+static uint16_t AQ5_VTEMP_OFFS			=  0x095;
+static uint16_t AQ5_STEMP_OFFS			=  0x085;
+static uint16_t AQ5_OTEMP_OFFS			=  0x09d;
+static uint16_t AQ5_FAN_VRM_OFFS		=  0x0bd; 
+static uint16_t AQ5_CPU_TEMP_OFFS		=  0x0d5;
+static uint16_t AQ5_FLOW_OFFS			=  0x0f9;
+static uint16_t AQ5_LEVEL_OFFS			=  0x149;
+static uint16_t AQ5_FAN_OFFS			=  0x173;
+static uint16_t AQ5_FAN_DIST			=  8;
+static uint16_t AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
+static uint16_t AQ5_AQUABUS_STATUS_OFFS	=  0x39;
+static uint16_t AQ5_NUM_NAMES	=  181;
+#define AQ5_HEADER_NAME_SIZE	9
+static uint16_t AQ5_FOOTER_NAME_SIZE = 2;
+
+const name_position_t* name_positions = NULL;
+
+static const name_position_t name_positions_1013[] = {
+	[NAME_BUTTON] 		= { 0,	16 },
+	[NAME_SENSOR] 		= { 16,	8 },
+	[NAME_POWERADJUST] 	= { 24,	8 },
+	[NAME_SOFTWARE_SENSOR] 	= { 32,	8 },
+	[NAME_VIRTUAL_SENSOR] 	= { 40,	4 },
+	[NAME_MPS] 		= { 44,	8 },
+	[NAME_AQUASTREAM] 	= { 52,	2 },
+	[NAME_SENSOR_EXT1] 	= { 54,	6 },
+	[NAME_FAN_AMPLIFIER] 	= { 60,	12 },
+	[NAME_CPU] 		= { 72,	1 },
+	[NAME_SENSOR_EXT2] 	= { 73, 7 },
+	[NAME_FAN] 		= { 80,	12 },
+	[NAME_FLOW] 		= { 92,	14 },
+	[NAME_PROFILE] 		= { 106,	4 },
+	[NAME_AQUASTREAM_XT] 	= { 110,	2 },
+	[NAME_MULTISWITCH] 	= { 112,	2 },
+	[NAME_TARGET_VALUE_CONT] = { 114,	8 },
+	[NAME_CURVE_CONT] 	= { 122,	4 },
+	[NAME_TWO_POINT_CONT] 	= { 126,	16 },
+	[NAME_PRESET_VALUE_CONT] = { 142,	8 },
+	[NAME_POWER_OUTPUT]	= { 150,	2 },
+	[NAME_ALERT_LEVEL] 	= { 152,	8 },
+	[NAME_AQ5] 		= { 160,	1 },
+	[NAME_FILL_LEVEL] 	= { 161,	4 },
+	[NAME_PRESSURE] 	= { 165,	4 },
+	[NAME_HUMIDITY] 	= { 169,	4 },
+	[NAME_WATER_QUALITY] 	= { 173,	4 },
+	[NAME_MPS_D5] 		= { 177,	4 }
+};
+
+static const name_position_t name_positions_1200[] = {
+	[NAME_BUTTON] 		= { 0,	16 },
+	[NAME_SENSOR] 		= { 16,	8 },
+	[NAME_POWERADJUST] 	= { 24,	8 },
+	[NAME_SOFTWARE_SENSOR] 	= { 32,	8 },
+	[NAME_VIRTUAL_SENSOR] 	= { 40,	4 },
+	[NAME_MPS] 		= { 44,	8 },
+	[NAME_AQUASTREAM] 	= { 52,	2 },
+	[NAME_SENSOR_EXT1] 	= { 54,	6 },
+	[NAME_FAN_AMPLIFIER] 	= { 60,	12 },
+	[NAME_CPU] 		= { 72,	1 },
+	[NAME_SENSOR_EXT2] 	= { 73, 7 },
+	[NAME_FAN] 		= { 80,	12 },
+	[NAME_FLOW] 		= { 92,	14 },
+	[NAME_PROFILE] 		= { 106,	4 },
+	[NAME_TARGET_VALUE_CONT] = { 110,	8 },
+	[NAME_CURVE_CONT] 	= { 118,	4 },
+	[NAME_TWO_POINT_CONT] 	= { 122,	16 },
+	[NAME_PRESET_VALUE_CONT] = { 138,	32 },
+	[NAME_ALERT_LEVEL] 	= { 170,	8 },
+	[NAME_AQ5] 		= { 160,	1 },
+	[NAME_FILL_LEVEL] 	= { 178,	4 },
+	[NAME_PRESSURE] 	= { 182,	4 },
+	[NAME_HUMIDITY] 	= { 186,	4 },
+	[NAME_WATER_QUALITY] 	= { 190,	4 },
+	[NAME_TIMER] 	= { 194,	16 },
+	[NAME_POWER_CONSUMPTION] = {210, 4},
+	[NAME_POWER_OUTPUT]	= { 222,	2 },
+	[NAME_AQUASTREAM_XT] 	= { 248,	2 },
+	[NAME_MPS_D5] 		= { 250,	4 },
+	[NAME_PUMP] 		= { 254,	2 },
+	[NAME_OUTPUT] 		= { 256,	27 },
+	[NAME_MULTISWITCH] 	= { 256,	2 }
+};
+static int aq5_set_offsets(uint16_t firmware_version)
+{
+	fw_ver = firmware_version;
+
+	if (firmware_version == 1027)
+	{
+		AQ5_DATA_LEN = 659;
+		AQ5_FW_MIN	 = 1027;
+		AQ5_FW_MAX   = 1027;
+		
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
+		AQ5_SERIAL_MAJ_OFFS		= 0x007;
+		AQ5_SERIAL_MIN_OFFS		= 0x009;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS	= 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
+		AQ5_UPTIME_OFFS			= 0x011;
+		AQ5_TOTAL_TIME_OFFS		= 0x015;
+		AQ5_TEMP_OFFS			= 0x067;
+		AQ5_VTEMP_OFFS			= 0x097;
+		AQ5_STEMP_OFFS			= 0x087;
+		AQ5_OTEMP_OFFS			= 0x09f;
+		AQ5_FAN_VRM_OFFS		= 0x0bf;
+		AQ5_CPU_TEMP_OFFS		= 0x0d7;
+		AQ5_FLOW_OFFS			= 0x0fb;
+		AQ5_LEVEL_OFFS			= 0x147;
+		AQ5_FAN_OFFS			= 0x169;
+		AQ5_FAN_DIST			= 8;
+		AQ5_AQUASTREAM_XT_OFFS		= 0x1c9;
+		name_positions = name_positions_1013;
+	}
+	else if ((firmware_version <= 1030) && (firmware_version >= 1028))
+	{
+		AQ5_DATA_LEN		= 661;
+		AQ5_FW_MIN			= 1028;
+		AQ5_FW_MAX			= 1030;
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
+		AQ5_SERIAL_MAJ_OFFS		= 0x007;
+		AQ5_SERIAL_MIN_OFFS		= 0x009;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS	= 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
+		AQ5_UPTIME_OFFS			= 0x011;
+		AQ5_TOTAL_TIME_OFFS		= 0x015;
+		AQ5_TEMP_OFFS			= 0x069;
+		AQ5_VTEMP_OFFS			= 0x099;
+		AQ5_STEMP_OFFS			= 0x089;
+		AQ5_OTEMP_OFFS			= 0x0a1;
+		AQ5_FAN_VRM_OFFS		= 0x0c1;
+		AQ5_CPU_TEMP_OFFS		= 0x0d9;
+		AQ5_FLOW_OFFS			= 0x0fd;
+		AQ5_LEVEL_OFFS			= 0x149;
+		AQ5_FAN_OFFS			= 0x16b;
+		AQ5_FAN_DIST			= 8;
+		AQ5_AQUASTREAM_XT_OFFS		= 0x1cb;
+		name_positions = name_positions_1013;
+	}
+	else if ((firmware_version <= 2003) && (firmware_version >= 2000))
+	{
+		AQ5_DATA_LEN	=  869;
+		AQ5_FW_MIN	= 2000;
+		AQ5_FW_MAX	= 2003;
+		AQ5_REPORT_NAME_LEN = 1037;
+		
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
+		AQ5_SERIAL_MAJ_OFFS  	= 0x007;
+		AQ5_SERIAL_MIN_OFFS	  	= 0x009;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS = 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
+		AQ5_UPTIME_OFFS		  	= 0x011;
+		AQ5_TOTAL_TIME_OFFS	  	= 0x015;
+		AQ5_TEMP_OFFS			= 0x065;
+		AQ5_VTEMP_OFFS			= 0x095;
+		AQ5_STEMP_OFFS			= 0x085;
+		AQ5_OTEMP_OFFS			= 0x09d;
+		AQ5_FAN_VRM_OFFS		= 0x0bd;
+		AQ5_CPU_TEMP_OFFS		= 0x0d5;
+		AQ5_FLOW_OFFS			= 0x0f9;
+		AQ5_LEVEL_OFFS			= 0x145;
+		AQ5_FAN_OFFS			= 0x167;
+		AQ5_FAN_DIST			= 12;
+		AQ5_AQUASTREAM_XT_OFFS	=  0x1cb;
+
+		name_positions = name_positions_1200;
+		AQ5_NUM_NAMES = 258;
+		AQ5_FOOTER_NAME_SIZE = 4;
+	}
+	else
+	{
+		printf("Unsupported firmware %u\n", firmware_version);
+		return -1;
+	}
+	
+	return 0;
+}
+
+#endif /* #ifndef AQ5_DETECT_FW */
 
 /* helper functions */
 
-static inline uint16_t aq5_get_int16(unsigned char *buffer, short offset)
+static inline int16_t aq5_get_int16(unsigned char *buffer, short offset)
+{
+	return (int16_t)((buffer[offset] << 8) | buffer[offset + 1]);
+}
+
+static inline uint16_t aq5_get_uint16(unsigned char *buffer, short offset)
 {
 	return (uint16_t)((buffer[offset] << 8) | buffer[offset + 1]);
 }
-
 
 static inline uint32_t aq5_get_int32(unsigned char *buffer, short offset)
 {
@@ -94,13 +297,20 @@ static inline uint32_t aq5_get_int32(unsigned char *buffer, short offset)
 			(buffer[offset + 2] << 8) | buffer[offset + 3];
 }
 
-inline void aq5_set_int16(unsigned char *buffer, short offset, uint16_t val)
+static inline uint32_t aq5_get_uint32(unsigned char *buffer, short offset)
+{
+	return (buffer[offset] << 24) | (buffer[offset + 1] << 16) |
+			(buffer[offset + 2] << 8) | buffer[offset + 3];
+}
+
+
+static inline void aq5_set_int16(unsigned char *buffer, short offset, uint16_t val)
 {
 	buffer[offset] = val >> 8;
 	buffer[offset + 1] = val;
 }
 
-inline void aq5_set_int32(unsigned char *buffer, short offset, uint32_t val)
+static inline void aq5_set_int32(unsigned char *buffer, short offset, uint32_t val)
 {
 	buffer[offset] = val >> 24;
 	buffer[offset + 1] = val >> 16;
@@ -136,27 +346,18 @@ static inline void aq5_get_time(uint32_t timeval, struct tm *time)
 	mktime(time);
 }
 
-static inline int aq5_check_and_strip_name_report_watermarks(unsigned char *dirtybuffer, unsigned char *cleanbuffer)
+static int msleep(unsigned long milisec)
 {
-	for (int i=0; i<48; i++) {
-		if (aq5_get_int16(dirtybuffer, name_report_watermarks[i].offset) != name_report_watermarks[i].value) {
-			/* printf("Oops watermark at offset %02X is %02X (index %d), but should be %02X!\n", name_report_watermarks[i].offset, aq5_get_int16(dirtybuffer, name_report_watermarks[i].offset), i, name_report_watermarks[i].value); */
-			return -1;
-		} else {
-			/* printf("i=%d\n",i); */
-		}
-	}
-
-	/* Initialize cleanbuffer */
-	memset(cleanbuffer, 0, 8 * 512 * sizeof(char));
-
-	for (int i=0; i<8; i++) {
-		memcpy(cleanbuffer + (512 * i), dirtybuffer + 9 + (i * 523), 512 * sizeof(char));
-	}
-
-	return 0;
+    struct timespec req={0};
+    time_t sec=(int)(milisec/1000);
+    milisec=milisec-(sec*1000);
+    req.tv_sec=sec;
+    req.tv_nsec=milisec*1000000L;
+   	/* Wait for a short while so we don't thrash and hang */
+	while((nanosleep(&req,&req) == -1) && (errno == EINTR))
+         continue;
+    return 1;
 }
-
 
 static char *aq5_strcat(char *str1, char *str2)
 {
@@ -197,9 +398,9 @@ static int aq5_open(char *device, char **err_msg)
 			}
 			full_path = aq5_strcat("/dev/usb/", ep->d_name);
 			if ((aq5_fd = open(full_path, O_RDONLY)) < 0) {
-#ifdef DEBUG
+//#ifdef DEBUG
 				printf("failed to open '%s', skipping\n", full_path);
-#endif
+//#endif
 				free(full_path);
 				continue;
 			}
@@ -273,75 +474,80 @@ static int aq5_open(char *device, char **err_msg)
 	return 0;
 }
 
-
 /* Dumb read function for doing interrupt reads */
-static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int len, int count, char **err_msg)
+static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int len, int report_pages[], int report_pages_count, char **err_msg)
 {
-	struct hiddev_report_info rinfo;
-	struct hiddev_usage_ref_multi ref_multi_i;
 	int i = 0;
 	int j = 0;
 	int c = 0;
 	int wrong_reports = 0;
-	int page_position_offset = 3;
-	int report_pages[] = {
-		0xc0,
-		0xc2,
-		0xc4,
-		0xc6,
-		0xc8,
-		0xca,
-		0xcc,
-		0xce
-	}; 
 
-	/* Initialize the timeout data structure. */
-	struct timespec req={0};
-	req.tv_sec = 0;
-	req.tv_nsec = AQ5_NAME_REPORT_INTRAPAGE_DELAY * 1000000L; /* 0.007 seconds */
+#define AQ5_PAGE_POSITION_OFFSET 3
 
-	for (c=0; c<50; c++) {
-		/* Wait for a short while so we don't thrash and hang */
-		while((nanosleep(&req,&req) == -1) && (errno == EINTR))
+	struct hiddev_usage_ref uref[AQ5_DATA_LEN_MAX];
+	int retval;
+
+	int total_read = 0;
+
+	if(len > AQ5_DATA_LEN_MAX)
+	{
+		printf("Invalid argument: length too big\n");
+		*err_msg = "Invalid argument: length too big";
+		return -1;
+	}
+
+
+	for (c=0; c<2048; c++) {
+
+		total_read = 0;
+/* this loop suppose that the read function never returns 2 different report id in the same call
+	(it seems to be the case). If not, then a read element by element has to be done
+	(ie size 1*sizeof(struct hiddev_usage_ref))*/
+        do {
+		/*TODO: add poll + timeout in case we did'nt get the full report or the expected report */
+            retval = read(fd, uref+total_read, (len-total_read)*sizeof(struct hiddev_usage_ref));
+			if(retval == -1 && (errno == EAGAIN || errno == EINTR)) {
+				continue;
+			}
+			else if(retval == -1) {
+				printf("read error %d (%s)\n", errno, strerror(errno));
+				printf("total_read = %d\n", total_read);
+				*err_msg = "Error reading device\n";
+				return -1;
+			}
+
+			if(uref[total_read].report_id != report_id)
+				continue;
+
+			total_read += retval/sizeof(struct hiddev_usage_ref);
+
+
+        } while (len > total_read);
+
+		if(uref[0].report_id != report_id)
 			continue;
 
-		rinfo.report_type = HID_REPORT_TYPE_INPUT;
-		rinfo.report_id = report_id;
-		rinfo.num_fields = 1;
-		/* request report */
-		if (ioctl(fd, HIDIOCGREPORT, &rinfo) != 0) {
-			*err_msg = "HIDIOCGREPORT failed!";
-			return -1;
-		}
-
-		ref_multi_i.uref.report_type = HID_REPORT_TYPE_INPUT;
-		ref_multi_i.uref.report_id = report_id;
-		ref_multi_i.uref.field_index = 0;
-		ref_multi_i.uref.usage_index = 0; /* byte index??? */
-		ref_multi_i.num_values = len;
-
-		if (ioctl(fd, HIDIOCGUSAGES, &ref_multi_i) != 0) {
-			*err_msg = "HIDIOCGUSAGES failed";
-			return -1;
-		} else {
-			if (ref_multi_i.values[page_position_offset] == report_pages[i]) {
+		if (uref[AQ5_PAGE_POSITION_OFFSET].value == report_pages[i]) {
 #ifdef DEBUG
-				printf("Value at %d on page %d matches (%02X). Loop iteration %d\n", page_position_offset, i, ref_multi_i.values[page_position_offset], c);
+				printf("Value on page %d matches (%02X). Loop iteration %d\n", i, uref[AQ5_PAGE_POSITION_OFFSET].value, c);
 #endif
-				for (j = 0; j<len; j++) {
-					buffer[(i*len)+j] = ref_multi_i.values[j];
-				}
 
-				if (i == (count - 1)) {
-#ifdef DEBUG
-					printf("Last array index was %d, number of wrong reports was %d\n", (i*len)+j, wrong_reports);
-#endif
-					return 0;
-				}
-				i++;
-			} else {
-				wrong_reports++;
+			for (j = 0; j<(len-AQ5_HEADER_NAME_SIZE-AQ5_FOOTER_NAME_SIZE); j++) {
+				buffer[(i*(len-AQ5_HEADER_NAME_SIZE-AQ5_FOOTER_NAME_SIZE))+j] = uref[j+AQ5_HEADER_NAME_SIZE].value;
 			}
+
+			if (i == (report_pages_count-1)) {
+#ifdef DEBUG
+				printf("Last array index was %d, number of wrong reports was %d\n", (i*len)+j, wrong_reports);
+#endif
+				return (len-AQ5_HEADER_NAME_SIZE-AQ5_FOOTER_NAME_SIZE)*4;
+			}
+			i++;
+		} else {
+			wrong_reports++;
+#ifdef DEBUG
+			printf("Value at %d on page %d does not match (%02X). Loop iteration %d\n", page_position_offset, i,  uref[AQ5_PAGE_POSITION_OFFSET].value, c);
+#endif
 		}
 	}
 	/* If we have gone this far it means we didn't get what we are looking for */
@@ -386,9 +592,11 @@ static int aq5_get_report(int fd, int report_id, unsigned report_type, unsigned 
 		uref.field_index = 0;
 		uref.usage_index = j;
 		/* fetch the usage code for given indexes */
-		ioctl(fd, HIDIOCGUCODE, &uref);
+		if(ioctl(fd, HIDIOCGUCODE, &uref) != 0)
+			return -1;
 		/* fetch the value from report */
-		ioctl(fd, HIDIOCGUSAGE, &uref);
+		if(ioctl(fd, HIDIOCGUSAGE, &uref) != 0)
+			return -1;
 		report_data[j+1] = uref.value;
 	}
 
@@ -485,6 +693,7 @@ int libaquaero5_getsettings(char *device, aq5_settings_t *settings_dest, char **
 		printf("failed to get report!");
 		return -1;	
 	}
+
 
 	/* User interface settings */
 	settings_dest->disable_keys = aq5_get_int16(aq5_buf_settings, AQ5_SETTINGS_DISABLE_KEYS_OFFS);
@@ -879,9 +1088,17 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	}
 
 	res = aq5_get_report(aq5_fd, 0x1, HID_REPORT_TYPE_INPUT, aq5_buf_data);
+	if(aq5_buf_data[AQ5_FIRMWARE_VER_OFFS] == 0 && aq5_buf_data[AQ5_FIRMWARE_VER_OFFS+1] == 0) {
+#ifdef DEBUG
+		printf("retry...\n");
+#endif
+		msleep(AQ5_NAME_REPORT_INTRAPAGE_DELAY);
+		res = aq5_get_report(aq5_fd, 0x1, HID_REPORT_TYPE_INPUT, aq5_buf_data);
+	}
 	if (res != 0) {
 		libaquaero5_exit();
-		printf("failed to get report!\n");
+		fprintf(stderr,"failed to get report!\n");
+		*err_msg = "failed to get report";
 		return -1;	
 	}
 
@@ -894,6 +1111,14 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	data_dest->firmware_version = aq5_get_int16(aq5_buf_data, AQ5_FIRMWARE_VER_OFFS);
 	data_dest->bootloader_version = aq5_get_int16(aq5_buf_data, AQ5_BOOTLOADER_VER_OFFS);
 	data_dest->hardware_version = aq5_get_int16(aq5_buf_data, AQ5_HARDWARE_VER_OFFS);
+	data_dest->structure_version = aq5_get_uint16(aq5_buf_data, AQ5_STRUCTURE_VER_OFFS);
+
+#ifdef AQ5_DETECT_FW
+	if(aq5_set_offsets(data_dest->firmware_version) != 0)
+	{
+		return -1;
+	}
+#endif
 
 	/* operating times */
 	aq5_get_uptime(aq5_get_int32(aq5_buf_data, AQ5_UPTIME_OFFS), &data_dest->uptime);
@@ -936,7 +1161,11 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 
 	/* flow sensors */
 	for (int i=0; i<AQ5_NUM_FLOW; i++) {
-		data_dest->flow[i] = (double)aq5_get_int16(aq5_buf_data, AQ5_FLOW_OFFS + i * AQ5_FLOW_DIST) / 10.0;
+		n = aq5_get_int16(aq5_buf_data, AQ5_FLOW_OFFS + i * AQ5_FLOW_DIST);
+		if(n != 0x7FFF)
+			data_dest->flow[i] = (double)(n / 10.0);
+		else
+			data_dest->flow[i] = AQ5_FLOAT_UNDEF;
 	}
 
 	/* CPU temp */
@@ -947,7 +1176,11 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 
 	/* Liquid level sensors */
 	for (int i=0; i<AQ5_NUM_LEVEL; i++) {
-		data_dest->level[i] = (double)aq5_get_int16(aq5_buf_data, AQ5_LEVEL_OFFS + i * AQ5_LEVEL_DIST) / 100.0;
+		n = aq5_get_int16(aq5_buf_data, AQ5_LEVEL_OFFS + i * AQ5_LEVEL_DIST);
+		if(n != 0x7FFF)
+			data_dest->level[i] = (double)(n / 100.0);
+		else
+			data_dest->level[i] = AQ5_FLOAT_UNDEF;
 	}
 
 	/* Aquastreams */
@@ -969,10 +1202,20 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 		data_dest->aquastream_xt[i].current = aq5_get_int16(aq5_buf_data, AQ5_AQUASTREAM_XT_OFFS + 6 + i * AQ5_AQUASTREAM_XT_DIST);
 	}
 
+	/* Aquabus */
+	n =   aq5_get_uint32(aq5_buf_data, AQ5_AQUABUS_STATUS_OFFS);
+	data_dest->aquabus.mps1= (n &  AQUABUS_MPS1_PRESENT) == AQUABUS_MPS1_PRESENT;
+	data_dest->aquabus.mps2= (n &  AQUABUS_MPS2_PRESENT) == AQUABUS_MPS2_PRESENT;
+	data_dest->aquabus.mps3= (n &  AQUABUS_MPS3_PRESENT) == AQUABUS_MPS3_PRESENT;
+	data_dest->aquabus.mps4= (n &  AQUABUS_MPS4_PRESENT) == AQUABUS_MPS4_PRESENT;
+
+
 	/* firmware compatibility check */
 	if ((data_dest->firmware_version < AQ5_FW_MIN) || (data_dest->firmware_version > AQ5_FW_MAX))
+	{
+		printf("FW: %d\n", data_dest->firmware_version);
 		*err_msg = "unsupported firmware version";
-
+	}
 	return 0;
 }
 
@@ -1166,7 +1409,7 @@ int libaquaero5_set_time(char *device, time_t time, char **err_msg)
  	 * Convert the given time into Aq5 format time:
 	 * - the time in seconds since 1/1/2009 00:00:00 UTC 
 	 */
-	aq5_set_int32(aq5_buf_time, 0, (uint32_t)(time - 1230768000));	
+	aq5_set_int32(aq5_buf_time, 0, (uint32_t)(time - 1230768000));
 	if (aq5_send_report(aq5_fd, 0x5, HID_REPORT_TYPE_OUTPUT, aq5_buf_time) != 0) {
 		*err_msg = "libaquaero5_set_time() failed!";
 		return -1;
@@ -1175,31 +1418,119 @@ int libaquaero5_set_time(char *device, time_t time, char **err_msg)
 	return 0;
 }
 
-/* Send report 0x09, then read back report 0x0c 8x for all the device names */
+/* Send 3 reports 0x09, then read back reports 0x0c 4x each for all the device names */
 int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 {
-	unsigned char *name_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN * 8);
+	unsigned char *name_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN * 12);
 	unsigned char *rname_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN);
-	unsigned char *clean_name_buffer = (unsigned char*)malloc(AQ5_CLEAN_NAME_LEN);
-	aq5_buf_device_names = malloc(181 * sizeof(char*));
+	int flaguref = HIDDEV_FLAG_UREF;
+	int read_data;
+	int read_total_len = 0;
+	if(aq5_buf_device_names == NULL)
+		aq5_buf_device_names = malloc(AQ5_NUM_NAMES * sizeof(char*));
 
 	/* Allow the device to be disconnected and open only if the fd is undefined */
 	if (aq5_open(device, err_msg) != 0) {
 		return -1;
 	}
 
-	for (int i=0; i<max_attempts; i++) {
+	/* We need to ensure that the buffer is initialized with 0s for each attempt */
+	for (int j=0; j<AQ5_REPORT_NAME_LEN; j++) {
+		rname_buffer[j] = 0;
+	}
+
+	for (int j=0; j<(AQ5_REPORT_NAME_LEN * 12); j++) {
+		name_buffer[j] = 0;
+	}
+
+	ioctl(aq5_fd, HIDIOCSFLAG, &flaguref);
+
+	if(fw_ver >= 2000) {
+
 #ifdef DEBUG
-		printf("Attempt %d\n", i);
+		printf("Sending first report...\n");
 #endif
-		/* We need to ensure that the buffer is initialized with 0s for each attempt */
-		for (int j=0; j<AQ5_REPORT_NAME_LEN; j++) {
-			rname_buffer[j] = 0;
+		/* Define the report 9 request */
+		aq5_set_int16(rname_buffer, 0, 0x0100);
+		aq5_set_int16(rname_buffer, 2, 0x0940);
+		aq5_set_int16(rname_buffer, 4, 0x0000);
+		aq5_set_int16(rname_buffer, 6, 0x0010);
+		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 4, 0x12e7);
+		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
+			*err_msg = "sending name report request failed!";
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
 		}
 
-		for (int j=0; j<(AQ5_REPORT_NAME_LEN * 8); j++) {
-			name_buffer[j] = 0;
+		/* Now read out the 4x report 0xC */
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer, AQ5_REPORT_NAME_LEN,(int[4]){0x40, 0x44, 0x48, 0x4c}, 4, err_msg);
+		if (read_data < 0) {
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
 		}
+		read_total_len += read_data;
+
+		/* Wait for a short while so we don't thrash and hang */
+		msleep(AQ5_NAME_REPORT_INTRAPAGE_DELAY);
+#ifdef DEBUG
+		printf("Sending Second report...\n");
+#endif
+		/* Define the report 9 request */
+		aq5_set_int16(rname_buffer, 0, 0x0100);
+		aq5_set_int16(rname_buffer, 2, 0x0950);
+		aq5_set_int16(rname_buffer, 4, 0x0000);
+		aq5_set_int16(rname_buffer, 6, 0x0010);
+		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 4, 0x12e7);
+		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
+			*err_msg = "sending name report request failed!";
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
+		}
+
+		/* Now read out the 4x report 0xC */
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN,(int[4]){0x50, 0x54, 0x58, 0x5c}, 4, err_msg);
+		if ( read_data < 0) {
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
+		}
+		read_total_len += read_data;
+
+		/* Wait for a short while so we don't thrash and hang */
+		msleep(AQ5_NAME_REPORT_INTRAPAGE_DELAY);
+#ifdef DEBUG
+		printf("Sending third report...\n");
+#endif
+		/* Define the report 9 request */
+		aq5_set_int16(rname_buffer, 0, 0x0100);
+		aq5_set_int16(rname_buffer, 2, 0x0960);
+		aq5_set_int16(rname_buffer, 4, 0x0000);
+		aq5_set_int16(rname_buffer, 6, 0x0010);
+		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 4, 0x12e7);
+		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
+			*err_msg = "sending name report request failed!";
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
+		}
+
+		/* Now read out the 4x report 0xC */
+		read_data = aq5_interruptRead(aq5_fd, 0xc, name_buffer+read_total_len, AQ5_REPORT_NAME_LEN,(int[4]){0x60, 0x64, 0x68, 0x6c}, 4, err_msg);
+		if ( read_data < 0) {
+			free(name_buffer);
+			free(rname_buffer);
+			return -1;
+		}
+		read_total_len += read_data;
+		
+	}
+	else {
+#ifdef DEBUG
+		printf("Sending report...\n");
+#endif
 		/* Define the report 9 request */
 		aq5_set_int16(rname_buffer, 0, 0x0100);
 		aq5_set_int16(rname_buffer, 2, 0x09c0);
@@ -1208,44 +1539,52 @@ int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 2, 0xdd82);
 		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
 			*err_msg = "sending name report request failed!";
+			free(name_buffer);
+			free(rname_buffer);
 			return -1;
 		}
 
 		/* Now read out the 8x report 0xC */
-		if (aq5_interruptRead(aq5_fd, 0xc, name_buffer, AQ5_REPORT_NAME_LEN, 8, err_msg) != 0) {
+		read_data = aq5_interruptRead(aq5_fd, 
+										0xc, 
+										name_buffer, AQ5_REPORT_NAME_LEN,
+										(int[]) {	0xc0,
+													0xc2,
+													0xc4,
+													0xc6,
+													0xc8,
+													0xca,
+													0xcc,
+													0xce}, 8, 
+										err_msg);
+		if (read_data < 0) {
+			free(name_buffer);
+			free(rname_buffer);
 			return -1;
 		}
-		if (aq5_check_and_strip_name_report_watermarks(name_buffer, clean_name_buffer) == 0) {
-			for (int j=0; j<181; j++) {
-				aq5_buf_device_names[j] = malloc((AQ5_NAME_LEN - 1) * sizeof(char));
-				/* Copy the non 0 values to the array */
-				for (int a=0; a<(AQ5_NAME_LEN - 1); a++) {
-					if (a == (AQ5_NAME_LEN - 2)) {
-						strncpy(aq5_buf_device_names[j] + a, "\0", sizeof(char));
-						break;
-					}
-					else {
-						if (clean_name_buffer[(j * (AQ5_NAME_LEN - 2)) + a] != 0) {
-							strncpy(aq5_buf_device_names[j] + a, (const char *)clean_name_buffer + (j * (AQ5_NAME_LEN - 2)) + a, sizeof(char));
-						} else {
-							strncpy(aq5_buf_device_names[j] + a, "\0", sizeof(char));
-							break;
-						}
-					}
-				}
-			}
-			break;
-		} else {
-			if (i == (max_attempts - 1)) {
-				*err_msg = "Failed to read the names for the last time time, aborting";
-				return -1;
-			} else {
-#ifdef DEBUG
-				printf("Trying again...\n");
-#endif
-			}
-		}
+		read_total_len += read_data;
 	}
+
+	for (int j=0; j<AQ5_NUM_NAMES; j++) {
+		aq5_buf_device_names[j] = malloc((AQ5_NAME_LEN+1) * sizeof(char));
+		memcpy(aq5_buf_device_names[j], (const char *)name_buffer + (j * AQ5_NAME_LEN), AQ5_NAME_LEN);
+		aq5_buf_device_names[j][AQ5_NAME_LEN] = '\0';
+	}
+
+#ifdef DEBUG
+{
+	FILE* fp;
+	fp = fopen("dump_names.bin", "wt");
+	if(fp)
+	{
+		fwrite(name_buffer, AQ5_REPORT_NAME_LEN * 12, 1, fp);
+		fclose(fp);
+	}
+}
+#endif
+
+	free(name_buffer);
+	free(rname_buffer);
 
 	return 0;
 }
@@ -1343,3 +1682,45 @@ int libaquaero5_set_name_by_ref(char *device, char *reference, uint8_t index, ch
 	return -1; 
 }
 
+/* Set the aq5 device fan (override) */
+int libaquaero5_set_fan(char *device, uint8_t fan_index, double percent, char **err_msg)
+{
+	unsigned char aq5_buf_fan[6] = {0x00, 0x64, 0x00, 0x00, 0xFF, 0xFF};
+
+	/* Allow the device to be disconnected and open only if the fd is undefined */
+	if (aq5_open(device, err_msg) != 0) {
+		return -1;
+	}
+
+	/* 
+	06:00:67:00:00:23:28
+	67=fan4
+	64=fan1...
+
+	val=FFFF : default
+	fan_index = [1...4]
+	 */
+	if(percent >= 0)
+	{
+		aq5_set_int16(aq5_buf_fan, 4, (uint16_t)(percent*100));
+	}
+	else
+	{
+		aq5_buf_fan[4] = 0xFF;
+		aq5_buf_fan[5] = 0xFF;
+	}
+	
+	if((fan_index < 1) || (fan_index > 4))
+	{
+		*err_msg = "libaquaero5_set_fan() : invalid fan_index parameter";
+		return -2;
+	}
+	aq5_buf_fan[1] = 0x63 +fan_index;
+	/*printf("%x:%x:%x:%x:%x:%x\n", aq5_buf_fan[0],aq5_buf_fan[1],aq5_buf_fan[2],aq5_buf_fan[3],aq5_buf_fan[4],aq5_buf_fan[5]);*/
+	if (aq5_send_report(aq5_fd, 0x6, HID_REPORT_TYPE_OUTPUT, aq5_buf_fan) != 0) {
+		*err_msg = "libaquaero5_set_fan() failed!";
+		return -1;
+	}
+
+	return 0;
+}

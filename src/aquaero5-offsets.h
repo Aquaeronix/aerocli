@@ -24,27 +24,36 @@
 	#define AQ5_FW_TARGET 1030
 #endif
 
+#define AQ5_TIME_LEN			4
+#define AQ5_SOFT_SENSORS_LEN	16
+
+#define AQ5_CLEAN_NAME_LEN		4096
+#define AQ5_DATA_LEN_MAX		2048 /* should be big enough to hold the biggest "AQ5_DATA_LEN" value from the different version. We put here some margin*/
+
+#define AQ5_STRUCTURE_VER_OFFS 5
+
+#ifndef AQ5_DETECT_FW
+
 /* report lengths */
 #if AQ5_FW_TARGET == 1027
-	#define AQ5_TIME_LEN			4
-	#define AQ5_SOFT_SENSORS_LEN		16
-	#define AQ5_DATA_LEN			659
-	#define AQ5_REPORT_NAME_LEN		523
-	#define AQ5_CLEAN_NAME_LEN		4096
+	#define AQ5_DATA_LEN		659
+
 	#define AQ5_FW_MIN			1027
 	#define AQ5_FW_MAX			1027
 #elif ((AQ5_FW_TARGET <= 1030) && (AQ5_FW_TARGET >= 1028))
-	#define AQ5_TIME_LEN			4
-	#define AQ5_SOFT_SENSORS_LEN		16
-	#define AQ5_DATA_LEN			661
-	#define AQ5_REPORT_NAME_LEN		523
-	#define AQ5_CLEAN_NAME_LEN		4096
+	#define AQ5_DATA_LEN		661
 	#define AQ5_FW_MIN			1028
 	#define AQ5_FW_MAX			1030
+#elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
+	#define AQ5_DATA_LEN  869
+	#define AQ5_FW_MIN	 2000
+	#define AQ5_FW_MAX	 2003
 #endif
 
 /* data offsets for status report */
 #if AQ5_FW_TARGET == 1027
+	#define AQ5_REPORT_NAME_LEN		523
+
 	#define AQ5_CURRENT_TIME_OFFS		0x001
 	#define AQ5_SERIAL_MAJ_OFFS			0x007
 	#define AQ5_SERIAL_MIN_OFFS			0x009
@@ -62,8 +71,11 @@
 	#define AQ5_FLOW_OFFS				0x0fb
 	#define AQ5_LEVEL_OFFS				0x147
 	#define AQ5_FAN_OFFS				0x169
+	#define AQ5_FAN_DIST			8
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1c9
 #elif ((AQ5_FW_TARGET <= 1030) && (AQ5_FW_TARGET >= 1028))
+	#define AQ5_REPORT_NAME_LEN		523
+
 	#define AQ5_CURRENT_TIME_OFFS		0x001
 	#define AQ5_SERIAL_MAJ_OFFS			0x007
 	#define AQ5_SERIAL_MIN_OFFS			0x009
@@ -81,18 +93,44 @@
 	#define AQ5_FLOW_OFFS				0x0fd
 	#define AQ5_LEVEL_OFFS				0x149
 	#define AQ5_FAN_OFFS				0x16b
+	#define AQ5_FAN_DIST			8
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1cb
+#elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
+	#define AQ5_REPORT_NAME_LEN		1102
+
+	#define AQ5_CURRENT_TIME_OFFS	  0x001
+	#define AQ5_SERIAL_MAJ_OFFS  0x007
+	#define AQ5_SERIAL_MIN_OFFS	  0x009
+	#define AQ5_FIRMWARE_VER_OFFS	  0x00b
+	#define AQ5_BOOTLOADER_VER_OFFS  0x00d
+	#define AQ5_HARDWARE_VER_OFFS	  0x00f
+	#define AQ5_UPTIME_OFFS		  0x011
+	#define AQ5_TOTAL_TIME_OFFS	  0x015
+	#define AQ5_TEMP_OFFS			  0x065
+	#define AQ5_VTEMP_OFFS			  0x095
+	#define AQ5_STEMP_OFFS			  0x085
+	#define AQ5_OTEMP_OFFS			  0x09d
+	#define AQ5_FAN_VRM_OFFS		  0x0bd
+	#define AQ5_CPU_TEMP_OFFS		  0x0d5
+	#define AQ5_FLOW_OFFS			  0x0f9
+	#define AQ5_LEVEL_OFFS			  0x149
+	#define AQ5_FAN_OFFS			  0x167
+	#define AQ5_FAN_DIST			12
+	#define AQ5_AQUASTREAM_XT_OFFS	  0x1cb
 #endif
+
+#endif /* #ifndef AQ5_DETECT_FW */
 
 #define AQ5_TEMP_DIST			2
 #define AQ5_TEMP_UNDEF			0x7fff
-#define AQ5_FAN_DIST			8
+
 #define AQ5_FAN_VRM_DIST		2
 #define AQ5_FAN_VRM_UNDEF		0x7fff
 #define AQ5_FLOW_DIST			2
 #define AQ5_CPU_TEMP_DIST		2
 #define AQ5_LEVEL_DIST			2
 #define AQ5_AQUASTREAM_XT_DIST		8
+
 
 /* data offsets for HID feature report 0xB */
 #define AQ5_SETTINGS_FAN_OFFS					0x20d
@@ -160,7 +198,7 @@
 #define AQ5_SETTINGS_ALLOW_OUTPUT_OVERRIDE_OFFS	0x973
 #define AQ5_SETTINGS_FAN_DIST					20
 
-#define AQ5_SETTINGS_LEN		2428
+#define AQ5_SETTINGS_LEN		2644
 #define AQ5_SETTINGS_INFO_PAGE_DIST				4
 #define AQ5_SETTINGS_VIRT_SENSOR_DIST			7
 #define AQ5_SETTINGS_SOFT_SENSOR_DIST			5
@@ -182,92 +220,4 @@
 
 #define AQ5_NAME_LEN			24
 
-/* Definitions for name reports */
-typedef struct {
-	uint16_t offset;
-	uint16_t value;
-} name_report_watermark;
-
-name_report_watermark name_report_watermarks[] = {
-	/* 1 
-	 * start 0x0000: 01 00 09 c0 00 00 00 02 00
- 	 * end 0x0209: DD 83
-	 */
-	{ 0x0000,	0x0100 },
-	{ 0x0002,	0x09c0 },
-	{ 0x0004,	0x0000 },
-	{ 0x0006,	0x0002 },
-	{ 0x0007,	0x0200 },
-	{ 0x0209,	0xdd83 },
-	/* 2
-	 * start 0x020b: 01 00 09 C2 00 00 00 02 00
-	 * end 0x0414: DD 84
-	 */
-	{ 0x020b,	0x0100 },
-	{ 0x020d,	0x09c2 },
-	{ 0x020f,	0x0000 },
-	{ 0x0211,	0x0002 },
-	{ 0x0212,	0x0200 },
-	{ 0x0414,	0xdd84 },
-	/* 3
-	 * start 0x0416: 01 00 09 C4 00 00 00 02 00
- 	 * end 0x061f: DD 85
- 	 */
-	{ 0x0416,	0x0100 },
-	{ 0x0418,	0x09c4 },
-	{ 0x041a,	0x0000 },
-	{ 0x041c,	0x0002 },
-	{ 0x041d,	0x0200 },
-	{ 0x061f,	0xdd85 },
-	/* 4
-	 * start 0x0621: 01 00 09 C6 00 00 00 02 00
-	 * end 0x082a: DD 86
-	 */
-	{ 0x0621,	0x0100 },
-	{ 0x0623,	0x09c6 },
-	{ 0x0625,	0x0000 },
-	{ 0x0627,	0x0002 },
-	{ 0x0628,	0x0200 },
-	{ 0x082a,	0xdd86 },
-	/* 5
-	 * start 0x082c: 01 00 09 C8 00 00 00 02 00
-	 * end 0x0a35: DD 87
-	 */
-	{ 0x082c,	0x0100 },
-	{ 0x082e,	0x09c8 },
-	{ 0x0830,	0x0000 },
-	{ 0x0832,	0x0002 },
-	{ 0x0833,	0x0200 },
-	{ 0x0a35,	0xdd87 },
-	/* 6
-  	 * start 0x0a37: 01 00 09 CA 00 00 00 02 00
-	 * end 0x0c40: DD 88
-	 */
-	{ 0x0a37,	0x0100 },
-	{ 0x0a39,	0x09ca },
-	{ 0x0a3b,	0x0000 },
-	{ 0x0a3d,	0x0002 },
-	{ 0x0a3e,	0x0200 },
-	{ 0x0c40,	0xdd88 },
-	/* 7
-	 * start 0x0c42: 01 00 09 CC 00 00 00 02 00
-	 * end 0x0e4b: DD 89
-	 */
-	{ 0x0c42,	0x0100 },
-	{ 0x0c44,	0x09cc },
-	{ 0x0c46,	0x0000 },
-	{ 0x0c48,	0x0002 },
-	{ 0x0c49,	0x0200 },
-	{ 0x0e4b,	0xdd89 },
-	/* 8
-   	 * start 0x0e4d: 01 00 09 CE 00 00 00 02 00
-   	 * end 0x1056 : DD 8A
-	 */
-	{ 0x0e4d,	0x0100 },
-	{ 0x0e4f,	0x09ce },
-	{ 0x0e51,	0x0000 },
-	{ 0x0e53,	0x0002 },
-	{ 0x0e54,	0x0200 },
-	{ 0x1056,	0xdd8a }
-};
 

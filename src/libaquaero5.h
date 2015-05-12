@@ -55,7 +55,7 @@
 /* constant for unknown value */
 #define AQ5_FLOAT_UNDEF			-99.0
 
-/* The intrapage delay for name reports */
+/* The intrapage delay for name reports, in ms */
 #define AQ5_NAME_REPORT_INTRAPAGE_DELAY 50
 
 

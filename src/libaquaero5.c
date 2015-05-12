@@ -190,12 +190,12 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_FW_MIN	 = 1027;
 		AQ5_FW_MAX   = 1027;
 		
-		AQ5_CURRENT_TIME_OFFS		= 0x001;
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
 		AQ5_SERIAL_MAJ_OFFS		= 0x007;
 		AQ5_SERIAL_MIN_OFFS		= 0x009;
-		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
-		AQ5_BOOTLOADER_VER_OFFS		= 0x00d;
-		AQ5_HARDWARE_VER_OFFS		= 0x00f;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS	= 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
 		AQ5_UPTIME_OFFS			= 0x011;
 		AQ5_TOTAL_TIME_OFFS		= 0x015;
 		AQ5_TEMP_OFFS			= 0x067;
@@ -216,10 +216,10 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_DATA_LEN		= 661;
 		AQ5_FW_MIN			= 1028;
 		AQ5_FW_MAX			= 1030;
-		AQ5_CURRENT_TIME_OFFS		= 0x001;
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
 		AQ5_SERIAL_MAJ_OFFS		= 0x007;
 		AQ5_SERIAL_MIN_OFFS		= 0x009;
-		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
 		AQ5_BOOTLOADER_VER_OFFS	= 0x00d;
 		AQ5_HARDWARE_VER_OFFS	= 0x00f;
 		AQ5_UPTIME_OFFS			= 0x011;
@@ -244,12 +244,12 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_FW_MAX	= 2003;
 		AQ5_REPORT_NAME_LEN = 1037;
 		
-		AQ5_CURRENT_TIME_OFFS		= 0x001;
-		AQ5_SERIAL_MAJ_OFFS  		= 0x007;
+		AQ5_CURRENT_TIME_OFFS	= 0x001;
+		AQ5_SERIAL_MAJ_OFFS  	= 0x007;
 		AQ5_SERIAL_MIN_OFFS	  	= 0x009;
-		AQ5_FIRMWARE_VER_OFFS		= 0x00b;
-		AQ5_BOOTLOADER_VER_OFFS 	= 0x00d;
-		AQ5_HARDWARE_VER_OFFS		= 0x00f;
+		AQ5_FIRMWARE_VER_OFFS	= 0x00b;
+		AQ5_BOOTLOADER_VER_OFFS = 0x00d;
+		AQ5_HARDWARE_VER_OFFS	= 0x00f;
 		AQ5_UPTIME_OFFS		  	= 0x011;
 		AQ5_TOTAL_TIME_OFFS	  	= 0x015;
 		AQ5_TEMP_OFFS			= 0x065;
@@ -358,28 +358,6 @@ static int msleep(unsigned long milisec)
          continue;
     return 1;
 }
-
-static inline int aq5_check_and_strip_name_report_watermarks(unsigned char *dirtybuffer, unsigned char *cleanbuffer)
-{
-	for (int i=0; i<48; i++) {
-		if (aq5_get_int16(dirtybuffer, name_report_watermarks[i].offset) != name_report_watermarks[i].value) {
-			printf("Oops watermark at offset %02X is %02X (index %d), but should be %02X!\n", name_report_watermarks[i].offset, aq5_get_int16(dirtybuffer, name_report_watermarks[i].offset), i, name_report_watermarks[i].value);
-			//return -1;
-		} else {
-			printf("i=%d\n",i);
-		}
-	}
-
-	/* Initialize cleanbuffer */
-	memset(cleanbuffer, 0, 8 * 512 * sizeof(char));
-
-	for (int i=0; i<8; i++) {
-		memcpy(cleanbuffer + (512 * i), dirtybuffer + 9 + (i * 523), 512 * sizeof(char));
-	}
-
-	return 0;
-}
-
 
 static char *aq5_strcat(char *str1, char *str2)
 {
@@ -495,86 +473,6 @@ static int aq5_open(char *device, char **err_msg)
 
 	return 0;
 }
-
-#if 0
-/* Dumb read function for doing interrupt reads */
-static int aq5_interruptRead_old(int fd, int report_id, unsigned char *buffer, int len, int count, char **err_msg)
-{
-	struct hiddev_report_info rinfo;
-	struct hiddev_usage_ref_multi ref_multi_i;
-	int i = 0;
-	int j = 0;
-	int c = 0;
-	int wrong_reports = 0;
-	int page_position_offset = 3;
-	int report_pages[] = {
-		0xc0,
-		0xc2,
-		0xc4,
-		0xc6,
-		0xc8,
-		0xca,
-		0xcc,
-		0xce
-	}; 
-
-	/* Initialize the timeout data structure. */
-	struct timespec req={0};
-	req.tv_sec = 0;
-	req.tv_nsec = AQ5_NAME_REPORT_INTRAPAGE_DELAY * 1000000L; /* 0.007 seconds */
-
-	for (c=0; c<50; c++) {
-		/* Wait for a short while so we don't thrash and hang */
-		while((nanosleep(&req,&req) == -1) && (errno == EINTR))
-			continue;
-
-		rinfo.report_type = HID_REPORT_TYPE_INPUT;
-		rinfo.report_id = report_id;
-		rinfo.num_fields = 1;
-		/* request report */
-		if (ioctl(fd, HIDIOCGREPORT, &rinfo) != 0) {
-			*err_msg = "HIDIOCGREPORT failed!";
-			return -1;
-		}
-
-		ref_multi_i.uref.report_type = HID_REPORT_TYPE_INPUT;
-		ref_multi_i.uref.report_id = report_id;
-		ref_multi_i.uref.field_index = 0;
-		ref_multi_i.uref.usage_index = 0; /* byte index??? */
-		ref_multi_i.num_values = len;
-
-		if (ioctl(fd, HIDIOCGUSAGES, &ref_multi_i) != 0) {
-			*err_msg = "HIDIOCGUSAGES failed";
-			return -1;
-		} else {
-			if (ref_multi_i.values[page_position_offset] == report_pages[i]) {
-#ifdef DEBUG
-				printf("Value at %d on page %d matches (%02X). Loop iteration %d\n", page_position_offset, i, ref_multi_i.values[page_position_offset], c);
-#endif
-				for (j = 0; j<len; j++) {
-					buffer[(i*len)+j] = ref_multi_i.values[j];
-				}
-
-				if (i == (count - 1)) {
-#ifdef DEBUG
-					printf("Last array index was %d, number of wrong reports was %d\n", (i*len)+j, wrong_reports);
-#endif
-					return 0;
-				}
-				i++;
-			} else {
-				wrong_reports++;
-#ifdef DEBUG
-				printf("Value at %d on page %d does not match (%02X). Loop iteration %d\n", page_position_offset, i, ref_multi_i.values[page_position_offset], c);
-#endif
-			}
-		}
-	}
-	/* If we have gone this far it means we didn't get what we are looking for */
-	*err_msg = "Failed to find enough matching report pages!";
-	return -1;
-}
-#endif
 
 /* Dumb read function for doing interrupt reads */
 static int aq5_interruptRead(int fd, int report_id, unsigned char *buffer, int len, int report_pages[], int report_pages_count, char **err_msg)
@@ -694,9 +592,11 @@ static int aq5_get_report(int fd, int report_id, unsigned report_type, unsigned 
 		uref.field_index = 0;
 		uref.usage_index = j;
 		/* fetch the usage code for given indexes */
-		ioctl(fd, HIDIOCGUCODE, &uref);
+		if(ioctl(fd, HIDIOCGUCODE, &uref) != 0)
+			return -1;
 		/* fetch the value from report */
-		ioctl(fd, HIDIOCGUSAGE, &uref);
+		if(ioctl(fd, HIDIOCGUSAGE, &uref) != 0)
+			return -1;
 		report_data[j+1] = uref.value;
 	}
 
@@ -1188,9 +1088,17 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	}
 
 	res = aq5_get_report(aq5_fd, 0x1, HID_REPORT_TYPE_INPUT, aq5_buf_data);
+	if(aq5_buf_data[AQ5_FIRMWARE_VER_OFFS] == 0 && aq5_buf_data[AQ5_FIRMWARE_VER_OFFS+1] == 0) {
+#ifdef DEBUG
+		printf("retry...\n");
+#endif
+		msleep(AQ5_NAME_REPORT_INTRAPAGE_DELAY);
+		res = aq5_get_report(aq5_fd, 0x1, HID_REPORT_TYPE_INPUT, aq5_buf_data);
+	}
 	if (res != 0) {
 		libaquaero5_exit();
-		printf("failed to get report!\n");
+		fprintf(stderr,"failed to get report!\n");
+		*err_msg = "failed to get report";
 		return -1;	
 	}
 
@@ -1509,82 +1417,7 @@ int libaquaero5_set_time(char *device, time_t time, char **err_msg)
 
 	return 0;
 }
-#if 0
-/* Send report 0x09, then read back report 0x0c 8x for all the device names */
-int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
-{
-	unsigned char *name_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN * 8);
-	unsigned char *rname_buffer = (unsigned char*)malloc(AQ5_REPORT_NAME_LEN);
-	unsigned char *clean_name_buffer = (unsigned char*)malloc(AQ5_CLEAN_NAME_LEN);
-	aq5_buf_device_names = malloc(181 * sizeof(char*));
 
-	/* Allow the device to be disconnected and open only if the fd is undefined */
-	if (aq5_open(device, err_msg) != 0) {
-		return -1;
-	}
-
-	for (int i=0; i<max_attempts; i++) {
-#ifdef DEBUG
-		printf("Attempt %d\n", i);
-#endif
-		/* We need to ensure that the buffer is initialized with 0s for each attempt */
-		for (int j=0; j<AQ5_REPORT_NAME_LEN; j++) {
-			rname_buffer[j] = 0;
-		}
-
-		for (int j=0; j<(AQ5_REPORT_NAME_LEN * 8); j++) {
-			name_buffer[j] = 0;
-		}
-		/* Define the report 9 request */
-		aq5_set_int16(rname_buffer, 0, 0x0100);
-		aq5_set_int16(rname_buffer, 2, 0x09c0);
-		aq5_set_int16(rname_buffer, 4, 0x0000);
-		aq5_set_int16(rname_buffer, 6, 0x0010);
-		aq5_set_int16(rname_buffer, AQ5_REPORT_NAME_LEN - 2, 0xdd82);
-		if (aq5_send_report(aq5_fd, 0x9, HID_REPORT_TYPE_OUTPUT, rname_buffer) != 0) {
-			*err_msg = "sending name report request failed!";
-			return -1;
-		}
-
-		/* Now read out the 8x report 0xC */
-		if (aq5_interruptRead(aq5_fd, 0xc, name_buffer, AQ5_REPORT_NAME_LEN, 8, err_msg) != 0) {
-			return -1;
-		}
-		if (aq5_check_and_strip_name_report_watermarks(name_buffer, clean_name_buffer) == 0) {
-			for (int j=0; j<181; j++) {
-				aq5_buf_device_names[j] = malloc((AQ5_NAME_LEN - 1) * sizeof(char));
-				/* Copy the non 0 values to the array */
-				for (int a=0; a<(AQ5_NAME_LEN - 1); a++) {
-					if (a == (AQ5_NAME_LEN - 2)) {
-						strncpy(aq5_buf_device_names[j] + a, "\0", sizeof(char));
-						break;
-					}
-					else {
-						if (clean_name_buffer[(j * (AQ5_NAME_LEN - 2)) + a] != 0) {
-							strncpy(aq5_buf_device_names[j] + a, (const char *)clean_name_buffer + (j * (AQ5_NAME_LEN - 2)) + a, sizeof(char));
-						} else {
-							strncpy(aq5_buf_device_names[j] + a, "\0", sizeof(char));
-							break;
-						}
-					}
-				}
-			}
-			break;
-		} else {
-			if (i == (max_attempts - 1)) {
-				*err_msg = "Failed to read the names for the last time time, aborting";
-				return -1;
-			} else {
-#ifdef DEBUG
-				printf("Trying again...\n");
-#endif
-			}
-		}
-	}
-
-	return 0;
-}
-#endif
 /* Send 3 reports 0x09, then read back reports 0x0c 4x each for all the device names */
 int libaquaero5_get_all_names(char *device, int max_attempts, char **err_msg)
 {

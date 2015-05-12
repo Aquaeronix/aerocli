@@ -21,7 +21,7 @@
 CC = gcc
 CFLAGS = -Wall -ansi -std=gnu99 -pedantic -I /usr/include
 
-DEBUG=1
+#DEBUG=1
 
 # Uncomment the following line if using firmware 1027.
 # CFLAGS += -D'AQ5_FW_TARGET=1027'

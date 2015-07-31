@@ -1,0 +1,54 @@
+# Object files
+*.o
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Generated file by autotools
+Makefile
+Makefile.in
+aclocal.m4
+ar-lib
+autom4te.cache/
+compile
+config.guess
+config.h
+config.h.in
+config.log
+config.status
+config.sub
+configure
+depcomp
+include/Makefile
+include/Makefile.in
+install-sh
+libtool
+ltmain.sh
+missing
+src/.deps/
+src/Makefile
+src/Makefile.in
+stamp-h1
+
+# Editor text
+*.swp
+*~
+
+# Build
+*.la
+*.lo
+*.libs
+src/aerocli
+

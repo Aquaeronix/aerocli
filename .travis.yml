@@ -3,5 +3,4 @@ compiler:
   - gcc
 #  - clang
 # Change this to your needs
-# script: ./configure && make
-script: make
+script: ./configure && make

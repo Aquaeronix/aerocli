@@ -44,10 +44,10 @@
 	#define AQ5_DATA_LEN		661
 	#define AQ5_FW_MIN			1028
 	#define AQ5_FW_MAX			1030
-#elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
+#elif ((AQ5_FW_TARGET <= 2006) && (AQ5_FW_TARGET >= 2000))
 	#define AQ5_DATA_LEN  869
 	#define AQ5_FW_MIN	 2000
-	#define AQ5_FW_MAX	 2003
+	#define AQ5_FW_MAX	 2006
 #endif
 
 /* data offsets for status report */
@@ -95,7 +95,7 @@
 	#define AQ5_FAN_OFFS				0x16b
 	#define AQ5_FAN_DIST			8
 	#define AQ5_AQUASTREAM_XT_OFFS			0x1cb
-#elif ((AQ5_FW_TARGET <= 2003) && (AQ5_FW_TARGET >= 2000))
+#elif ((AQ5_FW_TARGET <= 2006) && (AQ5_FW_TARGET >= 2000))
 	#define AQ5_REPORT_NAME_LEN		1102
 
 	#define AQ5_CURRENT_TIME_OFFS	  0x001

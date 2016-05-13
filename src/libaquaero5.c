@@ -180,7 +180,7 @@ static const name_position_t name_positions_1200[] = {
 	[NAME_OUTPUT] 		= { 256,	27 },
 	[NAME_MULTISWITCH] 	= { 256,	2 }
 };
-static int aq5_set_offsets(uint16_t firmware_version)
+static int aq5_set_offsets(uint16_t firmware_version, uint16_t struct_version)
 {
 	fw_ver = firmware_version;
 
@@ -237,11 +237,12 @@ static int aq5_set_offsets(uint16_t firmware_version)
 		AQ5_AQUASTREAM_XT_OFFS		= 0x1cb;
 		name_positions = name_positions_1013;
 	}
-	else if ((firmware_version <= 2003) && (firmware_version >= 2000))
+	/*else if ((firmware_version <= 2003) && (firmware_version >= 2000))*/
+	else if (struct_version == 1200)
 	{
 		AQ5_DATA_LEN	=  869;
 		AQ5_FW_MIN	= 2000;
-		AQ5_FW_MAX	= 2003;
+		AQ5_FW_MAX	= firmware_version;
 		AQ5_REPORT_NAME_LEN = 1037;
 		
 		AQ5_CURRENT_TIME_OFFS	= 0x001;
@@ -270,7 +271,7 @@ static int aq5_set_offsets(uint16_t firmware_version)
 	}
 	else
 	{
-		printf("Unsupported firmware %u\n", firmware_version);
+		printf("Unsupported firmware %u (structure version %u)\n", firmware_version, struct_version);
 		return -1;
 	}
 	
@@ -1114,7 +1115,7 @@ int libaquaero5_poll(char *device, aq5_data_t *data_dest, char **err_msg)
 	data_dest->structure_version = aq5_get_uint16(aq5_buf_data, AQ5_STRUCTURE_VER_OFFS);
 
 #ifdef AQ5_DETECT_FW
-	if(aq5_set_offsets(data_dest->firmware_version) != 0)
+	if(aq5_set_offsets(data_dest->firmware_version, data_dest->structure_version) != 0)
 	{
 		return -1;
 	}

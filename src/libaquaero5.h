@@ -57,7 +57,7 @@
 
 /* The intrapage delay for name reports, in ms */
 #define AQ5_NAME_REPORT_INTRAPAGE_DELAY 50
-
+#define AQ5_NUM_RETRY	6
 
 typedef enum { FALSE, TRUE } boolean_t;
 

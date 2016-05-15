@@ -85,7 +85,7 @@ static uint16_t fw_ver =AQ5_FW_TARGET;
 #ifdef AQ5_DETECT_FW
 static uint16_t AQ5_DATA_LEN	=  661;
 static uint16_t AQ5_FW_MIN	= 2000;
-static uint16_t AQ5_FW_MAX	= 2003;
+static uint16_t AQ5_FW_MAX	= 2006;
 
 static uint16_t AQ5_REPORT_NAME_LEN = 523;
 
@@ -237,7 +237,7 @@ static int aq5_set_offsets(uint16_t firmware_version, uint16_t struct_version)
 		AQ5_AQUASTREAM_XT_OFFS		= 0x1cb;
 		name_positions = name_positions_1013;
 	}
-	/*else if ((firmware_version <= 2003) && (firmware_version >= 2000))*/
+	/*else if ((firmware_version <= 2006) && (firmware_version >= 2000))*/
 	else if (struct_version == 1200)
 	{
 		AQ5_DATA_LEN	=  869;

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include <getopt.h>
+#include <unistd.h>
 
 #include "libaquaero5.h"
 
@@ -70,7 +70,8 @@ void print_help()
 
 void parse_cmdline(int argc, char *argv[])
 {
-	char c;
+	int c;		/* getopt return a signed integer, and compiler can be build char as unsigned, and return incorrect -1 */
+	extern char *optarg;
 	extern int optind, optopt, opterr;
 	char* argstr;
 	int index = 0;
@@ -200,7 +201,7 @@ void parse_cmdline(int argc, char *argv[])
 				exit(EXIT_FAILURE);
 				break;
 			default:
-				fprintf(stderr, "invalid arguments. Try -h for help.");
+				fprintf(stderr, "invalid arguments. Try -h for help.\n");
 				exit(EXIT_FAILURE);
 		}
 	}

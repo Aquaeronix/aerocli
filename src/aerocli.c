@@ -253,10 +253,11 @@ void print_system(aq5_data_t *aq_data, aq5_settings_t *aq_sett) {
 		printf("Structure version	= %d\n", aq_data->structure_version);
 		printf("CPU Temp      = ");
 		for (int n=0; n<AQ5_NUM_CPU; n++) {
-			if (aq_data->cpu_temp[n] != AQ5_FLOAT_UNDEF)
+			if (aq_data->cpu_temp[n] != AQ5_FLOAT_UNDEF) {
 				print_with_offset(aq_data->cpu_temp[n],
 						aq_sett->cpu_temp_offset[n], temp_unit);
 				putchar(' ');
+			}
 		}
 		putchar('\n');
 	}
@@ -773,11 +774,12 @@ void print_export(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 	printf("SYS_TIME_LOCAL='%s'\n", time_local_str);
 	printf("SYS_UPTIME='%s'\n", uptime_str);
 	for (int n=0; n<AQ5_NUM_CPU; n++) {
-		if (aq_data->cpu_temp[n] != AQ5_FLOAT_UNDEF)
+		if (aq_data->cpu_temp[n] != AQ5_FLOAT_UNDEF) {
 			printf("SYS_TEMP_CPU%d=%.2f\n", n+1, aq_data->cpu_temp[n]);
 			printf("SYS_TEMP_CPU%d_NAME='%s'\n", n+1, libaquaero5_get_name(NAME_CPU, n));
 			printf("SYS_TEMP_CPU%d_OFFS=%.2f\n", n+1,
 					aq_sett->cpu_temp_offset[n]);
+		}
 	}
 	for (int n=0; n<AQ5_NUM_TEMP; n++) {
 		if (aq_data->temp[n] != AQ5_FLOAT_UNDEF) {
@@ -815,8 +817,10 @@ void print_export(aq5_data_t *aq_data, aq5_settings_t *aq_sett)
 		}
 	for (int n=0; n<AQ5_NUM_FLOW; n++) {
 		if (aq_data->flow[n] != AQ5_FLOAT_UNDEF)
+		{
 			printf("FLOW%d_NAME='%s'\n", n+1, libaquaero5_get_name(NAME_FLOW, n));
 			printf("FLOW%d=%.1f\n", n+1, aq_data->flow[n]);
+		}
 	}
 
 	for (int n=0; n<AQ5_NUM_LEVEL; n++) {
